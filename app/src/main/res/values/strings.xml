@@ -1,0 +1,42 @@
+<resources>
+    <string name="app_name">CoSpace</string>
+    <string name="title_activity_main">MainActivity</string>
+
+    <!--    bnv-->
+    <string name="title_home">Home</string>
+    <string name="title_recommendation">Recommendation</string>
+    <string name="title_chat">Chat</string>
+    <string name="title_about_cospace">About CoSpace</string>
+
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_input_bobot">Input Bobot</string>
+    <string name="rating_category">Rating</string>
+    <string name="nearest_location_category">Nearest Location</string>
+    <string name="lower_price_category">Lower Price</string>
+    <string name="submit">Submit</string>
+    <string name="what_is_this_app_about">
+        CoSpace is an Android-based mobile application that provides recommendations for co-working spaces in Malang City. This application provides a recommendation feature based on the user\'s priority factors. The priority factors consist of priority in terms of price, nearest location, and rating. In addition, users can make online bookings at the co-working space of their choice.
+    </string>
+    <string name="contact_us">Contact Us</string>
+    <string name="login_as_admin_cos">Login as Admin CoS</string>
+    <string name="login">Login</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="forgot_password">Forgot password?</string>
+    <string name="successful_booking">Successful Booking</string>
+    <string name="cos_detail">%s Detail</string>
+    <string name="cos_facility">%s Facility</string>
+    <string name="price_format">Rp %s/jam</string>
+    <string name="capacity_format">%s - %s</string>
+    <string name="co_working_space_detail">Co-Working Space Detail</string>
+    <string name="co_working_space_facility">Co-Working Space Facility</string>
+    <string name="booking_confirmation">Booking Confirmation</string>
+    <string name="post">Post</string>
+    <string name="live_chat">Live Chat</string>
+    <string name="logout">Logout</string>
+    <string name="booking_confirmation">Booking Confirmation</string>
+    <string name="view_payment_slip">View Payment Slip</string>
+    <string name="accept">Accept</string>
+    <string name="reject">Reject</string>
+</resources>

@@ -7,28 +7,45 @@
         <entry key="..\:/Users/User/AndroidStudioProjects/CoSpace/app/src/main/res/drawable-v24/btn_primary.xml" value="0.149" />
         <entry key="..\:/Users/User/AndroidStudioProjects/CoSpace/app/src/main/res/drawable-v24/btn_primary_disabled.xml" value="0.149" />
         <entry key="..\:/Users/User/AndroidStudioProjects/CoSpace/app/src/main/res/drawable-v24/btn_primary_enabled.xml" value="0.149" />
+        <entry key="..\:/Users/User/AndroidStudioProjects/CoSpace/app/src/main/res/drawable-v24/btn_secondary.xml" value="0.157" />
+        <entry key="..\:/Users/User/AndroidStudioProjects/CoSpace/app/src/main/res/drawable-v24/btn_secondary_disabled.xml" value="0.157" />
+        <entry key="..\:/Users/User/AndroidStudioProjects/CoSpace/app/src/main/res/drawable-v24/btn_secondary_enabled.xml" value="0.157" />
         <entry key="..\:/Users/User/AndroidStudioProjects/CoSpace/app/src/main/res/drawable-v24/ic_back_button.xml" value="0.149" />
         <entry key="..\:/Users/User/AndroidStudioProjects/CoSpace/app/src/main/res/drawable-v24/ic_baseline_arrow_drop_down_24.xml" value="0.149" />
         <entry key="..\:/Users/User/AndroidStudioProjects/CoSpace/app/src/main/res/drawable-v24/ic_baseline_filter_list_24.xml" value="0.149" />
         <entry key="..\:/Users/User/AndroidStudioProjects/CoSpace/app/src/main/res/drawable/bg_view.xml" value="0.149" />
+        <entry key="..\:/Users/User/AndroidStudioProjects/CoSpace/app/src/main/res/drawable/ic_add.xml" value="0.173" />
+        <entry key="..\:/Users/User/AndroidStudioProjects/CoSpace/app/src/main/res/drawable/ic_baseline_downloading_24.xml" value="0.173" />
         <entry key="..\:/Users/User/AndroidStudioProjects/CoSpace/app/src/main/res/drawable/ic_capacity.xml" value="0.173" />
         <entry key="..\:/Users/User/AndroidStudioProjects/CoSpace/app/src/main/res/drawable/ic_price_tag.xml" value="0.173" />
         <entry key="..\:/Users/User/AndroidStudioProjects/CoSpace/app/src/main/res/layout/activity_homepage_admin.xml" value="0.22552083333333334" />
         <entry key="..\:/Users/User/AndroidStudioProjects/CoSpace/app/src/main/res/layout/activity_main.xml" value="0.17552083333333332" />
         <entry key="..\:/Users/User/AndroidStudioProjects/CoSpace/app/src/main/res/layout/activity_splash_screen.xml" value="0.17552083333333332" />
+        <entry key="..\:/Users/User/AndroidStudioProjects/CoSpace/app/src/main/res/layout/dialog_time.xml" value="0.18504273504273505" />
+        <entry key="..\:/Users/User/AndroidStudioProjects/CoSpace/app/src/main/res/layout/dropdown_list.xml" value="0.18504273504273505" />
         <entry key="..\:/Users/User/AndroidStudioProjects/CoSpace/app/src/main/res/layout/fragment_about.xml" value="0.22" />
+        <entry key="..\:/Users/User/AndroidStudioProjects/CoSpace/app/src/main/res/layout/fragment_booking.xml" value="0.22" />
         <entry key="..\:/Users/User/AndroidStudioProjects/CoSpace/app/src/main/res/layout/fragment_booking_confirmation.xml" value="0.18504273504273505" />
         <entry key="..\:/Users/User/AndroidStudioProjects/CoSpace/app/src/main/res/layout/fragment_chat.xml" value="0.22552083333333334" />
         <entry key="..\:/Users/User/AndroidStudioProjects/CoSpace/app/src/main/res/layout/fragment_co_s_detail.xml" value="0.13333333333333333" />
         <entry key="..\:/Users/User/AndroidStudioProjects/CoSpace/app/src/main/res/layout/fragment_co_s_facility.xml" value="0.22" />
+        <entry key="..\:/Users/User/AndroidStudioProjects/CoSpace/app/src/main/res/layout/fragment_create_post.xml" value="0.14666666666666667" />
+        <entry key="..\:/Users/User/AndroidStudioProjects/CoSpace/app/src/main/res/layout/fragment_detail.xml" value="0.2204968944099379" />
+        <entry key="..\:/Users/User/AndroidStudioProjects/CoSpace/app/src/main/res/layout/fragment_detail_chat.xml" value="0.22" />
         <entry key="..\:/Users/User/AndroidStudioProjects/CoSpace/app/src/main/res/layout/fragment_home.xml" value="0.22" />
+        <entry key="..\:/Users/User/AndroidStudioProjects/CoSpace/app/src/main/res/layout/fragment_live_chat_admin.xml" value="0.18504273504273505" />
         <entry key="..\:/Users/User/AndroidStudioProjects/CoSpace/app/src/main/res/layout/fragment_login.xml" value="0.22" />
         <entry key="..\:/Users/User/AndroidStudioProjects/CoSpace/app/src/main/res/layout/fragment_notifications.xml" value="0.17552083333333332" />
+        <entry key="..\:/Users/User/AndroidStudioProjects/CoSpace/app/src/main/res/layout/fragment_post.xml" value="0.18504273504273505" />
         <entry key="..\:/Users/User/AndroidStudioProjects/CoSpace/app/src/main/res/layout/fragment_recommendation.xml" value="0.22" />
         <entry key="..\:/Users/User/AndroidStudioProjects/CoSpace/app/src/main/res/layout/fragment_successful_booking.xml" value="0.22" />
         <entry key="..\:/Users/User/AndroidStudioProjects/CoSpace/app/src/main/res/layout/item_booking_confirmation.xml" value="0.3333333333333333" />
-        <entry key="..\:/Users/User/AndroidStudioProjects/CoSpace/app/src/main/res/layout/item_home.xml" value="0.22552083333333334" />
+        <entry key="..\:/Users/User/AndroidStudioProjects/CoSpace/app/src/main/res/layout/item_chat.xml" value="0.18504273504273505" />
+        <entry key="..\:/Users/User/AndroidStudioProjects/CoSpace/app/src/main/res/layout/item_home.xml" value="0.22" />
+        <entry key="..\:/Users/User/AndroidStudioProjects/CoSpace/app/src/main/res/layout/item_post.xml" value="0.18504273504273505" />
+        <entry key="..\:/Users/User/AndroidStudioProjects/CoSpace/app/src/main/res/layout/item_posted.xml" value="0.18504273504273505" />
         <entry key="..\:/Users/User/AndroidStudioProjects/CoSpace/app/src/main/res/layout/item_successful_booking.xml" value="0.22" />
+        <entry key="..\:/Users/User/AndroidStudioProjects/CoSpace/app/src/main/res/layout/layout_time.xml" value="0.22" />
         <entry key="..\:/Users/User/AndroidStudioProjects/CoSpace/app/src/main/res/menu/bottom_nav_menu.xml" value="0.1" />
       </map>
     </option>

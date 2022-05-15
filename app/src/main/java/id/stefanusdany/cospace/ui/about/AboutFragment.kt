@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import id.stefanusdany.cospace.databinding.FragmentAboutBinding
-import id.stefanusdany.cospace.ui.recommendation.RecommendationViewModel
+import id.stefanusdany.cospace.ui.user.recommendation.RecommendationViewModel
 
 class AboutFragment : Fragment() {
 

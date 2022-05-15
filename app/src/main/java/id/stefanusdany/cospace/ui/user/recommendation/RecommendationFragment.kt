@@ -1,4 +1,4 @@
-package id.stefanusdany.cospace.ui.home
+package id.stefanusdany.cospace.ui.user.recommendation
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,11 +8,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import id.stefanusdany.cospace.R
-import id.stefanusdany.cospace.databinding.FragmentHomeBinding
+import id.stefanusdany.cospace.databinding.FragmentRecommendationBinding
 
-class HomeFragment : Fragment() {
+class RecommendationFragment : Fragment() {
 
-    private var _binding: FragmentHomeBinding? = null
+    private var _binding: FragmentRecommendationBinding? = null
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -23,9 +23,13 @@ class HomeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentHomeBinding.inflate(inflater, container, false)
+        val dashboardViewModel =
+            ViewModelProvider(this).get(RecommendationViewModel::class.java)
 
-        return binding.root
+        _binding = FragmentRecommendationBinding.inflate(inflater, container, false)
+        val root: View = binding.root
+
+        return root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -33,8 +37,9 @@ class HomeFragment : Fragment() {
         setupView()
     }
 
-    private fun setupView(){
-        (activity as AppCompatActivity).supportActionBar?.hide()
+    private fun setupView() {
+        (activity as AppCompatActivity).supportActionBar?.show()
+        (activity as AppCompatActivity).supportActionBar?.title = getString(R.string.title_input_bobot)
     }
 
     override fun onDestroyView() {

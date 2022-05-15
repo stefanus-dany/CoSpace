@@ -26,17 +26,78 @@
     <string name="forgot_password">Forgot password?</string>
     <string name="successful_booking">Successful Booking</string>
     <string name="cos_detail">%s Detail</string>
+    <string name="booking_cos_format">Booking %s</string>
     <string name="cos_facility">%s Facility</string>
-    <string name="price_format">Rp %s/jam</string>
-    <string name="capacity_format">%s - %s</string>
+    <string name="price_format">Rp%s/hour</string>
     <string name="co_working_space_detail">Co-Working Space Detail</string>
     <string name="co_working_space_facility">Co-Working Space Facility</string>
     <string name="booking_confirmation">Booking Confirmation</string>
     <string name="post">Post</string>
     <string name="live_chat">Live Chat</string>
     <string name="logout">Logout</string>
-    <string name="booking_confirmation">Booking Confirmation</string>
+    <string name="cos_post">%s Post</string>
     <string name="view_payment_slip">View Payment Slip</string>
     <string name="accept">Accept</string>
     <string name="reject">Reject</string>
+    <string name="create_a_post">Create a Post</string>
+    <string name="what_s_on_your_mind">What\'s on your mind?</string>
+    <string name="upload_a_picture">Upload a Picture</string>
+    <string name="choose_a_picture">Choose a picture</string>
+    <string name="posting">Posting</string>
+    <string name="chats">Chats</string>
+    <string name="with_user">with $s</string>
+    <string name="data_is_empty">Data is empty!</string>
+    <string name="label_capacity">Capacity</string>
+    <string name="format_capacity">%s people</string>
+    <string name="chat_cos">Chat %s</string>
+    <string name="booking_cos">Booking</string>
+    <string name="label_name">Name</string>
+    <string name="label_email">Email</string>
+    <string name="label_phone_number">Phone Number</string>
+    <string name="label_day">Select a date</string>
+    <string name="label_time">Select a time</string>
+    <string name="label_start_hour">Start Hour</string>
+    <string name="label_end_hour">End Hour</string>
+    <string name="label_hour">Hour</string>
+    <string name="label_minute">Minute</string>
+    <string name="label_booked_time">Has been booked by other person</string>
+    <string name="label_confirm">Confirm</string>
+    <string name="format_time">%s:%s</string>
+    <string name="time">Time</string>
+    <string name="price_hour">Price/Hour</string>
+    <string name="total_price">Total Price</string>
+    <string name="booking_now">Booking Now!</string>
+    <string name="_0_hour">0 Hour</string>
+    <string name="rp0">Rp0</string>
+    <string-array name="adapter_hour">
+        <item>00</item>
+        <item>01</item>
+        <item>02</item>
+        <item>03</item>
+        <item>04</item>
+        <item>05</item>
+        <item>06</item>
+        <item>07</item>
+        <item>08</item>
+        <item>09</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+        <item>13</item>
+        <item>14</item>
+        <item>15</item>
+        <item>16</item>
+        <item>17</item>
+        <item>18</item>
+        <item>19</item>
+        <item>20</item>
+        <item>21</item>
+        <item>22</item>
+        <item>23</item>
+    </string-array>
+
+    <string-array name="adapter_minute">
+    <item>00</item>
+    <item>30</item>
+    </string-array>
 </resources>

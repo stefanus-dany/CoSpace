@@ -7,13 +7,17 @@
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="id.stefanusdany.cospace.ui.home.HomeFragment"
+        android:name="id.stefanusdany.cospace.ui.user.home.HomeFragment"
         android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_navigation_home_to_detailFragment"
+            app:destination="@id/detailFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_recommendation"
-        android:name="id.stefanusdany.cospace.ui.recommendation.RecommendationFragment"
+        android:name="id.stefanusdany.cospace.ui.user.recommendation.RecommendationFragment"
         android:label="@string/title_recommendation"
         tools:layout="@layout/fragment_recommendation" />
 
@@ -28,4 +32,25 @@
         android:name="id.stefanusdany.cospace.ui.chat.ChatFragment"
         android:label="@string/title_about_cospace"
         tools:layout="@layout/fragment_chat" />
+    <fragment
+        android:id="@+id/detailFragment"
+        android:name="id.stefanusdany.cospace.ui.user.detail.DetailFragment"
+        android:label="fragment_detail"
+        tools:layout="@layout/fragment_detail" >
+        <argument
+            android:name="dataCoWorkingSpace"
+            app:argType="id.stefanusdany.cospace.data.entity.CoWorkingSpaceEntity" />
+        <action
+            android:id="@+id/action_detailFragment_to_bookingFragment"
+            app:destination="@id/bookingFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/bookingFragment"
+        android:name="id.stefanusdany.cospace.ui.user.booking.BookingFragment"
+        android:label="fragment_booking"
+        tools:layout="@layout/fragment_booking">
+        <argument
+            android:name="dataCoWorkingSpace"
+            app:argType="id.stefanusdany.cospace.data.entity.CoWorkingSpaceEntity" />
+    </fragment>
 </navigation>

@@ -8,10 +8,11 @@
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/civ_profile_image"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         tools:src="@drawable/ic_launcher_background" />
 
     <TextView
@@ -20,10 +21,34 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
-        app:layout_constraintBottom_toBottomOf="@id/civ_profile_image"
+        app:layout_constraintBottom_toTopOf="@id/tv_capacity"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/civ_profile_image"
         app:layout_constraintTop_toTopOf="@id/civ_profile_image"
-        tools:text="Name" />
+        tools:text="Orbits.co" />
+
+    <TextView
+        android:id="@+id/tv_capacity"
+        style="@style/TextContent"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        app:layout_constraintBottom_toTopOf="@id/tv_facility"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/civ_profile_image"
+        app:layout_constraintTop_toBottomOf="@id/tv_name"
+        tools:text="10 people" />
+
+    <TextView
+        android:id="@+id/tv_facility"
+        style="@style/TextContent"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        app:layout_constraintBottom_toBottomOf="@id/civ_profile_image"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/civ_profile_image"
+        app:layout_constraintTop_toBottomOf="@id/tv_capacity"
+        tools:text="Ac, Whiteboard" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

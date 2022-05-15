@@ -1,5 +1,7 @@
 package id.stefanusdany.cospace.helper
 
+import android.view.View
+import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import de.hdodenhof.circleimageview.CircleImageView
@@ -20,5 +22,17 @@ object Helper {
             .apply(RequestOptions().override(300, 300))
             .centerCrop()
             .into(this)
+    }
+
+    fun ImageView.loadImage(url: String?) {
+        Glide.with(this.context)
+            .load(url)
+            .apply(RequestOptions().override(300, 300))
+            .centerCrop()
+            .into(this)
+    }
+
+    fun View.visibility(value: Boolean) {
+        this.visibility = if (value) View.VISIBLE else View.GONE
     }
 }

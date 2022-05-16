@@ -1,6 +1,7 @@
 package id.stefanusdany.cospace.ui.user.home
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,7 +10,9 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import id.stefanusdany.cospace.ViewModelFactory
+import id.stefanusdany.cospace.data.entity.CoWorkingSpaceEntity
 import id.stefanusdany.cospace.databinding.FragmentHomeBinding
+import id.stefanusdany.cospace.helper.Helper.TAG
 import id.stefanusdany.cospace.helper.Helper.visibility
 
 class HomeFragment : Fragment() {
@@ -71,6 +74,7 @@ class HomeFragment : Fragment() {
                     binding.progressBar.visibility(false)
                 }
             }
+
     }
 
     private fun setupView() {

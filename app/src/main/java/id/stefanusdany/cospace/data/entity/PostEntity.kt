@@ -5,7 +5,8 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class PostEntity(
-    val id: Int = 0,
+    val id: String = "",
     val title: String = "",
+    val desc: String = "",
     val image: String = "",
 ) : Parcelable

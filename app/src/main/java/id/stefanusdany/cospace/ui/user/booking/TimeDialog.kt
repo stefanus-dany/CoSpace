@@ -11,6 +11,7 @@ import com.google.android.material.snackbar.Snackbar
 import id.stefanusdany.cospace.R
 import id.stefanusdany.cospace.data.entity.CoWorkingSpaceEntity
 import id.stefanusdany.cospace.databinding.DialogTimeBinding
+import id.stefanusdany.cospace.helper.Helper.showSnackBar
 
 class TimeDialog(private val callback: CallbackTime) : DialogFragment() {
 
@@ -42,7 +43,7 @@ class TimeDialog(private val callback: CallbackTime) : DialogFragment() {
                     callback.callbackTime(startHour, startMinute, endHour, endMinute)
                     dialog?.dismiss()
                 } else {
-                    Snackbar.make(binding.root, "Please filling all the field!", Snackbar.LENGTH_LONG).show()
+                    showSnackBar(binding.root, "Please filling all the field!")
                 }
 
             }
@@ -85,7 +86,6 @@ class TimeDialog(private val callback: CallbackTime) : DialogFragment() {
     }
 
     private fun setupBookedByOther(){
-        binding.tvBookedTime.text
         var bookingData = ""
         for (i in 0 until bundleData.booking.size) {
             bookingData += if (i == bundleData.booking.size - 1) {

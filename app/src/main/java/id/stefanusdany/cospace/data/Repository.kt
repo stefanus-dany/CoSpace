@@ -1,5 +1,6 @@
 package id.stefanusdany.cospace.data
 
+import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -7,10 +8,12 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import com.google.firebase.database.ktx.getValue
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 import id.stefanusdany.cospace.data.entity.BookingEntity
 import id.stefanusdany.cospace.data.entity.CoWorkingSpaceEntity
 import id.stefanusdany.cospace.data.entity.FacilityEntity
+import id.stefanusdany.cospace.data.entity.ImagesEntity
 import id.stefanusdany.cospace.data.entity.PostEntity
 import id.stefanusdany.cospace.data.entity.TmpEntity
 import id.stefanusdany.cospace.data.entity.WorkingHourEntity
@@ -19,14 +22,14 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class Repository(private val database: FirebaseDatabase) {
+class Repository(private val database: FirebaseDatabase, private val storage: FirebaseStorage) {
 
     fun getAllCoWorkingSpace(): LiveData<List<CoWorkingSpaceEntity>> {
         val data = MutableLiveData<List<CoWorkingSpaceEntity>>()
         val tmpData = mutableListOf<CoWorkingSpaceEntity>()
         val booking = mutableListOf<BookingEntity>()
         val facility = mutableListOf<FacilityEntity>()
-        val images = mutableListOf<String>()
+        val images = mutableListOf<ImagesEntity>()
         val post = mutableListOf<PostEntity>()
         val workingHour = mutableListOf<WorkingHourEntity>()
         CoroutineScope(Dispatchers.IO).launch {
@@ -45,6 +48,7 @@ class Repository(private val database: FirebaseDatabase) {
                         val getBooking = cosId.child("booking")
                         getBooking.addValueEventListener(object : ValueEventListener {
                             override fun onDataChange(snapshot: DataSnapshot) {
+                                booking.clear()
                                 for (dataSnapshotBooking: DataSnapshot in snapshot.children) {
                                     val valueBooking =
                                         dataSnapshotBooking.getValue(BookingEntity::class.java)
@@ -59,11 +63,12 @@ class Repository(private val database: FirebaseDatabase) {
                             }
 
                         })
-
+//
                         //TODO GET FACILITY
                         val getFacility = cosId.child("facility")
                         getFacility.addValueEventListener(object : ValueEventListener {
                             override fun onDataChange(snapshot: DataSnapshot) {
+                                facility.clear()
                                 for (dataSnapshotFacility: DataSnapshot in snapshot.children) {
                                     val valueFacility =
                                         dataSnapshotFacility.getValue(FacilityEntity::class.java)
@@ -85,8 +90,9 @@ class Repository(private val database: FirebaseDatabase) {
                         val getImages = cosId.child("images")
                         getImages.addValueEventListener(object : ValueEventListener {
                             override fun onDataChange(snapshot: DataSnapshot) {
+                                images.clear()
                                 for (dataSnapshotImages: DataSnapshot in snapshot.children) {
-                                    val valueImages = dataSnapshotImages.getValue<String>()
+                                    val valueImages = dataSnapshotImages.getValue(ImagesEntity::class.java)
 
                                     if (valueImages != null) {
                                         images.add(valueImages)
@@ -105,6 +111,7 @@ class Repository(private val database: FirebaseDatabase) {
                         val getPost = cosId.child("post")
                         getPost.addValueEventListener(object : ValueEventListener {
                             override fun onDataChange(snapshot: DataSnapshot) {
+                                post.clear()
                                 for (dataSnapshotPost: DataSnapshot in snapshot.children) {
                                     val valuePost =
                                         dataSnapshotPost.getValue(PostEntity::class.java)
@@ -128,6 +135,7 @@ class Repository(private val database: FirebaseDatabase) {
                         val getWorkingHour = cosId.child("workingHour")
                         getWorkingHour.addValueEventListener(object : ValueEventListener {
                             override fun onDataChange(snapshot: DataSnapshot) {
+                                workingHour.clear()
                                 for (dataSnapshotWorkingHour: DataSnapshot in snapshot.children) {
                                     val valueWorkingHour =
                                         dataSnapshotWorkingHour.getValue(WorkingHourEntity::class.java)
@@ -138,22 +146,6 @@ class Repository(private val database: FirebaseDatabase) {
 
 
                                 }
-                                if (valueCoWorkingSpace != null) {
-                                    tmpData.add(
-                                        CoWorkingSpaceEntity(
-                                            id = valueCoWorkingSpace.id,
-                                            name = valueCoWorkingSpace.name,
-                                            address = valueCoWorkingSpace.address,
-                                            capacity = valueCoWorkingSpace.capacity,
-                                            googleMaps = valueCoWorkingSpace.googleMaps,
-                                            lat = valueCoWorkingSpace.lat,
-                                            long = valueCoWorkingSpace.long,
-                                            price = valueCoWorkingSpace.price,
-                                            post, workingHour, images, booking, facility
-                                        )
-                                    )
-                                }
-                                data.value = tmpData
 
                             }
 
@@ -163,7 +155,29 @@ class Repository(private val database: FirebaseDatabase) {
 
                         })
 
+                        if (valueCoWorkingSpace != null) {
+                            tmpData.add(
+                                CoWorkingSpaceEntity(
+                                    id = valueCoWorkingSpace.id,
+                                    name = valueCoWorkingSpace.name,
+                                    address = valueCoWorkingSpace.address,
+                                    capacity = valueCoWorkingSpace.capacity,
+                                    googleMaps = valueCoWorkingSpace.googleMaps,
+                                    lat = valueCoWorkingSpace.lat,
+                                    long = valueCoWorkingSpace.long,
+                                    price = valueCoWorkingSpace.price,
+                                    image = valueCoWorkingSpace.image,
+                                    post = post,
+                                    workingHour = workingHour,
+                                    images = images,
+                                    booking = booking,
+                                    facility = facility
+                                )
+                            )
+                        }
+
                     }
+                    data.value = tmpData
 
                     Log.d(TAG, "Value is: ${data.value}")
                 }
@@ -175,6 +189,51 @@ class Repository(private val database: FirebaseDatabase) {
         }
 
         return data
+    }
+
+    fun uploadPaymentSlip(
+        uriPaymentSlip: Uri?,
+        idCoS: String,
+        bookingId: String
+    ): LiveData<Int> {
+        val url = MutableLiveData<Int>()
+        CoroutineScope(Dispatchers.IO).launch {
+            val tmp: StorageReference =
+                storage.reference.child("PaymentSlip/$idCoS/$bookingId.jpg")
+
+            if (uriPaymentSlip != null) {
+                tmp.putFile(uriPaymentSlip).addOnSuccessListener {
+                    //getImageUrl
+                    tmp.downloadUrl.addOnSuccessListener {
+                        url.value = 1
+                        val uploadToDatabase =
+                            database.getReference("coworking_space").child(idCoS).child("booking")
+                                .child(bookingId)
+                                .child("paymentSlip")
+                        uploadToDatabase.setValue(it.toString())
+                    }
+
+                }.addOnFailureListener {
+                    url.value = 0
+                }
+            }
+        }
+        return url
+    }
+
+    fun uploadBooking(dataBooking: BookingEntity, idCoS: String, bookingId: String): LiveData<Int> {
+        val code = MutableLiveData<Int>()
+        CoroutineScope(Dispatchers.IO).launch {
+            val uploadToDatabase =
+                database.getReference("coworking_space").child(idCoS).child("booking")
+                    .child(bookingId)
+            uploadToDatabase.setValue(dataBooking).addOnSuccessListener {
+                code.value = 1
+            }.addOnFailureListener {
+                code.value = 0
+            }
+        }
+        return code
     }
 
 //    fun register(
@@ -213,10 +272,11 @@ class Repository(private val database: FirebaseDatabase) {
         @Volatile
         private var instance: Repository? = null
         fun getInstance(
-            database: FirebaseDatabase
+            database: FirebaseDatabase,
+            storage: FirebaseStorage
         ): Repository =
             instance ?: synchronized(this) {
-                instance ?: Repository(database)
+                instance ?: Repository(database, storage)
             }.also { instance = it }
     }
 }

@@ -4,6 +4,7 @@ import android.view.View
 import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.google.android.material.snackbar.Snackbar
 import de.hdodenhof.circleimageview.CircleImageView
 
 object Helper {
@@ -30,6 +31,14 @@ object Helper {
             .apply(RequestOptions().override(300, 300))
             .centerCrop()
             .into(this)
+    }
+
+    fun showSnackBar(view: View, text: String) {
+        Snackbar.make(
+            view,
+            text,
+            Snackbar.LENGTH_LONG
+        ).show()
     }
 
     fun View.visibility(value: Boolean) {

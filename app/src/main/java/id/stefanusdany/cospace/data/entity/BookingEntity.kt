@@ -5,7 +5,7 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class BookingEntity(
-    val id: Int = 0,
+    val id: String = "",
     val capacity: Int = 0,
     val date: String = "",
     val paymentSlip: String = "",
@@ -14,5 +14,5 @@ data class BookingEntity(
     val startHour: String = "",
     val endHour: String = "",
     val timeDuration: String = "",
-    val totalPrice: Long = 0
+    val totalPrice: Int = 0
 ) : Parcelable

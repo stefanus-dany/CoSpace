@@ -66,7 +66,7 @@ class DetailFragment : Fragment() {
         val imagesData = bundleData.dataCoWorkingSpace.images
         val imageList = ArrayList<SlideModel>()
         for (i in imagesData.indices) {
-            imageList.add(SlideModel(imagesData[i], ScaleTypes.CENTER_INSIDE))
+            imageList.add(SlideModel(imagesData[i].url, ScaleTypes.CENTER_INSIDE))
         }
         binding.imageSlider.setImageList(imageList)
     }
@@ -147,7 +147,7 @@ class DetailFragment : Fragment() {
     private fun setupAction(){
         binding.apply {
             btnBack.setOnClickListener {
-                activity?.onBackPressed()
+                findNavController().popBackStack()
             }
             btnBooking.setOnClickListener {
                 val toBookingFragment =

@@ -5,14 +5,18 @@ import java.util.Calendar.DAY_OF_MONTH
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.os.Bundle
+import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.DatePicker
 import androidx.fragment.app.Fragment
-import com.google.android.material.snackbar.Snackbar
+import androidx.navigation.fragment.findNavController
 import id.stefanusdany.cospace.R
+import id.stefanusdany.cospace.data.entity.BookingEntity
 import id.stefanusdany.cospace.databinding.FragmentBookingBinding
+import id.stefanusdany.cospace.helper.Helper.showSnackBar
+import id.stefanusdany.cospace.ui.user.payment.PaymentViewModel
 
 class BookingFragment : Fragment(), DatePickerDialog.OnDateSetListener, TimeDialog.CallbackTime {
 
@@ -31,6 +35,9 @@ class BookingFragment : Fragment(), DatePickerDialog.OnDateSetListener, TimeDial
     private var startMinute = ""
     private var endHour = ""
     private var endMinute = ""
+
+    private var totalTime = ""
+    private var totalPrice = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -73,28 +80,85 @@ class BookingFragment : Fragment(), DatePickerDialog.OnDateSetListener, TimeDial
                 timeDialog.arguments = bundle
                 timeDialog.show(childFragmentManager, "SHOW_DIALOG")
             }
+
+            btnBookingNow.setOnClickListener {
+                when {
+                    binding.etName.text.toString().trim().isEmpty() -> {
+                        binding.etName.error = getString(R.string.insert_name)
+                    }
+
+                    binding.etEmail.text.toString().trim().isEmpty() -> {
+                        binding.etEmail.error = getString(R.string.insert_email)
+                    }
+
+                    !Patterns.EMAIL_ADDRESS.matcher(binding.etEmail.text.toString().trim())
+                        .matches() -> {
+                        binding.etEmail.error = getString(R.string.email_is_not_valid)
+                    }
+
+                    binding.etPhoneNumber.text.toString().trim().isEmpty() -> {
+                        binding.etEmail.error = getString(R.string.insert_phone)
+                    }
+
+                    binding.spinnerDay.text.toString().trim().isEmpty() -> {
+                        binding.spinnerDay.error = getString(R.string.label_day)
+                    }
+
+                    binding.spinnerTime.text.toString().trim().isEmpty() -> {
+                        binding.spinnerTime.error = getString(R.string.label_time)
+                    }
+
+                    binding.etCapacity.text.toString().trim().isEmpty() -> {
+                        binding.etCapacity.error = getString(R.string.insert_capacity)
+                    }
+
+                    day == 0 && month == 0 && year == 0 && saveDay == 0 && saveMonth == 0 && saveYear == 0
+                            && this@BookingFragment.totalPrice == 0 && startHour.isEmpty() && startMinute.isEmpty() && endHour.isEmpty() &&
+                            endMinute.isEmpty() && this@BookingFragment.totalTime.isEmpty() -> {
+                        showSnackBar(binding.root, "Please filling all the field!")
+                    }
+
+                    else -> {
+                        val dataBooking = BookingEntity(
+                            id = getID(),
+                            capacity = binding.etCapacity.text.toString().toInt(),
+                            date = getString(
+                                R.string.format_date,
+                                saveDay.toString(),
+                                saveMonth.toString(),
+                                saveYear.toString()
+                            ),
+                            paymentSlip = "",
+                            phoneNumber = binding.etPhoneNumber.text.toString(),
+                            name = binding.etName.text.toString(),
+                            startHour = getString(R.string.format_time, startHour, startMinute),
+                            endHour = getString(R.string.format_time, endHour, endMinute),
+                            timeDuration = binding.totalTime.text.toString(),
+                            totalPrice = this@BookingFragment.totalPrice
+                        )
+                        val toPaymentFragment = BookingFragmentDirections.actionBookingFragmentToPaymentFragment(dataBooking, bundleData.dataCoWorkingSpace)
+                        findNavController().navigate(toPaymentFragment)
+                    }
+                }
+            }
         }
     }
 
+    private fun getID(): String {
+        val alphabet = ('a'..'z') + ('A'..'Z') + ('0'..'9')
+        return List(20) { alphabet.random() }.joinToString("")
+    }
 
     override fun onDateSet(p0: DatePicker?, p1: Int, p2: Int, p3: Int) {
         saveDay = p3
         saveMonth = p2
         saveYear = p1
-        Snackbar.make(
-            binding.root,
-            "Day: $saveDay, Month: $saveMonth, Year: $saveYear",
-            Snackbar.LENGTH_LONG
-        ).show()
+        binding.spinnerDay.setText("$p3-$p2-$p1")
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
-
-    companion object {
-        const val EXTRA_DATA = "extra_data"
     }
 
     @SuppressLint("SetTextI18n")
@@ -118,7 +182,7 @@ class BookingFragment : Fragment(), DatePickerDialog.OnDateSetListener, TimeDial
         val hour = totalTimeInMinute / 60
         val minute = totalTimeInMinute % 60
 
-        val totalTime = "$hour Hour $minute Minutes"
+        totalTime = "$hour Hour(s) $minute Minute(s)"
 
         binding.totalTime.text = totalTime
         binding.price.text =
@@ -128,7 +192,12 @@ class BookingFragment : Fragment(), DatePickerDialog.OnDateSetListener, TimeDial
         if (minute == 30) {
             priceMinute = (bundleData.dataCoWorkingSpace.price.toDouble() / 2).toInt()
         }
-        val totalPrice = priceHour + priceMinute
+        totalPrice = priceHour + priceMinute
         binding.totalPrice.text = totalPrice.toString()
     }
+
+    companion object {
+        const val EXTRA_DATA = "extra_data"
+    }
+
 }

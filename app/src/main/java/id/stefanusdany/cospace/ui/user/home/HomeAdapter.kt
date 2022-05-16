@@ -39,7 +39,7 @@ class HomeAdapter(private val onItemClick: ((CoWorkingSpaceEntity) -> Unit)) :
         fun bind(data: CoWorkingSpaceEntity) {
             with(binding) {
                 tvName.text = data.name
-                civProfileImage.loadImage(data.images[0])
+                civProfileImage.loadImage(data.image)
 
                 var facility = ""
 

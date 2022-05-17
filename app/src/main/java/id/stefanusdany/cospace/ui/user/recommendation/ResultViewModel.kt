@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import id.stefanusdany.cospace.data.Repository
 
-class RecommendationViewModel(private val repository: Repository) : ViewModel() {
+class ResultViewModel(private val repository: Repository) : ViewModel() {
 
-    fun getTmpCoWorkingSpace() = repository.getTmpCoWorkingSpace()
+    fun getAllCoWorkingSpace() = repository.getAllCoWorkingSpace()
 }

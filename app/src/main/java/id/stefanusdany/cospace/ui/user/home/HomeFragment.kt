@@ -1,7 +1,6 @@
 package id.stefanusdany.cospace.ui.user.home
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,17 +9,13 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import id.stefanusdany.cospace.ViewModelFactory
-import id.stefanusdany.cospace.data.entity.CoWorkingSpaceEntity
 import id.stefanusdany.cospace.databinding.FragmentHomeBinding
-import id.stefanusdany.cospace.helper.Helper.TAG
 import id.stefanusdany.cospace.helper.Helper.visibility
 
 class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
 
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
     private lateinit var adapter: HomeAdapter
     private lateinit var viewModel: HomeViewModel

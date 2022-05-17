@@ -4,9 +4,10 @@ import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class PostEntity(
+data class TopsisEntity(
     var id: String = "",
-    var title: String = "",
-    var desc: String = "",
-    var image: String = "",
+    var name: String = "",
+    var distance: Double = 0.0,
+    var price: Int = 0,
+    var rating: Double = 0.0,
 ) : Parcelable

@@ -4,9 +4,7 @@ import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class PostEntity(
+data class ResultRecommendationEntity(
     var id: String = "",
-    var title: String = "",
-    var desc: String = "",
-    var image: String = "",
+    var valueRecommendation: Double = 0.0
 ) : Parcelable

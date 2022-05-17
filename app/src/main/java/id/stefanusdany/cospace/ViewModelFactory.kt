@@ -8,6 +8,8 @@ import id.stefanusdany.cospace.di.Injection
 import id.stefanusdany.cospace.ui.user.payment.PaymentViewModel
 import id.stefanusdany.cospace.ui.user.detail.DetailViewModel
 import id.stefanusdany.cospace.ui.user.home.HomeViewModel
+import id.stefanusdany.cospace.ui.user.recommendation.RecommendationViewModel
+import id.stefanusdany.cospace.ui.user.recommendation.ResultViewModel
 
 class ViewModelFactory(private val repository: Repository) :
     ViewModelProvider.NewInstanceFactory() {
@@ -25,6 +27,12 @@ class ViewModelFactory(private val repository: Repository) :
 
             modelClass.isAssignableFrom(PaymentViewModel::class.java) -> {
                 PaymentViewModel(repository) as T
+            }
+            modelClass.isAssignableFrom(RecommendationViewModel::class.java) -> {
+                RecommendationViewModel(repository) as T
+            }
+            modelClass.isAssignableFrom(ResultViewModel::class.java) -> {
+                ResultViewModel(repository) as T
             }
             else -> throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
         }

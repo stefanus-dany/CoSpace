@@ -5,8 +5,8 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class WorkingHourEntity(
-    val id: String = "",
-    val day: String = "",
-    val startHour: String = "",
-    val endHour: String = ""
+    var id: String = "",
+    var day: String = "",
+    var startHour: String = "",
+    var endHour: String = ""
 ) : Parcelable

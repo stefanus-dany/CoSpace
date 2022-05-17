@@ -19,7 +19,11 @@
         android:id="@+id/navigation_recommendation"
         android:name="id.stefanusdany.cospace.ui.user.recommendation.RecommendationFragment"
         android:label="@string/title_recommendation"
-        tools:layout="@layout/fragment_recommendation" />
+        tools:layout="@layout/fragment_recommendation" >
+        <action
+            android:id="@+id/action_navigation_recommendation_to_resultFragment"
+            app:destination="@id/resultFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_chat"
@@ -72,5 +76,14 @@
             app:destination="@id/navigation_home"
             app:popUpTo="@id/mobile_navigation"
             app:popUpToInclusive="true"/>
+    </fragment>
+    <fragment
+        android:id="@+id/resultFragment"
+        android:name="id.stefanusdany.cospace.ui.user.recommendation.ResultFragment"
+        android:label="fragment_result"
+        tools:layout="@layout/fragment_result" >
+        <action
+            android:id="@+id/action_resultFragment_to_detailFragment"
+            app:destination="@id/detailFragment" />
     </fragment>
 </navigation>

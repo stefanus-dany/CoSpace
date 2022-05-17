@@ -1,13 +1,11 @@
 package id.stefanusdany.cospace.ui.user.booking
 
 import android.os.Bundle
-import android.telecom.Call
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import androidx.fragment.app.DialogFragment
-import com.google.android.material.snackbar.Snackbar
 import id.stefanusdany.cospace.R
 import id.stefanusdany.cospace.data.entity.CoWorkingSpaceEntity
 import id.stefanusdany.cospace.databinding.DialogTimeBinding
@@ -39,7 +37,7 @@ class TimeDialog(private val callback: CallbackTime) : DialogFragment() {
     private fun setupAction() {
         binding.apply {
             btnConfirm.setOnClickListener {
-                if (startHour.isNotEmpty() && startMinute.isNotEmpty() && endHour.isNotEmpty() && endMinute.isNotEmpty()){
+                if (startHour.isNotEmpty() && startMinute.isNotEmpty() && endHour.isNotEmpty() && endMinute.isNotEmpty()) {
                     callback.callbackTime(startHour, startMinute, endHour, endMinute)
                     dialog?.dismiss()
                 } else {
@@ -85,7 +83,7 @@ class TimeDialog(private val callback: CallbackTime) : DialogFragment() {
         )
     }
 
-    private fun setupBookedByOther(){
+    private fun setupBookedByOther() {
         var bookingData = ""
         for (i in 0 until bundleData.booking.size) {
             bookingData += if (i == bundleData.booking.size - 1) {
@@ -127,7 +125,7 @@ class TimeDialog(private val callback: CallbackTime) : DialogFragment() {
         _binding = null
     }
 
-    interface CallbackTime{
+    interface CallbackTime {
         fun callbackTime(startHour: String, startMinute: String, endHour: String, endMinute: String)
     }
 

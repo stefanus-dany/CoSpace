@@ -10,8 +10,9 @@ data class TmpEntity(
     var address: String = "",
     var capacity: Int = 0,
     var googleMaps: String = "",
-    var lat: Float = 0F,
-    var long: Float = 0F,
+    var rating: Double = 0.0,
+    var lat: Double = 0.0,
+    var long: Double = 0.0,
     var price: Int = 0,
     var image: String = ""
 ) : Parcelable

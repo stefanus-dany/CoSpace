@@ -5,6 +5,6 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class FacilityEntity(
-    val id: String = "",
-    val name: String = ""
+    var id: String = "",
+    var name: String = ""
 ) : Parcelable

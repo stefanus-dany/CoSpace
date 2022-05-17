@@ -92,7 +92,8 @@ class Repository(private val database: FirebaseDatabase, private val storage: Fi
                             override fun onDataChange(snapshot: DataSnapshot) {
                                 images.clear()
                                 for (dataSnapshotImages: DataSnapshot in snapshot.children) {
-                                    val valueImages = dataSnapshotImages.getValue(ImagesEntity::class.java)
+                                    val valueImages =
+                                        dataSnapshotImages.getValue(ImagesEntity::class.java)
 
                                     if (valueImages != null) {
                                         images.add(valueImages)
@@ -167,6 +168,7 @@ class Repository(private val database: FirebaseDatabase, private val storage: Fi
                                     long = valueCoWorkingSpace.long,
                                     price = valueCoWorkingSpace.price,
                                     image = valueCoWorkingSpace.image,
+                                    rating = valueCoWorkingSpace.rating,
                                     post = post,
                                     workingHour = workingHour,
                                     images = images,
@@ -234,6 +236,34 @@ class Repository(private val database: FirebaseDatabase, private val storage: Fi
             }
         }
         return code
+    }
+
+    fun getTmpCoWorkingSpace(): LiveData<List<TmpEntity>> {
+        val data = MutableLiveData<List<TmpEntity>>()
+        val tmpData = mutableListOf<TmpEntity>()
+        CoroutineScope(Dispatchers.IO).launch {
+            val getCoWorkingSpace = database.getReference("coworking_space")
+
+            //TODO GET COWORKING SPACE
+            getCoWorkingSpace.addValueEventListener(object : ValueEventListener {
+
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    for (dataSnapshotCoWorkingSpace: DataSnapshot in snapshot.children) {
+                        val valueCoWorkingSpace =
+                            dataSnapshotCoWorkingSpace.getValue(TmpEntity::class.java)
+                        if (valueCoWorkingSpace != null) {
+                            tmpData.add(valueCoWorkingSpace)
+                        }
+                    }
+                    data.value = tmpData
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    TODO("Not yet implemented")
+                }
+            })
+        }
+        return data
     }
 
 //    fun register(

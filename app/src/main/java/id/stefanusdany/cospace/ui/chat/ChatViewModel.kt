@@ -1,13 +1,16 @@
 package id.stefanusdany.cospace.ui.chat
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import id.stefanusdany.cospace.data.Repository
+import id.stefanusdany.cospace.data.entity.ChatEntity
+import id.stefanusdany.cospace.data.entity.CoWorkingSpaceEntity
 
-class ChatViewModel : ViewModel() {
+class ChatViewModel(private val repository: Repository) : ViewModel() {
 
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is notifications Fragment"
-    }
-    val text: LiveData<String> = _text
+    fun getAllChatsUser(uuid: String) = repository.getAllChatsUser(uuid)
+
+    fun getAllDetailChat(idChat: String) = repository.getAllDetailChat(idChat)
+
+    fun sendChatToDatabase(data: ChatEntity, idDetailChat: String) = repository.sendChatToDatabase(data, idDetailChat)
+
 }

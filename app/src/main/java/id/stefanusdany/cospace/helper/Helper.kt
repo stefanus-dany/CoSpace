@@ -13,6 +13,9 @@ object Helper {
     const val START_ALPHA_SPLASH = 0f
     const val END_ALPHA_SPLASH = 1f
     const val DURATION_SPLASH = 1500L
+    const val SHARED_PREFERENCE = "sp"
+    const val IS_LOGIN = "is_login"
+    const val UUID = "uuid"
 
     //log
     const val TAG = "log"

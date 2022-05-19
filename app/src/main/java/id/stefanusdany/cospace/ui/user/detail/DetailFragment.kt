@@ -1,5 +1,8 @@
 package id.stefanusdany.cospace.ui.user.detail
 
+import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,8 +16,9 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import id.stefanusdany.cospace.R
 import id.stefanusdany.cospace.ViewModelFactory
 import id.stefanusdany.cospace.databinding.FragmentDetailBinding
+import id.stefanusdany.cospace.helper.Helper
 import id.stefanusdany.cospace.helper.Helper.visibility
-import id.stefanusdany.cospace.ui.user.home.HomeFragmentDirections
+
 
 class DetailFragment : Fragment() {
 
@@ -40,14 +44,13 @@ class DetailFragment : Fragment() {
         setupCapacity()
         setupFacility()
         setupAddress()
-        googleMaps()
         setupAction()
         return binding.root
     }
 
-    private fun setupView(){
-        binding.cosDetail.text = getString(R.string.cos_detail, bundleData.dataCoWorkingSpace.name)
+    private fun setupView() {
         activity?.findViewById<BottomNavigationView>(R.id.nav_view)?.visibility = View.GONE
+        binding.cosDetail.text = getString(R.string.cos_detail, bundleData.dataCoWorkingSpace.name)
         binding.btnChat.text = getString(R.string.chat_cos, bundleData.dataCoWorkingSpace.name)
     }
 
@@ -56,8 +59,8 @@ class DetailFragment : Fragment() {
         viewModel = factory.create(DetailViewModel::class.java)
     }
 
-    private fun setupAdapter(){
-        adapter = DetailAdapter{ selectedData ->
+    private fun setupAdapter() {
+        adapter = DetailAdapter { selectedData ->
 
         }
     }
@@ -75,7 +78,8 @@ class DetailFragment : Fragment() {
         val postData = bundleData.dataCoWorkingSpace.post
         if (postData.isNotEmpty()) {
             with(binding.rvPost) {
-                layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+                layoutManager =
+                    LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
                 adapter = this@DetailFragment.adapter
                 setHasFixedSize(true)
             }
@@ -121,7 +125,7 @@ class DetailFragment : Fragment() {
         binding.tvCapacity.text = getString(R.string.format_capacity, capacity.toString())
     }
 
-    private fun setupFacility(){
+    private fun setupFacility() {
         val facilityData = bundleData.dataCoWorkingSpace.facility
         var facility = ""
 
@@ -140,12 +144,9 @@ class DetailFragment : Fragment() {
         binding.tvAddress.text = address
     }
 
-    private fun googleMaps() {
-
-    }
-
-    private fun setupAction(){
+    private fun setupAction() {
         binding.apply {
+            tvRating.text = bundleData.dataCoWorkingSpace.rating.toString()
             btnBack.setOnClickListener {
                 findNavController().popBackStack()
             }
@@ -154,13 +155,51 @@ class DetailFragment : Fragment() {
                     DetailFragmentDirections.actionDetailFragmentToBookingFragment(bundleData.dataCoWorkingSpace)
                 findNavController().navigate(toBookingFragment)
             }
+
+            btnMaps.setOnClickListener {
+                val uri: Uri =
+                    Uri.parse(bundleData.dataCoWorkingSpace.googleMaps)
+                val intent = Intent(Intent.ACTION_VIEW, uri)
+                startActivity(intent)
+            }
+
+            btnChat.setOnClickListener {
+//                //kondisi jika udah pernah chatan?
+//                check udah pernah chatan?
+//                val idChat = getIDChat()
+//                val idChatEntityUser = IdChatEntity(
+//                    bundleData.dataCoWorkingSpace.id,
+//                    idChat,
+//                    bundleData.dataCoWorkingSpace.name,
+//                    bundleData.dataCoWorkingSpace.image
+//                )
+//                val idChatEntityCoSpace = IdChatEntity(
+//                    getUUID(),
+//                    idChat,
+//                    "Stefanus Dany",
+//                    "https://media-exp1.licdn.com/dms/image/C5603AQH9I3jKhWp5BA/profile-displayphoto-shrink_200_200/0/1648087613361?e=1655337600&v=beta&t=-NpbKhYsJIWmxknh6r21RlEscoaYGOsTAMyQrkPa1fM"
+//                )
+//                viewModel.creatingChats(idChatEntityUser, idChatEntityCoSpace)
+            }
         }
+    }
+
+    private fun getUUID(): String {
+        val sp = activity?.getSharedPreferences(Helper.SHARED_PREFERENCE, Context.MODE_PRIVATE)
+        if (sp != null) {
+            return sp.getString(Helper.UUID, "").toString()
+        }
+        return ""
+    }
+
+    private fun getIDChat(): String {
+        val alphabet = ('a'..'z') + ('A'..'Z') + ('0'..'9')
+        return List(20) { alphabet.random() }.joinToString("")
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-        activity?.findViewById<BottomNavigationView>(R.id.nav_view)?.visibility = View.VISIBLE
     }
 
 }

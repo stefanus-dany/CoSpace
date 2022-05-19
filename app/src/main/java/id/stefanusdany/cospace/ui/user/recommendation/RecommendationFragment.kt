@@ -19,6 +19,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import id.stefanusdany.cospace.R
 import id.stefanusdany.cospace.ViewModelFactory
 import id.stefanusdany.cospace.data.entity.TopsisEntity
@@ -73,19 +74,13 @@ class RecommendationFragment : Fragment() {
 
             btnSubmitRecommendation.setOnClickListener {
                 getMyLastLocation()
-//                showSnackBar(
-//                    binding.root,
-//                    haversine(-7.9477992, 112.6120183, -7.952812, 112.6299125).toString()
-//                )
-
             }
         }
     }
 
     private fun setupView() {
-        (activity as AppCompatActivity).supportActionBar?.show()
-        (activity as AppCompatActivity).supportActionBar?.title =
-            getString(R.string.title_input_bobot)
+        (activity as AppCompatActivity).supportActionBar?.hide()
+        activity?.findViewById<BottomNavigationView>(R.id.nav_view)?.visibility = View.VISIBLE
     }
 
     private fun getTmpCoWorkingSpace() {

@@ -122,6 +122,20 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <TextView
+                android:id="@+id/tvRating"
+                style="@style/TextContent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:background="@drawable/bg_view"
+                android:drawablePadding="5dp"
+                android:padding="10dp"
+                android:textColor="@color/black"
+                app:drawableStartCompat="@drawable/ic_rating_star"
+                app:layout_constraintTop_toBottomOf="@id/clCustomDateTime"
+                tools:text="4.8" />
+
+            <TextView
                 android:id="@+id/tvPrice"
                 style="@style/TextContent"
                 android:layout_width="match_parent"
@@ -133,7 +147,7 @@
                 android:text="@string/price_format"
                 android:textColor="@color/black"
                 app:drawableStartCompat="@drawable/ic_price_tag"
-                app:layout_constraintTop_toBottomOf="@id/clCustomDateTime"
+                app:layout_constraintTop_toBottomOf="@id/tvRating"
                 tools:text="Rp 50.000/jam" />
 
             <TextView
@@ -179,25 +193,26 @@
                 app:layout_constraintTop_toBottomOf="@id/tvFacility"
                 tools:text="Jl. Nusa Indah No.19 A, Lowokwaru, Kec. Lowokwaru, Kota Malang, Jawa Timur 65141" />
 
-            <TextView
-                android:id="@+id/maps"
-                style="@style/TextContent"
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnMaps"
                 android:layout_width="match_parent"
-                android:layout_height="350dp"
-                android:layout_margin="10dp"
-                android:background="@drawable/bg_view"
-                android:drawablePadding="5dp"
-                android:padding="10dp"
-                android:textColor="@color/black"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:layout_marginHorizontal="10dp"
+                android:background="@drawable/btn_primary"
+                android:backgroundTint="@color/dark_green"
+                android:text="@string/open_google_maps"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
                 app:layout_constraintTop_toBottomOf="@id/tvAddress" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btnChat"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="40dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginHorizontal="10dp"
-                app:layout_constraintTop_toBottomOf="@id/maps"
+                app:layout_constraintTop_toBottomOf="@id/btnMaps"
                 android:background="@drawable/btn_secondary"
                 android:text="@string/chat_cos"
                 android:textAllCaps="false"

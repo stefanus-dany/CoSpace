@@ -1,60 +1,124 @@
 package id.stefanusdany.cospace.ui.chat
 
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Locale
+import android.os.Build
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import id.stefanusdany.cospace.R
+import id.stefanusdany.cospace.ViewModelFactory
+import id.stefanusdany.cospace.data.entity.ChatEntity
+import id.stefanusdany.cospace.databinding.FragmentDetailChatBinding
+import id.stefanusdany.cospace.helper.Helper.visibility
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [DetailChatFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class DetailChatFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    private var _binding: FragmentDetailChatBinding? = null
+    private val binding get() = _binding!!
+    private lateinit var bundleData: DetailChatFragmentArgs
+    private lateinit var viewModel: ChatViewModel
+    private lateinit var adapter: DetailChatAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_detail_chat, container, false)
+    ): View {
+        _binding = FragmentDetailChatBinding.inflate(inflater, container, false)
+        bundleData = DetailChatFragmentArgs.fromBundle(arguments as Bundle)
+        return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment DetailChatFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            DetailChatFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+    @RequiresApi(Build.VERSION_CODES.O)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setupView()
+        setupViewModel()
+        setupAdapter()
+        getAllDetailChat(bundleData.dataDetailChat.idChat)
+        setupAction()
     }
+
+    private fun setupView() {
+        activity?.findViewById<BottomNavigationView>(R.id.nav_view)?.visibility = View.GONE
+    }
+
+    private fun setupAction() {
+        binding.btnBack.setOnClickListener {
+            findNavController().popBackStack()
+        }
+        binding.tvWithUser.text = getString(R.string.with_user, bundleData.dataDetailChat.name)
+        binding.btnSend.setOnClickListener {
+            if (binding.etEnterMessage.text.toString().trim().isNotEmpty()) {
+                val data = ChatEntity(
+                    System.currentTimeMillis().toString(),
+                    "Stefanus Dany",
+                    "https://media-exp1.licdn.com/dms/image/C5603AQH9I3jKhWp5BA/profile-displayphoto-shrink_200_200/0/1648087613361?e=1655337600&v=beta&t=-NpbKhYsJIWmxknh6r21RlEscoaYGOsTAMyQrkPa1fM",
+                    binding.etEnterMessage.text.toString().trim(),
+                    getDateTime()
+                )
+                viewModel.sendChatToDatabase(data, bundleData.dataDetailChat.idChat)
+                binding.etEnterMessage.text = null
+            }
+        }
+    }
+
+    private fun getDateTime(): String {
+        //get current date and time
+        val cal = Calendar.getInstance()
+        val dt = cal.time
+        val sdf = SimpleDateFormat("d MMM yyyy, HH:mm:ss", Locale.US)
+        return sdf.format(dt)
+    }
+
+    private fun getID(): String {
+        val alphabet = ('a'..'z') + ('A'..'Z') + ('0'..'9')
+        return List(20) { alphabet.random() }.joinToString("")
+    }
+
+    private fun setupViewModel() {
+        val factory: ViewModelFactory = ViewModelFactory.getInstance(requireContext())
+        viewModel = factory.create(ChatViewModel::class.java)
+    }
+
+    private fun setupAdapter() {
+        adapter = DetailChatAdapter { selectedData ->
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun getAllDetailChat(idChat: String) {
+        viewModel.getAllDetailChat(idChat).observe(viewLifecycleOwner) {
+            if (it != null && it.isNotEmpty()) {
+                with(binding.rvDetailChat) {
+                    layoutManager = LinearLayoutManager(requireContext())
+                    smoothScrollToPosition(it.count() - 1)
+                    adapter = this@DetailChatFragment.adapter
+                    setHasFixedSize(true)
+                    binding.rvDetailChat.addOnLayoutChangeListener { view, i, i2, i3, i4, i5, i6, i7, i8 ->
+                        if (i4 < i8) {
+                            this.postDelayed({
+                                binding.rvDetailChat.smoothScrollToPosition(it.count() - 1)
+                            }, 100)
+                        }
+                    }
+                }
+                adapter.setData(it)
+                binding.tvEmpty.visibility(false)
+                binding.progressBar.visibility(false)
+            } else {
+                binding.tvEmpty.visibility(true)
+                binding.progressBar.visibility(false)
+            }
+        }
+    }
+
+
 }

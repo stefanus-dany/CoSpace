@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import id.stefanusdany.cospace.data.Repository
 import id.stefanusdany.cospace.di.Injection
+import id.stefanusdany.cospace.ui.chat.ChatViewModel
 import id.stefanusdany.cospace.ui.user.payment.PaymentViewModel
 import id.stefanusdany.cospace.ui.user.detail.DetailViewModel
 import id.stefanusdany.cospace.ui.user.home.HomeViewModel
@@ -33,6 +34,9 @@ class ViewModelFactory(private val repository: Repository) :
             }
             modelClass.isAssignableFrom(ResultViewModel::class.java) -> {
                 ResultViewModel(repository) as T
+            }
+            modelClass.isAssignableFrom(ChatViewModel::class.java) -> {
+                ChatViewModel(repository) as T
             }
             else -> throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
         }

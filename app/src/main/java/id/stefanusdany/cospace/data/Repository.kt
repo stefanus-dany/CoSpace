@@ -11,8 +11,10 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import id.stefanusdany.cospace.data.entity.BookingEntity
+import id.stefanusdany.cospace.data.entity.ChatEntity
 import id.stefanusdany.cospace.data.entity.CoWorkingSpaceEntity
 import id.stefanusdany.cospace.data.entity.FacilityEntity
+import id.stefanusdany.cospace.data.entity.IdChatEntity
 import id.stefanusdany.cospace.data.entity.ImagesEntity
 import id.stefanusdany.cospace.data.entity.PostEntity
 import id.stefanusdany.cospace.data.entity.TmpEntity
@@ -266,37 +268,76 @@ class Repository(private val database: FirebaseDatabase, private val storage: Fi
         return data
     }
 
-//    fun register(
-//        name: String,
-//        email: String,
-//        password: String
-//    ): LiveData<Result<RegisterResponse>> = liveData {
-//        emit(Result.Loading)
-//        try {
-//            val response = apiService.register(BodyRegister(name, email, password))
-//            emit(Result.Success(response))
-//        } catch (e: Exception) {
-//            Log.e(TAG, "onFailure: ${e.message.toString()}")
-//            emit(Result.Error(e.message.toString()))
-//        }
-//    }
-//
-//    fun uploadStory(
-//        token: String,
-//        file: MultipartBody.Part,
-//        description: RequestBody,
-//        lat: RequestBody,
-//        lon: RequestBody
-//    ): LiveData<Result<FileUploadResponse>> = liveData {
-//        emit(Result.Loading)
-//        try {
-//            val response = apiService.uploadImage(token, file, description, lat, lon)
-//            emit(Result.Success(response))
-//        } catch (e: Exception) {
-//            Log.e(TAG, "onFailure: ${e.message.toString()}")
-//            emit(Result.Error(e.message.toString()))
-//        }
-//    }
+    fun getAllChatsUser(uuid: String): LiveData<List<IdChatEntity>> {
+        val data = MutableLiveData<List<IdChatEntity>>()
+        val tmpDataIDChat = mutableListOf<IdChatEntity>()
+
+        CoroutineScope(Dispatchers.IO).launch {
+            val getAllUserIdChat = database.getReference("user").child(uuid)
+            getAllUserIdChat.addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    for (dataSnapshot in snapshot.children) {
+                        val value = dataSnapshot.getValue(IdChatEntity::class.java)
+                        if (value != null) {
+                            tmpDataIDChat.add(value)
+                        }
+                    }
+                    data.value = tmpDataIDChat
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    Log.e(TAG, "onCancelled: ${error.message}")
+                }
+
+            })
+        }
+        return data
+    }
+
+    fun getAllDetailChat(idChat: String): LiveData<List<ChatEntity>> {
+        val data = MutableLiveData<List<ChatEntity>>()
+        val tmpDataAllDetailChat = mutableListOf<ChatEntity>()
+
+        CoroutineScope(Dispatchers.IO).launch {
+            val getAllUserIdChat = database.getReference("chat").child(idChat)
+
+            getAllUserIdChat.addValueEventListener(object : ValueEventListener {
+
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    for (dataSnapshot: DataSnapshot in snapshot.children) {
+                        val value =
+                            dataSnapshot.getValue(ChatEntity::class.java)
+                        if (value != null) {
+                            tmpDataAllDetailChat.add(value)
+                        }
+                    }
+                    val distinct = tmpDataAllDetailChat.distinct()
+                    data.value = distinct
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    Log.e(TAG, "onCancelled: ${error.message}")
+                }
+            })
+        }
+        return data
+    }
+
+    fun sendChatToDatabase(data: ChatEntity, idDetailChat: String) {
+        CoroutineScope(Dispatchers.IO).launch {
+            val sendChat = database.getReference("chat").child(idDetailChat).child(data.id)
+            sendChat.setValue(data)
+        }
+    }
+
+    fun creatingChats(idChatEntityUser: IdChatEntity, idChatEntityCoSpace: IdChatEntity) {
+        CoroutineScope(Dispatchers.IO).launch {
+            val createUserChat = database.getReference("user").child(idChatEntityCoSpace.id).child(idChatEntityUser.id)
+            createUserChat.setValue(idChatEntityUser)
+            val createCoWorkingChat = database.getReference("chatCoSpace").child(idChatEntityUser.id).child(idChatEntityCoSpace.id)
+            createCoWorkingChat.setValue(idChatEntityCoSpace)
+        }
+    }
 
     companion object {
         @Volatile

@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import id.stefanusdany.cospace.R
 import id.stefanusdany.cospace.ViewModelFactory
 import id.stefanusdany.cospace.databinding.FragmentPaymentBinding
@@ -31,14 +32,23 @@ class PaymentFragment : Fragment() {
     ): View {
         _binding = FragmentPaymentBinding.inflate(inflater, container, false)
         bundleData = PaymentFragmentArgs.fromBundle(arguments as Bundle)
-        setupAction()
+        setupView()
         setupViewModel()
+        setupAction()
         return binding.root
+    }
+
+    private fun setupView(){
+        activity?.findViewById<BottomNavigationView>(R.id.nav_view)?.visibility = View.GONE
     }
 
     private fun setupAction() {
         binding.btnUploadPaymentSlip.setOnClickListener {
             chooseAFile()
+        }
+
+        binding.btnBack.setOnClickListener {
+            findNavController().popBackStack()
         }
 
         binding.totalPrice.text = bundleData.dataBooking.totalPrice.toString()
@@ -105,5 +115,6 @@ class PaymentFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+        activity?.findViewById<BottomNavigationView>(R.id.nav_view)?.visibility = View.VISIBLE
     }
 }

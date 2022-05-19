@@ -8,6 +8,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import id.stefanusdany.cospace.R
 import id.stefanusdany.cospace.ViewModelFactory
 import id.stefanusdany.cospace.databinding.FragmentHomeBinding
 import id.stefanusdany.cospace.helper.Helper.visibility
@@ -26,7 +28,6 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
-
         return binding.root
     }
 
@@ -74,6 +75,7 @@ class HomeFragment : Fragment() {
 
     private fun setupView() {
         (activity as AppCompatActivity).supportActionBar?.hide()
+        activity?.findViewById<BottomNavigationView>(R.id.nav_view)?.visibility = View.VISIBLE
     }
 
     override fun onDestroyView() {

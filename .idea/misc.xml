@@ -30,7 +30,7 @@
         <entry key="..\:/Users/User/AndroidStudioProjects/CoSpace/app/src/main/res/layout/fragment_co_s_detail.xml" value="0.13333333333333333" />
         <entry key="..\:/Users/User/AndroidStudioProjects/CoSpace/app/src/main/res/layout/fragment_co_s_facility.xml" value="0.22" />
         <entry key="..\:/Users/User/AndroidStudioProjects/CoSpace/app/src/main/res/layout/fragment_create_post.xml" value="0.14666666666666667" />
-        <entry key="..\:/Users/User/AndroidStudioProjects/CoSpace/app/src/main/res/layout/fragment_detail.xml" value="0.2204968944099379" />
+        <entry key="..\:/Users/User/AndroidStudioProjects/CoSpace/app/src/main/res/layout/fragment_detail.xml" value="0.22" />
         <entry key="..\:/Users/User/AndroidStudioProjects/CoSpace/app/src/main/res/layout/fragment_detail_chat.xml" value="0.22" />
         <entry key="..\:/Users/User/AndroidStudioProjects/CoSpace/app/src/main/res/layout/fragment_home.xml" value="0.22" />
         <entry key="..\:/Users/User/AndroidStudioProjects/CoSpace/app/src/main/res/layout/fragment_live_chat_admin.xml" value="0.18504273504273505" />
@@ -43,6 +43,7 @@
         <entry key="..\:/Users/User/AndroidStudioProjects/CoSpace/app/src/main/res/layout/fragment_successful_booking.xml" value="0.22" />
         <entry key="..\:/Users/User/AndroidStudioProjects/CoSpace/app/src/main/res/layout/item_booking_confirmation.xml" value="0.3333333333333333" />
         <entry key="..\:/Users/User/AndroidStudioProjects/CoSpace/app/src/main/res/layout/item_chat.xml" value="0.18504273504273505" />
+        <entry key="..\:/Users/User/AndroidStudioProjects/CoSpace/app/src/main/res/layout/item_detail_chat.xml" value="0.17222222222222222" />
         <entry key="..\:/Users/User/AndroidStudioProjects/CoSpace/app/src/main/res/layout/item_home.xml" value="0.22" />
         <entry key="..\:/Users/User/AndroidStudioProjects/CoSpace/app/src/main/res/layout/item_post.xml" value="0.18504273504273505" />
         <entry key="..\:/Users/User/AndroidStudioProjects/CoSpace/app/src/main/res/layout/item_posted.xml" value="0.18504273504273505" />

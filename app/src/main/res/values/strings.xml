@@ -46,7 +46,7 @@
     <string name="choose_a_picture">Choose a picture</string>
     <string name="posting">Posting</string>
     <string name="chats">Chats</string>
-    <string name="with_user">with $s</string>
+    <string name="with_user">with %s</string>
     <string name="data_is_empty">Data is empty!</string>
     <string name="label_capacity">Capacity</string>
     <string name="format_capacity">%s people</string>
@@ -85,6 +85,9 @@
     <string name="insert_capacity">Insert Capacity</string>
     <string name="label_reset">Reset</string>
     <string name="label_result_recommendation">Result Recommendation</string>
+    <string name="enter_a_message">Enter a message</string>
+    <string name="open_google_maps">Open Google Maps</string>
+    <string name="recommendation">Recommendation</string>
     <string-array name="adapter_hour">
         <item>00</item>
         <item>01</item>

@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import android.widget.DatePicker
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import id.stefanusdany.cospace.R
 import id.stefanusdany.cospace.data.entity.BookingEntity
 import id.stefanusdany.cospace.databinding.FragmentBookingBinding
@@ -51,6 +52,7 @@ class BookingFragment : Fragment(), DatePickerDialog.OnDateSetListener, TimeDial
     }
 
     private fun setupView() {
+        activity?.findViewById<BottomNavigationView>(R.id.nav_view)?.visibility = View.GONE
         binding.tvAppbar.text =
             getString(R.string.booking_cos_format, bundleData.dataCoWorkingSpace.name)
     }
@@ -65,6 +67,11 @@ class BookingFragment : Fragment(), DatePickerDialog.OnDateSetListener, TimeDial
 
     private fun setupAction() {
         binding.apply {
+
+            btnBack.setOnClickListener {
+                findNavController().popBackStack()
+            }
+
             spinnerDay.setOnClickListener {
                 getDateCalendar()
                 DatePickerDialog(requireContext(), this@BookingFragment, year, month, day).apply {

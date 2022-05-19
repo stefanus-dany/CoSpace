@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import id.stefanusdany.cospace.R
 import id.stefanusdany.cospace.ViewModelFactory
 import id.stefanusdany.cospace.data.entity.CoWorkingSpaceEntity
 import id.stefanusdany.cospace.data.entity.ResultRecommendationEntity
@@ -30,10 +32,22 @@ class ResultFragment : Fragment() {
         _binding = FragmentResultBinding.inflate(inflater, container, false)
         bundleData =
             arguments?.getSerializable(EXTRA_HASHMAP) as ArrayList<ResultRecommendationEntity>
+        setupView()
         setupViewModel()
         setupAdapter()
         getAllCoWorkingSpace()
+        setupAction()
         return binding.root
+    }
+
+    private fun setupView() {
+        activity?.findViewById<BottomNavigationView>(R.id.nav_view)?.visibility = View.GONE
+    }
+
+    private fun setupAction() {
+        binding.btnBack.setOnClickListener {
+            findNavController().popBackStack()
+        }
     }
 
     private fun setupViewModel() {

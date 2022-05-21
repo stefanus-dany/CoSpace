@@ -5,10 +5,15 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import id.stefanusdany.cospace.data.Repository
 import id.stefanusdany.cospace.di.Injection
+import id.stefanusdany.cospace.ui.adminCoS.bookingConfirmation.BookingConfirmationViewModel
+import id.stefanusdany.cospace.ui.adminCoS.detailCoS.CoSDetailViewModel
+import id.stefanusdany.cospace.ui.adminCoS.facilityCoS.FacilityViewModel
+import id.stefanusdany.cospace.ui.adminCoS.login.LoginViewModel
+import id.stefanusdany.cospace.ui.adminCoS.successfulBooking.SuccessfulBookingViewModel
 import id.stefanusdany.cospace.ui.chat.ChatViewModel
-import id.stefanusdany.cospace.ui.user.payment.PaymentViewModel
 import id.stefanusdany.cospace.ui.user.detail.DetailViewModel
 import id.stefanusdany.cospace.ui.user.home.HomeViewModel
+import id.stefanusdany.cospace.ui.user.payment.PaymentViewModel
 import id.stefanusdany.cospace.ui.user.recommendation.RecommendationViewModel
 import id.stefanusdany.cospace.ui.user.recommendation.ResultViewModel
 
@@ -37,6 +42,21 @@ class ViewModelFactory(private val repository: Repository) :
             }
             modelClass.isAssignableFrom(ChatViewModel::class.java) -> {
                 ChatViewModel(repository) as T
+            }
+            modelClass.isAssignableFrom(LoginViewModel::class.java) -> {
+                LoginViewModel(repository) as T
+            }
+            modelClass.isAssignableFrom(BookingConfirmationViewModel::class.java) -> {
+                BookingConfirmationViewModel(repository) as T
+            }
+            modelClass.isAssignableFrom(SuccessfulBookingViewModel::class.java) -> {
+                SuccessfulBookingViewModel(repository) as T
+            }
+            modelClass.isAssignableFrom(FacilityViewModel::class.java) -> {
+                FacilityViewModel(repository) as T
+            }
+            modelClass.isAssignableFrom(CoSDetailViewModel::class.java) -> {
+                CoSDetailViewModel(repository) as T
             }
             else -> throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
         }

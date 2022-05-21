@@ -11,8 +11,10 @@ data class BookingEntity(
     var paymentSlip: String = "",
     var phoneNumber: String = "",
     var name: String = "",
+    var email: String = "",
     var startHour: String = "",
     var endHour: String = "",
     var timeDuration: String = "",
-    var totalPrice: Int = 0
+    var totalPrice: Int = 0,
+    var timestamp: String = System.currentTimeMillis().toString()
 ) : Parcelable

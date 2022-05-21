@@ -16,6 +16,7 @@ import id.stefanusdany.cospace.data.entity.CoWorkingSpaceEntity
 import id.stefanusdany.cospace.data.entity.FacilityEntity
 import id.stefanusdany.cospace.data.entity.IdChatEntity
 import id.stefanusdany.cospace.data.entity.ImagesEntity
+import id.stefanusdany.cospace.data.entity.LoginEntity
 import id.stefanusdany.cospace.data.entity.PostEntity
 import id.stefanusdany.cospace.data.entity.TmpEntity
 import id.stefanusdany.cospace.data.entity.WorkingHourEntity
@@ -323,6 +324,291 @@ class Repository(private val database: FirebaseDatabase, private val storage: Fi
         return data
     }
 
+    fun getAuthentication(username: String, password: String): LiveData<LoginEntity> {
+        val data = MutableLiveData<LoginEntity>()
+        var tmpGetAuth = LoginEntity()
+
+        CoroutineScope(Dispatchers.IO).launch {
+            val getAllUserIdChat = database.getReference("auth")
+
+            getAllUserIdChat.addValueEventListener(object : ValueEventListener {
+
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    for (dataSnapshot: DataSnapshot in snapshot.children) {
+                        val value =
+                            dataSnapshot.getValue(LoginEntity::class.java)
+                        if (value != null) {
+                            if (value.username == username && value.password == password) {
+                                tmpGetAuth = value
+                            }
+                        }
+                    }
+                    data.value = tmpGetAuth
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    Log.e(TAG, "onCancelled: ${error.message}")
+                }
+            })
+        }
+        return data
+    }
+
+    fun getAllBookingConfirmation(idCoSpace: String): LiveData<List<BookingEntity>> {
+        val data = MutableLiveData<List<BookingEntity>>()
+        val tmpData = mutableListOf<BookingEntity>()
+
+        CoroutineScope(Dispatchers.IO).launch {
+            val getAllUserIdChat =
+                database.getReference("coworking_space").child(idCoSpace).child("booking")
+
+            getAllUserIdChat.addValueEventListener(object : ValueEventListener {
+
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    for (dataSnapshot: DataSnapshot in snapshot.children) {
+                        val value =
+                            dataSnapshot.getValue(BookingEntity::class.java)
+                        if (value != null) {
+                            tmpData.add(value)
+                        }
+                    }
+                    data.value = tmpData
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    Log.e(TAG, "onCancelled: ${error.message}")
+                }
+            })
+        }
+        return data
+    }
+
+    fun sendAcceptedBooking(idCoSpace: String, bookingData: BookingEntity): LiveData<Boolean> {
+        val data = MutableLiveData<Boolean>()
+        data.value = false
+        CoroutineScope(Dispatchers.IO).launch {
+            val getUrl =
+                database.getReference("coworking_space").child(idCoSpace).child("successfulBooking")
+                    .child(bookingData.id)
+
+            getUrl.setValue(bookingData).addOnSuccessListener {
+                val deleteFromBooking =
+                    database.getReference("coworking_space").child(idCoSpace).child("booking")
+                        .child(bookingData.id)
+                deleteFromBooking.removeValue().addOnSuccessListener {
+                    data.value = true
+                }
+            }
+
+        }
+        return data
+    }
+
+    fun getAllSuccessfulBooking(idCoSpace: String): LiveData<List<BookingEntity>> {
+        val data = MutableLiveData<List<BookingEntity>>()
+        val tmpData = mutableListOf<BookingEntity>()
+
+        CoroutineScope(Dispatchers.IO).launch {
+            val getUrl =
+                database.getReference("coworking_space").child(idCoSpace).child("successfulBooking")
+
+            getUrl.addValueEventListener(object : ValueEventListener {
+
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    for (dataSnapshot: DataSnapshot in snapshot.children) {
+                        val value =
+                            dataSnapshot.getValue(BookingEntity::class.java)
+                        if (value != null) {
+                            tmpData.add(value)
+                        }
+                    }
+                    data.value = tmpData
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    Log.e(TAG, "onCancelled: ${error.message}")
+                }
+            })
+        }
+        return data
+    }
+
+    fun getAllFacility(idCoSpace: String): LiveData<List<FacilityEntity>> {
+        val data = MutableLiveData<List<FacilityEntity>>()
+        val tmpData = mutableListOf<FacilityEntity>()
+
+        CoroutineScope(Dispatchers.IO).launch {
+            val getUrl =
+                database.getReference("coworking_space").child(idCoSpace).child("facility")
+
+            getUrl.addValueEventListener(object : ValueEventListener {
+
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    for (dataSnapshot: DataSnapshot in snapshot.children) {
+                        val value =
+                            dataSnapshot.getValue(FacilityEntity::class.java)
+                        if (value != null) {
+                            tmpData.add(value)
+                        }
+                    }
+                    data.value = tmpData
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    Log.e(TAG, "onCancelled: ${error.message}")
+                }
+            })
+        }
+        return data
+    }
+
+    fun deleteFacility(idCoSpace: String, idFacility: String) {
+        CoroutineScope(Dispatchers.IO).launch {
+            val getUrl =
+                database.getReference("coworking_space").child(idCoSpace).child("facility")
+                    .child(idFacility)
+            getUrl.removeValue()
+        }
+    }
+
+    fun addFacility(idCoSpace: String, facility: FacilityEntity): LiveData<Boolean> {
+        val value = MutableLiveData(false)
+        CoroutineScope(Dispatchers.IO).launch {
+            val getUrl =
+                database.getReference("coworking_space").child(idCoSpace).child("facility")
+                    .child(facility.id)
+            getUrl.setValue(facility).addOnSuccessListener {
+                value.value = true
+            }
+        }
+        return value
+    }
+
+    fun getAllWorkingHour(idCoSpace: String): LiveData<List<WorkingHourEntity>> {
+        val data = MutableLiveData<List<WorkingHourEntity>>()
+        val tmpData = mutableListOf<WorkingHourEntity>()
+
+        CoroutineScope(Dispatchers.IO).launch {
+            val getUrl =
+                database.getReference("coworking_space").child(idCoSpace).child("workingHour")
+
+            getUrl.addValueEventListener(object : ValueEventListener {
+
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    for (dataSnapshot: DataSnapshot in snapshot.children) {
+                        val value =
+                            dataSnapshot.getValue(WorkingHourEntity::class.java)
+                        if (value != null) {
+                            tmpData.add(value)
+                        }
+                    }
+                    data.value = tmpData
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    Log.e(TAG, "onCancelled: ${error.message}")
+                }
+            })
+        }
+        return data
+    }
+
+    fun addWorkingHour(idCoSpace: String, workingHour: WorkingHourEntity): LiveData<Boolean> {
+        val value = MutableLiveData(false)
+        CoroutineScope(Dispatchers.IO).launch {
+            val getUrl =
+                database.getReference("coworking_space").child(idCoSpace).child("workingHour")
+                    .child(workingHour.id)
+            getUrl.setValue(workingHour).addOnSuccessListener {
+                value.value = true
+            }
+        }
+        return value
+    }
+
+    fun deleteWorkingHour(idCoSpace: String, workingHour: WorkingHourEntity) {
+        CoroutineScope(Dispatchers.IO).launch {
+            val getUrl =
+                database.getReference("coworking_space").child(idCoSpace).child("workingHour")
+                    .child(workingHour.id)
+            getUrl.removeValue()
+        }
+    }
+
+    fun getCoWorkingSpaceDetail(idCoSpace: String): LiveData<List<Any>> {
+        val data = MutableLiveData<List<Any>>()
+        val tmpData = mutableListOf<Any>()
+
+        CoroutineScope(Dispatchers.IO).launch {
+            val getUrl =
+                database.getReference("coworking_space").child(idCoSpace)
+
+            getUrl.child("price").addListenerForSingleValueEvent(object : ValueEventListener {
+
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val value =
+                        snapshot.getValue(Int::class.java)
+                    if (value != null) {
+                        tmpData.add(value)
+                    }
+                    getUrl.child("capacity")
+                        .addListenerForSingleValueEvent(object : ValueEventListener {
+
+                            override fun onDataChange(snapshot: DataSnapshot) {
+                                val value2 =
+                                    snapshot.getValue(Int::class.java)
+                                if (value2 != null) {
+                                    tmpData.add(value2)
+                                }
+                                getUrl.child("address")
+                                    .addListenerForSingleValueEvent(object : ValueEventListener {
+
+                                        override fun onDataChange(snapshot: DataSnapshot) {
+                                            val value3 =
+                                                snapshot.getValue(String::class.java)
+                                            if (value3 != null) {
+                                                tmpData.add(value3)
+                                            }
+                                            data.value = tmpData
+                                        }
+
+                                        override fun onCancelled(error: DatabaseError) {
+                                            Log.e(TAG, "onCancelled: ${error.message}")
+                                        }
+                                    })
+                            }
+
+                            override fun onCancelled(error: DatabaseError) {
+                                Log.e(TAG, "onCancelled: ${error.message}")
+                            }
+                        })
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    Log.e(TAG, "onCancelled: ${error.message}")
+                }
+            })
+        }
+        return data
+    }
+
+    fun saveCoWorkingSpaceDetail(idCoSpace: String, data: List<Any>): LiveData<Boolean> {
+        val value = MutableLiveData(false)
+        CoroutineScope(Dispatchers.IO).launch {
+            val getUrl =
+                database.getReference("coworking_space").child(idCoSpace)
+
+            getUrl.child("price").setValue(data[0]).addOnSuccessListener {
+                getUrl.child("capacity").setValue(data[1]).addOnSuccessListener {
+                    getUrl.child("address").setValue(data[2]).addOnSuccessListener {
+                        value.value = true
+                    }
+                }
+            }
+        }
+        return value
+    }
+
     fun sendChatToDatabase(data: ChatEntity, idDetailChat: String) {
         CoroutineScope(Dispatchers.IO).launch {
             val sendChat = database.getReference("chat").child(idDetailChat).child(data.id)
@@ -332,9 +618,12 @@ class Repository(private val database: FirebaseDatabase, private val storage: Fi
 
     fun creatingChats(idChatEntityUser: IdChatEntity, idChatEntityCoSpace: IdChatEntity) {
         CoroutineScope(Dispatchers.IO).launch {
-            val createUserChat = database.getReference("user").child(idChatEntityCoSpace.id).child(idChatEntityUser.id)
+            val createUserChat = database.getReference("user").child(idChatEntityCoSpace.id)
+                .child(idChatEntityUser.id)
             createUserChat.setValue(idChatEntityUser)
-            val createCoWorkingChat = database.getReference("chatCoSpace").child(idChatEntityUser.id).child(idChatEntityCoSpace.id)
+            val createCoWorkingChat =
+                database.getReference("chatCoSpace").child(idChatEntityUser.id)
+                    .child(idChatEntityCoSpace.id)
             createCoWorkingChat.setValue(idChatEntityCoSpace)
         }
     }

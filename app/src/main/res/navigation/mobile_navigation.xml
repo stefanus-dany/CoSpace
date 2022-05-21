@@ -37,9 +37,13 @@
 
     <fragment
         android:id="@+id/navigation_about_cospace"
-        android:name="id.stefanusdany.cospace.ui.chat.ChatFragment"
+        android:name="id.stefanusdany.cospace.ui.about.AboutFragment"
         android:label="@string/title_about_cospace"
-        tools:layout="@layout/fragment_chat" />
+        tools:layout="@layout/fragment_about" >
+        <action
+            android:id="@+id/action_navigation_about_cospace_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
     <fragment
         android:id="@+id/detailFragment"
         android:name="id.stefanusdany.cospace.ui.user.detail.DetailFragment"
@@ -98,5 +102,94 @@
         <argument
             android:name="dataDetailChat"
             app:argType="id.stefanusdany.cospace.data.entity.IdChatEntity" />
+    </fragment>
+    <fragment
+        android:id="@+id/successfulBookingFragment"
+        android:name="id.stefanusdany.cospace.ui.adminCoS.successfulBooking.SuccessfulBookingFragment"
+        android:label="fragment_successful_booking"
+        tools:layout="@layout/fragment_successful_booking">
+        <argument
+            android:name="dataLogin"
+            app:argType="id.stefanusdany.cospace.data.entity.LoginEntity" />
+    </fragment>
+    <fragment
+        android:id="@+id/bookingConfirmationFragment"
+        android:name="id.stefanusdany.cospace.ui.adminCoS.bookingConfirmation.BookingConfirmationFragment"
+        android:label="fragment_booking_confirmation"
+        tools:layout="@layout/fragment_booking_confirmation">
+        <argument
+            android:name="dataLogin"
+            app:argType="id.stefanusdany.cospace.data.entity.LoginEntity" />
+    </fragment>
+    <fragment
+        android:id="@+id/coSDetailFragment"
+        android:name="id.stefanusdany.cospace.ui.adminCoS.detailCoS.CoSDetailFragment"
+        android:label="fragment_co_s_detail"
+        tools:layout="@layout/fragment_co_s_detail">
+        <argument
+            android:name="dataLogin"
+            app:argType="id.stefanusdany.cospace.data.entity.LoginEntity" />
+    </fragment>
+    <fragment
+        android:id="@+id/coSFacilityFragment"
+        android:name="id.stefanusdany.cospace.ui.adminCoS.facilityCoS.CoSFacilityFragment"
+        android:label="fragment_co_s_facility"
+        tools:layout="@layout/fragment_co_s_facility">
+        <argument
+            android:name="dataLogin"
+            app:argType="id.stefanusdany.cospace.data.entity.LoginEntity" />
+    </fragment>
+    <fragment
+        android:id="@+id/postFragment"
+        android:name="id.stefanusdany.cospace.ui.adminCoS.post.PostFragment"
+        android:label="fragment_post"
+        tools:layout="@layout/fragment_post" >
+        <action
+            android:id="@+id/action_postFragment_to_createPostFragment"
+            app:destination="@id/createPostFragment" />
+        <argument
+            android:name="dataLogin"
+            app:argType="id.stefanusdany.cospace.data.entity.LoginEntity" />
+    </fragment>
+    <fragment
+        android:id="@+id/createPostFragment"
+        android:name="id.stefanusdany.cospace.ui.adminCoS.post.CreatePostFragment"
+        android:label="fragment_create_post"
+        tools:layout="@layout/fragment_create_post" />
+    <fragment
+        android:id="@+id/homepageAdminFragment"
+        android:name="id.stefanusdany.cospace.ui.adminCoS.homepage.HomepageAdminFragment"
+        android:label="fragment_homepage_admin"
+        tools:layout="@layout/fragment_homepage_admin" >
+        <action
+            android:id="@+id/action_homepageAdminFragment_to_successfulBookingFragment"
+            app:destination="@id/successfulBookingFragment" />
+        <action
+            android:id="@+id/action_homepageAdminFragment_to_bookingConfirmationFragment"
+            app:destination="@id/bookingConfirmationFragment" />
+        <action
+            android:id="@+id/action_homepageAdminFragment_to_coSDetailFragment"
+            app:destination="@id/coSDetailFragment" />
+        <action
+            android:id="@+id/action_homepageAdminFragment_to_coSFacilityFragment"
+            app:destination="@id/coSFacilityFragment" />
+        <action
+            android:id="@+id/action_homepageAdminFragment_to_postFragment"
+            app:destination="@id/postFragment" />
+        <argument
+            android:name="dataLogin"
+            app:argType="id.stefanusdany.cospace.data.entity.LoginEntity" />
+        <action
+            android:id="@+id/action_homepageAdminFragment_to_navigation_chat"
+            app:destination="@id/navigation_chat" />
+    </fragment>
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="id.stefanusdany.cospace.ui.adminCoS.login.LoginFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_loginFragment_to_homepageAdminFragment"
+            app:destination="@id/homepageAdminFragment" />
     </fragment>
 </navigation>

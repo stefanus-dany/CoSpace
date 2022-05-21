@@ -4,7 +4,57 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.adminCoS.homepage.HomepageAdminActivity">
+    tools:context=".ui.adminCoS.homepage.HomepageAdminFragment">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <Toolbar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:paddingHorizontal="20dp"
+            android:paddingVertical="5dp">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/tvWelcomeCoSpace"
+                    style="@style/TextContent.large"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp"
+                    android:text="@string/label_welcome"
+                    android:textColor="@color/black"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </Toolbar>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnBookingConfirmation"
+        style="@style/TextContent.large"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/btn_primary"
+        android:backgroundTint="@color/grey"
+        android:text="@string/booking_confirmation"
+        android:textAllCaps="false"
+        android:textColor="@color/black"
+        app:layout_constraintTop_toBottomOf="@id/appbar" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnSuccessfulBooking"
@@ -12,13 +62,41 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="20dp"
         android:background="@drawable/btn_primary"
         android:backgroundTint="@color/grey"
         android:text="@string/successful_booking"
         android:textAllCaps="false"
         android:textColor="@color/black"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/btnBookingConfirmation"/>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnLiveChat"
+        style="@style/TextContent.large"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/btn_primary"
+        android:backgroundTint="@color/grey"
+        android:text="@string/live_chat"
+        android:textAllCaps="false"
+        android:textColor="@color/black"
+        app:layout_constraintTop_toBottomOf="@id/btnSuccessfulBooking" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnCoSPost"
+        style="@style/TextContent.large"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/btn_primary"
+        android:backgroundTint="@color/grey"
+        android:text="@string/post"
+        android:textAllCaps="false"
+        android:textColor="@color/black"
+        app:layout_constraintTop_toBottomOf="@id/btnLiveChat" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnCoSDetail"
@@ -32,7 +110,7 @@
         android:text="@string/co_working_space_detail"
         android:textAllCaps="false"
         android:textColor="@color/black"
-        app:layout_constraintTop_toBottomOf="@id/btnSuccessfulBooking" />
+        app:layout_constraintTop_toBottomOf="@id/btnCoSPost" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnCoSFacility"
@@ -47,48 +125,6 @@
         android:textAllCaps="false"
         android:textColor="@color/black"
         app:layout_constraintTop_toBottomOf="@id/btnCoSDetail" />
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btnBookingConfirmation"
-        style="@style/TextContent.large"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/btn_primary"
-        android:backgroundTint="@color/grey"
-        android:text="@string/booking_confirmation"
-        android:textAllCaps="false"
-        android:textColor="@color/black"
-        app:layout_constraintTop_toBottomOf="@id/btnCoSFacility" />
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btnCoSPost"
-        style="@style/TextContent.large"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/btn_primary"
-        android:backgroundTint="@color/grey"
-        android:text="@string/post"
-        android:textAllCaps="false"
-        android:textColor="@color/black"
-        app:layout_constraintTop_toBottomOf="@id/btnBookingConfirmation" />
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btnLiveChat"
-        style="@style/TextContent.large"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/btn_primary"
-        android:backgroundTint="@color/grey"
-        android:text="@string/live_chat"
-        android:textAllCaps="false"
-        android:textColor="@color/black"
-        app:layout_constraintTop_toBottomOf="@id/btnCoSPost" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnLogoutAdmin"

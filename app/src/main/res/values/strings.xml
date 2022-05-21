@@ -20,7 +20,7 @@
     </string>
     <string name="contact_us">Contact Us</string>
     <string name="login_as_admin_cos">Login as Admin CoS</string>
-    <string name="login">Login</string>
+    <string name="login">Login Admin</string>
     <string name="username">Username</string>
     <string name="password">Password</string>
     <string name="forgot_password">Forgot password?</string>
@@ -28,6 +28,7 @@
     <string name="cos_detail">%s Detail</string>
     <string name="booking_cos_format">Booking %s</string>
     <string name="cos_facility">%s Facility</string>
+    <string name="title_facility">Facility</string>
     <string name="price_format">Rp%s/hour</string>
     <string name="price_format_default">Rp%s</string>
     <string name="co_working_space_detail">Co-Working Space Detail</string>
@@ -64,6 +65,7 @@
     <string name="label_booked_time">Has been booked by other person</string>
     <string name="label_confirm">Confirm</string>
     <string name="format_date">%s-%s-%s</string>
+    <string name="format_hour">%s - %s</string>
     <string name="format_time">%s:%s</string>
     <string name="time">Time</string>
     <string name="price_hour">Price/Hour</string>
@@ -88,6 +90,20 @@
     <string name="enter_a_message">Enter a message</string>
     <string name="open_google_maps">Open Google Maps</string>
     <string name="recommendation">Recommendation</string>
+    <string name="error_username">Please fill the username!</string>
+    <string name="error_password">Please fill the password!</string>
+    <string name="error_user_password_is_not_matched">Username and password is not matched!</string>
+    <string name="success_login">Welcome back!</string>
+    <string name="label_welcome">Welcome %s</string>
+    <string name="label_done">Done</string>
+    <string name="title_select_a_facility">Select a facility</string>
+    <string name="add">Add</string>
+    <string name="add_a_working_hour">Add a Working Hour</string>
+    <string name="label_working_hour">Working Hour</string>
+    <string name="select_a_day">Select a day</string>
+    <string name="price_per_hour">Price per hour</string>
+    <string name="label_address">Address</string>
+    <string name="label_save">Save</string>
     <string-array name="adapter_hour">
         <item>00</item>
         <item>01</item>
@@ -124,6 +140,26 @@
         <item>High Priority</item>
         <item>Medium Priority</item>
         <item>Low Priority</item>
+    </string-array>
+
+    <string-array name="adapter_facility">
+        <item>0,AC</item>
+        <item>1,Wifi</item>
+        <item>2,WhiteBoard</item>
+        <item>3,Pantry</item>
+        <item>4,Canteen</item>
+        <item>5,Printing</item>
+        <item>6,Yoga</item>
+    </string-array>
+
+    <string-array name="adapter_working_hour">
+        <item>0,Monday</item>
+        <item>1,Tuesday</item>
+        <item>2,Wednesday</item>
+        <item>3,Thursday</item>
+        <item>4,Friday</item>
+        <item>5,Saturday</item>
+        <item>6,Sunday</item>
     </string-array>
 
 </resources>

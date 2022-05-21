@@ -6,49 +6,67 @@
     android:layout_height="wrap_content"
     android:paddingBottom="16dp">
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/civ_profile_image"
-        android:layout_width="75dp"
-        android:layout_height="75dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        tools:src="@drawable/ic_launcher_background" />
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cv_item_note"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:backgroundTint="@color/grey"
+        app:cardCornerRadius="4dp"
+        app:cardElevation="4dp"
+        app:cardMaxElevation="4dp"
+        app:cardUseCompatPadding="true">
 
-    <TextView
-        android:id="@+id/tv_name"
-        style="@style/TextContent.large.bold"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        app:layout_constraintBottom_toTopOf="@id/tv_capacity"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/civ_profile_image"
-        app:layout_constraintTop_toTopOf="@id/civ_profile_image"
-        tools:text="Orbits.co" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
 
-    <TextView
-        android:id="@+id/tv_capacity"
-        style="@style/TextContent"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        app:layout_constraintBottom_toTopOf="@id/tv_facility"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/civ_profile_image"
-        app:layout_constraintTop_toBottomOf="@id/tv_name"
-        tools:text="10 people" />
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/civ_profile_image"
+                android:layout_width="75dp"
+                android:layout_height="75dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@drawable/ic_launcher_background" />
 
-    <TextView
-        android:id="@+id/tv_facility"
-        style="@style/TextContent"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        app:layout_constraintBottom_toBottomOf="@id/civ_profile_image"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/civ_profile_image"
-        app:layout_constraintTop_toBottomOf="@id/tv_capacity"
-        tools:text="Ac, Whiteboard" />
+            <TextView
+                android:id="@+id/tv_name"
+                style="@style/TextContent.large.bold"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                app:layout_constraintBottom_toTopOf="@id/tv_capacity"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/civ_profile_image"
+                app:layout_constraintTop_toTopOf="@id/civ_profile_image"
+                tools:text="Orbits.co" />
 
+            <TextView
+                android:id="@+id/tv_capacity"
+                style="@style/TextContent"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                app:layout_constraintBottom_toTopOf="@id/tv_facility"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/civ_profile_image"
+                app:layout_constraintTop_toBottomOf="@id/tv_name"
+                tools:text="10 people" />
+
+            <TextView
+                android:id="@+id/tv_facility"
+                style="@style/TextContent"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                app:layout_constraintBottom_toBottomOf="@id/civ_profile_image"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/civ_profile_image"
+                app:layout_constraintTop_toBottomOf="@id/tv_capacity"
+                tools:text="Ac, Whiteboard" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>

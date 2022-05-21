@@ -1,60 +1,82 @@
 package id.stefanusdany.cospace.ui.adminCoS.successfulBooking
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import id.stefanusdany.cospace.R
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import id.stefanusdany.cospace.ViewModelFactory
+import id.stefanusdany.cospace.databinding.FragmentSuccessfulBookingBinding
+import id.stefanusdany.cospace.helper.Helper.visibility
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [SuccessfulBookingFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class SuccessfulBookingFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    private var _binding: FragmentSuccessfulBookingBinding? = null
+    private val binding get() = _binding!!
+
+    private lateinit var adapter: SuccessfulBookingAdapter
+    private lateinit var viewModel: SuccessfulBookingViewModel
+    private lateinit var bundleData: SuccessfulBookingFragmentArgs
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_successful_booking, container, false)
+    ): View {
+        _binding = FragmentSuccessfulBookingBinding.inflate(inflater, container, false)
+        bundleData = SuccessfulBookingFragmentArgs.fromBundle(arguments as Bundle)
+        return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment SuccessfulBookingFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            SuccessfulBookingFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setupViewModel()
+        setupAdapter()
+        getAllSuccessfulBooking()
+        setupAction()
+    }
+
+    private fun setupAction() {
+        binding.apply {
+            btnBack.setOnClickListener {
+                findNavController().popBackStack()
+            }
+        }
+    }
+
+    private fun setupAdapter() {
+        adapter = SuccessfulBookingAdapter()
+    }
+
+    private fun setupViewModel() {
+        val factory: ViewModelFactory = ViewModelFactory.getInstance(requireContext())
+        viewModel = factory.create(SuccessfulBookingViewModel::class.java)
+    }
+
+    private fun getAllSuccessfulBooking() {
+        binding.progressBar.visibility(true)
+        viewModel.getAllSuccessfulBooking(bundleData.dataLogin.id)
+            .observe(viewLifecycleOwner) {
+                if (it != null && it.isNotEmpty()) {
+                    with(binding.rvSuccessfulBooking) {
+                        layoutManager = LinearLayoutManager(requireContext())
+                        adapter = this@SuccessfulBookingFragment.adapter
+                        setHasFixedSize(true)
+                    }
+                    adapter.setData(it)
+                    binding.tvEmpty.visibility(false)
+                    binding.progressBar.visibility(false)
+                } else {
+                    binding.tvEmpty.visibility(true)
+                    binding.progressBar.visibility(false)
                 }
             }
+
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

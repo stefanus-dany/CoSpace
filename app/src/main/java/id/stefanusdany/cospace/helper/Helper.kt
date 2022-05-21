@@ -1,5 +1,8 @@
 package id.stefanusdany.cospace.helper
 
+import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkInfo
 import android.view.View
 import android.widget.ImageView
 import com.bumptech.glide.Glide
@@ -16,6 +19,9 @@ object Helper {
     const val SHARED_PREFERENCE = "sp"
     const val IS_LOGIN = "is_login"
     const val UUID = "uuid"
+
+    private const val NETWORK_NOT_CONNECTED = -1
+    private const val NETWORK_CONNECTED = 1
 
     //log
     const val TAG = "log"
@@ -46,5 +52,32 @@ object Helper {
 
     fun View.visibility(value: Boolean) {
         this.visibility = if (value) View.VISIBLE else View.GONE
+    }
+
+    fun isConnected(context: Context): Boolean {
+        val status = getConnectivityStatus(context)
+        return status == NETWORK_CONNECTED
+    }
+
+    private fun getConnectivityStatus(context: Context): Int {
+        val cm = getConnectionManager(context)!!
+        val activeNetwork = getNetworkInfo(cm)
+        if (null != activeNetwork) {
+            println("active network: ${activeNetwork.type}")
+            if (activeNetwork.type == ConnectivityManager.TYPE_WIFI)
+                return NETWORK_CONNECTED
+
+            if (activeNetwork.type == ConnectivityManager.TYPE_MOBILE)
+                return NETWORK_CONNECTED
+        }
+        return NETWORK_NOT_CONNECTED
+    }
+
+    private fun getConnectionManager(context: Context): ConnectivityManager? {
+        return context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+    }
+
+    private fun getNetworkInfo(connectivityManager: ConnectivityManager): NetworkInfo? {
+        return connectivityManager.activeNetworkInfo
     }
 }

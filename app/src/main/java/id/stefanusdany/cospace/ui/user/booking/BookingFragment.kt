@@ -17,7 +17,6 @@ import id.stefanusdany.cospace.R
 import id.stefanusdany.cospace.data.entity.BookingEntity
 import id.stefanusdany.cospace.databinding.FragmentBookingBinding
 import id.stefanusdany.cospace.helper.Helper.showSnackBar
-import id.stefanusdany.cospace.ui.user.payment.PaymentViewModel
 
 class BookingFragment : Fragment(), DatePickerDialog.OnDateSetListener, TimeDialog.CallbackTime {
 
@@ -136,14 +135,19 @@ class BookingFragment : Fragment(), DatePickerDialog.OnDateSetListener, TimeDial
                                 saveYear.toString()
                             ),
                             paymentSlip = "",
-                            phoneNumber = binding.etPhoneNumber.text.toString(),
-                            name = binding.etName.text.toString(),
+                            phoneNumber = binding.etPhoneNumber.text.toString().trim(),
+                            name = binding.etName.text.toString().trim(),
+                            email = binding.etEmail.text.toString().trim(),
                             startHour = getString(R.string.format_time, startHour, startMinute),
                             endHour = getString(R.string.format_time, endHour, endMinute),
                             timeDuration = binding.totalTime.text.toString(),
                             totalPrice = this@BookingFragment.totalPrice
                         )
-                        val toPaymentFragment = BookingFragmentDirections.actionBookingFragmentToPaymentFragment(dataBooking, bundleData.dataCoWorkingSpace)
+                        val toPaymentFragment =
+                            BookingFragmentDirections.actionBookingFragmentToPaymentFragment(
+                                dataBooking,
+                                bundleData.dataCoWorkingSpace
+                            )
                         findNavController().navigate(toPaymentFragment)
                     }
                 }
@@ -200,7 +204,7 @@ class BookingFragment : Fragment(), DatePickerDialog.OnDateSetListener, TimeDial
             priceMinute = (bundleData.dataCoWorkingSpace.price.toDouble() / 2).toInt()
         }
         totalPrice = priceHour + priceMinute
-        binding.totalPrice.text = totalPrice.toString()
+        binding.totalPrice.text = getString(R.string.price_format_default, totalPrice.toString())
     }
 
     companion object {

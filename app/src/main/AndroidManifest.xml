@@ -7,9 +7,6 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
 
-
-    <uses-permission android:name="android.permission.READ_PRIVILEGED_PHONE_STATE" />
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -17,9 +14,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.CoSpace">
-        <activity
-            android:name=".ui.adminCoS.homepage.HomepageAdminActivity"
-            android:exported="false" />
         <activity
             android:name=".ui.MainActivity"
             android:exported="false"

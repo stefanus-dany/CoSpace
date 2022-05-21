@@ -6,16 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import id.stefanusdany.cospace.R
 import id.stefanusdany.cospace.databinding.FragmentAboutBinding
-import id.stefanusdany.cospace.ui.user.recommendation.RecommendationViewModel
 
 class AboutFragment : Fragment() {
 
     private var _binding: FragmentAboutBinding? = null
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -23,22 +21,28 @@ class AboutFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val dashboardViewModel =
-            ViewModelProvider(this).get(RecommendationViewModel::class.java)
-
         _binding = FragmentAboutBinding.inflate(inflater, container, false)
-        val root: View = binding.root
 
-        return root
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupView()
+        setupAction()
+    }
+
+    private fun setupAction() {
+        binding.apply {
+            btnGoToAdmin.setOnClickListener {
+                findNavController().navigate(R.id.action_navigation_about_cospace_to_loginFragment)
+            }
+        }
     }
 
     private fun setupView() {
-        (activity as AppCompatActivity).supportActionBar?.show()
+        (activity as AppCompatActivity).supportActionBar?.hide()
+        activity?.findViewById<BottomNavigationView>(R.id.nav_view)?.visibility = View.VISIBLE
     }
 
     override fun onDestroyView() {

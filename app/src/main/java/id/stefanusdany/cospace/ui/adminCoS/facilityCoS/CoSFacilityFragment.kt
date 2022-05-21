@@ -1,60 +1,120 @@
 package id.stefanusdany.cospace.ui.adminCoS.facilityCoS
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import id.stefanusdany.cospace.R
+import id.stefanusdany.cospace.ViewModelFactory
+import id.stefanusdany.cospace.data.entity.FacilityEntity
+import id.stefanusdany.cospace.databinding.FragmentCoSFacilityBinding
+import id.stefanusdany.cospace.helper.Helper
+import id.stefanusdany.cospace.helper.Helper.visibility
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+class CoSFacilityFragment : Fragment(), FacilityAdapter.FacilityAction,
+    FacilityDialog.CallbackFacility {
 
-/**
- * A simple [Fragment] subclass.
- * Use the [CoSFacilityFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
-class CoSFacilityFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    private var _binding: FragmentCoSFacilityBinding? = null
+    private val binding get() = _binding!!
+    private lateinit var adapter: FacilityAdapter
+    private lateinit var viewModel: FacilityViewModel
+    private lateinit var bundleData: CoSFacilityFragmentArgs
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_co_s_facility, container, false)
+    ): View {
+        _binding = FragmentCoSFacilityBinding.inflate(inflater, container, false)
+        bundleData = CoSFacilityFragmentArgs.fromBundle(arguments as Bundle)
+        return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment CoSFacilityFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            CoSFacilityFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setupViewModel()
+        setupAdapter()
+        setupAction()
+        getAllFacility()
+    }
+
+    private fun setupAction() {
+        binding.apply {
+            tvAppBar.text = getString(R.string.cos_facility, bundleData.dataLogin.name)
+            btnBack.setOnClickListener {
+                findNavController().popBackStack()
+            }
+            fabAddFacility.setOnClickListener {
+                val instance = FacilityDialog(this@CoSFacilityFragment)
+                instance.show(childFragmentManager, "SHOW_FACILITY")
+            }
+        }
+    }
+
+    private fun setupAdapter() {
+        adapter = FacilityAdapter(this)
+    }
+
+    private fun setupViewModel() {
+        val factory: ViewModelFactory = ViewModelFactory.getInstance(requireContext())
+        viewModel = factory.create(FacilityViewModel::class.java)
+    }
+
+    private fun getAllFacility() {
+        binding.progressBar.visibility(true)
+        viewModel.getAllFacility(bundleData.dataLogin.id)
+            .observeOnce(viewLifecycleOwner) {
+                if (it != null && it.isNotEmpty()) {
+                    with(binding.rvFacility) {
+                        layoutManager = LinearLayoutManager(requireContext())
+                        adapter = this@CoSFacilityFragment.adapter
+                        setHasFixedSize(true)
+                    }
+                    adapter.setData(it)
+                    binding.tvEmpty.visibility(false)
+                    binding.progressBar.visibility(false)
+                } else {
+                    binding.tvEmpty.visibility(true)
+                    binding.progressBar.visibility(false)
                 }
             }
+
+    }
+
+    //observe once / observe sekali / observe satu kali
+    private fun <T> LiveData<T>.observeOnce(lifecycleOwner: LifecycleOwner, observer: Observer<T>) {
+        observe(lifecycleOwner, object : Observer<T> {
+            override fun onChanged(t: T?) {
+                observer.onChanged(t)
+                removeObserver(this)
+            }
+        })
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
+    override fun btnDeletePressed(value: Boolean, data: FacilityEntity) {
+        if (value) {
+            viewModel.deleteFacility(bundleData.dataLogin.id, data.id)
+        }
+    }
+
+    override fun callbackFacility(facility: FacilityEntity) {
+        if (Helper.isConnected(requireContext())) {
+            viewModel.addFacility(bundleData.dataLogin.id, facility).observe(viewLifecycleOwner) {
+                Helper.showSnackBar(binding.root, "${facility.name} has been added")
+                getAllFacility()
+            }
+        } else {
+            Helper.showSnackBar(binding.root, "Please check your connection internet!")
+        }
     }
 }

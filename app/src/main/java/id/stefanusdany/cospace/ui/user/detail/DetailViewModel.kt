@@ -10,4 +10,6 @@ class DetailViewModel(private val repository: Repository) : ViewModel() {
         idChatEntityUser: IdChatEntity,
         idChatEntityCoSpace: IdChatEntity
     ) = repository.creatingChats(idChatEntityUser, idChatEntityCoSpace)
+
+    fun isExistChatWithCoSpace(idUser: String, idCoSpace: String) = repository.isExistChatWithCoSpace(idUser, idCoSpace)
 }

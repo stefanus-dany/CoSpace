@@ -10,7 +10,8 @@ import id.stefanusdany.cospace.ui.adminCoS.detailCoS.CoSDetailViewModel
 import id.stefanusdany.cospace.ui.adminCoS.facilityCoS.FacilityViewModel
 import id.stefanusdany.cospace.ui.adminCoS.login.LoginViewModel
 import id.stefanusdany.cospace.ui.adminCoS.successfulBooking.SuccessfulBookingViewModel
-import id.stefanusdany.cospace.ui.chat.ChatViewModel
+import id.stefanusdany.cospace.ui.adminCoS.adminChat.AdminChatViewModel
+import id.stefanusdany.cospace.ui.user.chat.ChatViewModel
 import id.stefanusdany.cospace.ui.user.detail.DetailViewModel
 import id.stefanusdany.cospace.ui.user.home.HomeViewModel
 import id.stefanusdany.cospace.ui.user.payment.PaymentViewModel
@@ -30,7 +31,6 @@ class ViewModelFactory(private val repository: Repository) :
             modelClass.isAssignableFrom(DetailViewModel::class.java) -> {
                 DetailViewModel(repository) as T
             }
-
             modelClass.isAssignableFrom(PaymentViewModel::class.java) -> {
                 PaymentViewModel(repository) as T
             }
@@ -42,6 +42,9 @@ class ViewModelFactory(private val repository: Repository) :
             }
             modelClass.isAssignableFrom(ChatViewModel::class.java) -> {
                 ChatViewModel(repository) as T
+            }
+            modelClass.isAssignableFrom(AdminChatViewModel::class.java) -> {
+                AdminChatViewModel(repository) as T
             }
             modelClass.isAssignableFrom(LoginViewModel::class.java) -> {
                 LoginViewModel(repository) as T

@@ -1,9 +1,8 @@
-package id.stefanusdany.cospace.ui.chat
+package id.stefanusdany.cospace.ui.user.chat
 
 import androidx.lifecycle.ViewModel
 import id.stefanusdany.cospace.data.Repository
 import id.stefanusdany.cospace.data.entity.ChatEntity
-import id.stefanusdany.cospace.data.entity.CoWorkingSpaceEntity
 
 class ChatViewModel(private val repository: Repository) : ViewModel() {
 
@@ -12,5 +11,4 @@ class ChatViewModel(private val repository: Repository) : ViewModel() {
     fun getAllDetailChat(idChat: String) = repository.getAllDetailChat(idChat)
 
     fun sendChatToDatabase(data: ChatEntity, idDetailChat: String) = repository.sendChatToDatabase(data, idDetailChat)
-
 }

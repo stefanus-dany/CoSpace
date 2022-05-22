@@ -1,19 +1,17 @@
-package id.stefanusdany.cospace.ui.chat
+package id.stefanusdany.cospace.ui.user.chat
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import id.stefanusdany.cospace.data.entity.ChatEntity
-import id.stefanusdany.cospace.data.entity.CoWorkingSpaceEntity
-import id.stefanusdany.cospace.data.entity.IdChatEntity
-import id.stefanusdany.cospace.databinding.ItemChatBinding
+import id.stefanusdany.cospace.databinding.ItemDetailChatBinding
 import id.stefanusdany.cospace.helper.Helper.loadImage
 
-class ChatAdapter(private val onItemClick: ((IdChatEntity) -> Unit)) :
-    RecyclerView.Adapter<ChatAdapter.ViewHolder>() {
-    private var data = ArrayList<IdChatEntity>()
+class DetailChatAdapter(private val onItemClick: ((ChatEntity) -> Unit)) :
+    RecyclerView.Adapter<DetailChatAdapter.ViewHolder>() {
+    private var data = ArrayList<ChatEntity>()
 
-    fun setData(data: List<IdChatEntity>?) {
+    fun setData(data: List<ChatEntity>?) {
         if (data == null) return
         this.data.clear()
         this.data.addAll(data)
@@ -21,7 +19,7 @@ class ChatAdapter(private val onItemClick: ((IdChatEntity) -> Unit)) :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val item =
-            ItemChatBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            ItemDetailChatBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(item)
     }
 
@@ -33,14 +31,15 @@ class ChatAdapter(private val onItemClick: ((IdChatEntity) -> Unit)) :
     override fun getItemCount(): Int = data.size
 
     inner class ViewHolder(
-        private val binding: ItemChatBinding
+        private val binding: ItemDetailChatBinding
     ) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(data: IdChatEntity) {
+        fun bind(data: ChatEntity) {
             with(binding) {
+                tvContent.text = data.text
                 tvName.text = data.name
-                civProfileImage.loadImage(data.photoProfile)
+                civ.loadImage(data.photoProfile)
             }
         }
 

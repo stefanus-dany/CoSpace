@@ -64,8 +64,8 @@ class HomepageAdminFragment : Fragment() {
             }
 
             btnLiveChat.setOnClickListener {
-//                val navigate = HomepageAdminFragmentDirections.actionHomepageAdminFragmentToNavigationChat(dataBundle.dataLogin)
-//                findNavController().navigate(R.id.action_homepageAdminFragment_to_navigation_chat)
+                val navigate = HomepageAdminFragmentDirections.actionHomepageAdminFragmentToAdminChatFragment(dataBundle.dataLogin)
+                findNavController().navigate(navigate)
             }
 
             btnLogoutAdmin.setOnClickListener {

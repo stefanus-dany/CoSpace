@@ -295,6 +295,32 @@ class Repository(private val database: FirebaseDatabase, private val storage: Fi
         return data
     }
 
+    fun getAllChatsCoSpace(idCoSpace: String): LiveData<List<IdChatEntity>> {
+        val data = MutableLiveData<List<IdChatEntity>>()
+        val tmpDataIDChat = mutableListOf<IdChatEntity>()
+
+        CoroutineScope(Dispatchers.IO).launch {
+            val getAllUserIdChat = database.getReference("chatCoSpace").child(idCoSpace)
+            getAllUserIdChat.addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    for (dataSnapshot in snapshot.children) {
+                        val value = dataSnapshot.getValue(IdChatEntity::class.java)
+                        if (value != null) {
+                            tmpDataIDChat.add(value)
+                        }
+                    }
+                    data.value = tmpDataIDChat
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    Log.e(TAG, "onCancelled: ${error.message}")
+                }
+
+            })
+        }
+        return data
+    }
+
     fun getAllDetailChat(idChat: String): LiveData<List<ChatEntity>> {
         val data = MutableLiveData<List<ChatEntity>>()
         val tmpDataAllDetailChat = mutableListOf<ChatEntity>()
@@ -616,16 +642,49 @@ class Repository(private val database: FirebaseDatabase, private val storage: Fi
         }
     }
 
-    fun creatingChats(idChatEntityUser: IdChatEntity, idChatEntityCoSpace: IdChatEntity) {
+    fun isExistChatWithCoSpace(idUser: String, idCoSpace: String): LiveData<IdChatEntity> {
+        var tmpData = IdChatEntity()
+        val data = MutableLiveData(tmpData)
+        CoroutineScope(Dispatchers.IO).launch {
+            val url =
+                database.getReference("user").child(idUser).child(idCoSpace)
+            url.addListenerForSingleValueEvent(object : ValueEventListener{
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val value = snapshot.getValue(IdChatEntity::class.java)
+                    if (value != null){
+                        tmpData = value
+                    }
+                    data.value = tmpData
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    Log.e(TAG, "onCancelled: ${error.message}")
+                }
+
+            })
+
+        }
+        return data
+    }
+
+    fun creatingChats(
+        idChatEntityUser: IdChatEntity,
+        idChatEntityCoSpace: IdChatEntity
+    ): LiveData<Boolean> {
+        val data = MutableLiveData(false)
         CoroutineScope(Dispatchers.IO).launch {
             val createUserChat = database.getReference("user").child(idChatEntityCoSpace.id)
                 .child(idChatEntityUser.id)
-            createUserChat.setValue(idChatEntityUser)
-            val createCoWorkingChat =
-                database.getReference("chatCoSpace").child(idChatEntityUser.id)
-                    .child(idChatEntityCoSpace.id)
-            createCoWorkingChat.setValue(idChatEntityCoSpace)
+            createUserChat.setValue(idChatEntityUser).addOnSuccessListener {
+                val createCoWorkingChat =
+                    database.getReference("chatCoSpace").child(idChatEntityUser.id)
+                        .child(idChatEntityCoSpace.id)
+                createCoWorkingChat.setValue(idChatEntityCoSpace).addOnSuccessListener {
+                    data.value = true
+                }
+            }
         }
+        return data
     }
 
     companion object {

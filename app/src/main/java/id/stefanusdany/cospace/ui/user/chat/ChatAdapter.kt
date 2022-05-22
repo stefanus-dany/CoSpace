@@ -1,17 +1,17 @@
-package id.stefanusdany.cospace.ui.chat
+package id.stefanusdany.cospace.ui.user.chat
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import id.stefanusdany.cospace.data.entity.ChatEntity
-import id.stefanusdany.cospace.databinding.ItemDetailChatBinding
+import id.stefanusdany.cospace.data.entity.IdChatEntity
+import id.stefanusdany.cospace.databinding.ItemChatBinding
 import id.stefanusdany.cospace.helper.Helper.loadImage
 
-class DetailChatAdapter(private val onItemClick: ((ChatEntity) -> Unit)) :
-    RecyclerView.Adapter<DetailChatAdapter.ViewHolder>() {
-    private var data = ArrayList<ChatEntity>()
+class ChatAdapter(private val onItemClick: ((IdChatEntity) -> Unit)) :
+    RecyclerView.Adapter<ChatAdapter.ViewHolder>() {
+    private var data = ArrayList<IdChatEntity>()
 
-    fun setData(data: List<ChatEntity>?) {
+    fun setData(data: List<IdChatEntity>?) {
         if (data == null) return
         this.data.clear()
         this.data.addAll(data)
@@ -19,7 +19,7 @@ class DetailChatAdapter(private val onItemClick: ((ChatEntity) -> Unit)) :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val item =
-            ItemDetailChatBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            ItemChatBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(item)
     }
 
@@ -31,15 +31,14 @@ class DetailChatAdapter(private val onItemClick: ((ChatEntity) -> Unit)) :
     override fun getItemCount(): Int = data.size
 
     inner class ViewHolder(
-        private val binding: ItemDetailChatBinding
+        private val binding: ItemChatBinding
     ) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(data: ChatEntity) {
+        fun bind(data: IdChatEntity) {
             with(binding) {
-                tvContent.text = data.text
                 tvName.text = data.name
-                civ.loadImage(data.photoProfile)
+                civProfileImage.loadImage(data.photoProfile)
             }
         }
 

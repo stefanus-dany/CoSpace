@@ -8,5 +8,6 @@ data class LoginEntity(
     var id: String = "",
     var name: String = "",
     var password: String = "",
-    var username: String = ""
+    var username: String = "",
+    var photoProfile: String = ""
 ) : Parcelable

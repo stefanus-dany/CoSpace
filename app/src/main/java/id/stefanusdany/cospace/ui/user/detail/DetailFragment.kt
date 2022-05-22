@@ -4,10 +4,14 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.denzcoskun.imageslider.constants.ScaleTypes
@@ -15,8 +19,10 @@ import com.denzcoskun.imageslider.models.SlideModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import id.stefanusdany.cospace.R
 import id.stefanusdany.cospace.ViewModelFactory
+import id.stefanusdany.cospace.data.entity.IdChatEntity
 import id.stefanusdany.cospace.databinding.FragmentDetailBinding
 import id.stefanusdany.cospace.helper.Helper
+import id.stefanusdany.cospace.helper.Helper.TAG
 import id.stefanusdany.cospace.helper.Helper.visibility
 
 
@@ -27,6 +33,7 @@ class DetailFragment : Fragment() {
     private lateinit var viewModel: DetailViewModel
     private lateinit var bundleData: DetailFragmentArgs
     private lateinit var adapter: DetailAdapter
+    private var idChat: String = getIDChat()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -96,10 +103,6 @@ class DetailFragment : Fragment() {
         val workingHourData = bundleData.dataCoWorkingSpace.workingHour
         var dayData = ""
         var timeData = ""
-//        val sdf = SimpleDateFormat("hh:mm")
-//        val time = sdf.format(workingHourData)
-//        val convertStartHour = sdf.format(workingHourData[i].startHour)
-//        val convertEndHour = sdf.format(workingHourData[i].startHour)
         for (i in workingHourData.indices) {
             if (i == workingHourData.size - 1) {
                 dayData += workingHourData[i].day
@@ -164,22 +167,33 @@ class DetailFragment : Fragment() {
             }
 
             btnChat.setOnClickListener {
-//                //kondisi jika udah pernah chatan?
-//                check udah pernah chatan?
-//                val idChat = getIDChat()
-//                val idChatEntityUser = IdChatEntity(
-//                    bundleData.dataCoWorkingSpace.id,
-//                    idChat,
-//                    bundleData.dataCoWorkingSpace.name,
-//                    bundleData.dataCoWorkingSpace.image
-//                )
-//                val idChatEntityCoSpace = IdChatEntity(
-//                    getUUID(),
-//                    idChat,
-//                    "Stefanus Dany",
-//                    "https://media-exp1.licdn.com/dms/image/C5603AQH9I3jKhWp5BA/profile-displayphoto-shrink_200_200/0/1648087613361?e=1655337600&v=beta&t=-NpbKhYsJIWmxknh6r21RlEscoaYGOsTAMyQrkPa1fM"
-//                )
-//                viewModel.creatingChats(idChatEntityUser, idChatEntityCoSpace)
+                viewModel.isExistChatWithCoSpace(getUUID(), bundleData.dataCoWorkingSpace.id).observe(viewLifecycleOwner){ idChatEntity ->
+                    if (idChatEntity.idChat.isNotEmpty()){
+                        val toDetailChat = DetailFragmentDirections.actionDetailFragmentToDetailChatFragment(idChatEntity)
+                        findNavController().navigate(toDetailChat)
+                    } else {
+                        val idChat = this@DetailFragment.idChat
+                        val idChatEntityUser = IdChatEntity(
+                            bundleData.dataCoWorkingSpace.id,
+                            idChat,
+                            bundleData.dataCoWorkingSpace.name,
+                            bundleData.dataCoWorkingSpace.image
+                        )
+                        val idChatEntityCoSpace = IdChatEntity(
+                            getUUID(),
+                            idChat,
+                            getUsername(),
+                            "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/User_font_awesome.svg/2048px-User_font_awesome.svg.png"
+                        )
+                        viewModel.creatingChats(idChatEntityUser, idChatEntityCoSpace).observe(viewLifecycleOwner){ success ->
+                            if (success){
+                                val toDetailChat = DetailFragmentDirections.actionDetailFragmentToDetailChatFragment(idChatEntity)
+                                findNavController().navigate(toDetailChat)
+                            }
+                        }
+                    }
+                }
+
             }
         }
     }
@@ -192,6 +206,14 @@ class DetailFragment : Fragment() {
         return ""
     }
 
+    private fun getUsername(): String {
+        val sp = activity?.getSharedPreferences(Helper.SHARED_PREFERENCE, Context.MODE_PRIVATE)
+        if (sp != null) {
+            return sp.getString(Helper.NAME, "").toString()
+        }
+        return ""
+    }
+
     private fun getIDChat(): String {
         val alphabet = ('a'..'z') + ('A'..'Z') + ('0'..'9')
         return List(20) { alphabet.random() }.joinToString("")
@@ -200,6 +222,16 @@ class DetailFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    //observe once / observe sekali / observe satu kali
+    private fun <T> LiveData<T>.observeOnce(lifecycleOwner: LifecycleOwner, observer: Observer<T>) {
+        observe(lifecycleOwner, object : Observer<T> {
+            override fun onChanged(t: T?) {
+                observer.onChanged(t)
+                removeObserver(this)
+            }
+        })
     }
 
 }

@@ -26,13 +26,16 @@
     </fragment>
 
     <fragment
-        android:id="@+id/navigation_chat"
-        android:name="id.stefanusdany.cospace.ui.chat.ChatFragment"
+        android:id="@+id/adminChatFragment"
+        android:name="id.stefanusdany.cospace.ui.adminCoS.adminChat.AdminChatFragment"
         android:label="@string/title_chat"
-        tools:layout="@layout/fragment_chat" >
+        tools:layout="@layout/fragment_admin_chat" >
         <action
             android:id="@+id/action_navigation_chat_to_detailChatFragment"
-            app:destination="@id/detailChatFragment" />
+            app:destination="@id/adminDetailChatFragment" />
+        <argument
+            android:name="dataLogin"
+            app:argType="id.stefanusdany.cospace.data.entity.LoginEntity" />
     </fragment>
 
     <fragment
@@ -55,6 +58,9 @@
         <action
             android:id="@+id/action_detailFragment_to_bookingFragment"
             app:destination="@id/bookingFragment" />
+        <action
+            android:id="@+id/action_detailFragment_to_detailChatFragment"
+            app:destination="@id/detailChatFragment" />
     </fragment>
     <fragment
         android:id="@+id/bookingFragment"
@@ -95,13 +101,16 @@
             app:destination="@id/detailFragment" />
     </fragment>
     <fragment
-        android:id="@+id/detailChatFragment"
-        android:name="id.stefanusdany.cospace.ui.chat.DetailChatFragment"
+        android:id="@+id/adminDetailChatFragment"
+        android:name="id.stefanusdany.cospace.ui.adminCoS.adminChat.AdminDetailChatFragment"
         android:label="fragment_detail_chat"
-        tools:layout="@layout/fragment_detail_chat">
+        tools:layout="@layout/fragment_admin_detail_chat">
         <argument
             android:name="dataDetailChat"
             app:argType="id.stefanusdany.cospace.data.entity.IdChatEntity" />
+        <argument
+            android:name="dataLogin"
+            app:argType="id.stefanusdany.cospace.data.entity.LoginEntity" />
     </fragment>
     <fragment
         android:id="@+id/successfulBookingFragment"
@@ -180,8 +189,8 @@
             android:name="dataLogin"
             app:argType="id.stefanusdany.cospace.data.entity.LoginEntity" />
         <action
-            android:id="@+id/action_homepageAdminFragment_to_navigation_chat"
-            app:destination="@id/navigation_chat" />
+            android:id="@+id/action_homepageAdminFragment_to_adminChatFragment"
+            app:destination="@id/adminChatFragment" />
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
@@ -191,5 +200,23 @@
         <action
             android:id="@+id/action_loginFragment_to_homepageAdminFragment"
             app:destination="@id/homepageAdminFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/navigation_chat"
+        android:name="id.stefanusdany.cospace.ui.user.chat.ChatFragment"
+        android:label="fragment_chat"
+        tools:layout="@layout/fragment_chat" >
+        <action
+            android:id="@+id/action_chatFragment_to_detailChatFragment"
+            app:destination="@id/detailChatFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailChatFragment"
+        android:name="id.stefanusdany.cospace.ui.user.chat.DetailChatFragment"
+        android:label="fragment_detail_chat"
+        tools:layout="@layout/fragment_detail_chat">
+        <argument
+            android:name="dataDetailChat"
+            app:argType="id.stefanusdany.cospace.data.entity.IdChatEntity" />
     </fragment>
 </navigation>

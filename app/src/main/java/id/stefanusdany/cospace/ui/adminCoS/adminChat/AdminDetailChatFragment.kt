@@ -1,10 +1,11 @@
-package id.stefanusdany.cospace.ui.chat
+package id.stefanusdany.cospace.ui.adminCoS.adminChat
 
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,23 +17,25 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import id.stefanusdany.cospace.R
 import id.stefanusdany.cospace.ViewModelFactory
 import id.stefanusdany.cospace.data.entity.ChatEntity
-import id.stefanusdany.cospace.databinding.FragmentDetailChatBinding
+import id.stefanusdany.cospace.databinding.FragmentAdminDetailChatBinding
 import id.stefanusdany.cospace.helper.Helper.visibility
+import id.stefanusdany.cospace.ui.user.chat.AdminDetailChatAdapter
 
-class DetailChatFragment : Fragment() {
+class AdminDetailChatFragment : Fragment() {
 
-    private var _binding: FragmentDetailChatBinding? = null
+    private var _binding: FragmentAdminDetailChatBinding? = null
     private val binding get() = _binding!!
-    private lateinit var bundleData: DetailChatFragmentArgs
-    private lateinit var viewModel: ChatViewModel
-    private lateinit var adapter: DetailChatAdapter
+
+    private lateinit var bundleData: AdminDetailChatFragmentArgs
+    private lateinit var viewModel: AdminChatViewModel
+    private lateinit var adapter: AdminDetailChatAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentDetailChatBinding.inflate(inflater, container, false)
-        bundleData = DetailChatFragmentArgs.fromBundle(arguments as Bundle)
+        _binding = FragmentAdminDetailChatBinding.inflate(inflater, container, false)
+        bundleData = AdminDetailChatFragmentArgs.fromBundle(arguments as Bundle)
         return binding.root
     }
 
@@ -59,13 +62,15 @@ class DetailChatFragment : Fragment() {
             if (binding.etEnterMessage.text.toString().trim().isNotEmpty()) {
                 val data = ChatEntity(
                     System.currentTimeMillis().toString(),
-                    "Stefanus Dany",
-                    "https://media-exp1.licdn.com/dms/image/C5603AQH9I3jKhWp5BA/profile-displayphoto-shrink_200_200/0/1648087613361?e=1655337600&v=beta&t=-NpbKhYsJIWmxknh6r21RlEscoaYGOsTAMyQrkPa1fM",
+                    bundleData.dataLogin.name,
+                    bundleData.dataLogin.photoProfile,
                     binding.etEnterMessage.text.toString().trim(),
                     getDateTime()
                 )
                 viewModel.sendChatToDatabase(data, bundleData.dataDetailChat.idChat)
                 binding.etEnterMessage.text = null
+
+
             }
         }
     }
@@ -85,11 +90,11 @@ class DetailChatFragment : Fragment() {
 
     private fun setupViewModel() {
         val factory: ViewModelFactory = ViewModelFactory.getInstance(requireContext())
-        viewModel = factory.create(ChatViewModel::class.java)
+        viewModel = factory.create(AdminChatViewModel::class.java)
     }
 
     private fun setupAdapter() {
-        adapter = DetailChatAdapter { selectedData ->
+        adapter = AdminDetailChatAdapter { selectedData ->
         }
     }
 
@@ -100,7 +105,7 @@ class DetailChatFragment : Fragment() {
                 with(binding.rvDetailChat) {
                     layoutManager = LinearLayoutManager(requireContext())
                     smoothScrollToPosition(it.count() - 1)
-                    adapter = this@DetailChatFragment.adapter
+                    adapter = this@AdminDetailChatFragment.adapter
                     setHasFixedSize(true)
                     binding.rvDetailChat.addOnLayoutChangeListener { view, i, i2, i3, i4, i5, i6, i7, i8 ->
                         if (i4 < i8) {

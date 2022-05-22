@@ -131,7 +131,6 @@ class RecommendationFragment : Fragment() {
             petakanHasil()
         }
         val bundle = Bundle()
-        Log.e(TAG, "hasilAkhirRekomendasi: ${instance.hasilAkhirRekomendasi}", )
         bundle.putSerializable(EXTRA_HASHMAP, instance.hasilAkhirRekomendasi)
         findNavController().navigate(R.id.action_navigation_recommendation_to_resultFragment, bundle)
     }

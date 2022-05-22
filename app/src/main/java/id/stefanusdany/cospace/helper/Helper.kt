@@ -19,6 +19,7 @@ object Helper {
     const val SHARED_PREFERENCE = "sp"
     const val IS_LOGIN = "is_login"
     const val UUID = "uuid"
+    const val NAME = "name"
 
     private const val NETWORK_NOT_CONNECTED = -1
     private const val NETWORK_CONNECTED = 1

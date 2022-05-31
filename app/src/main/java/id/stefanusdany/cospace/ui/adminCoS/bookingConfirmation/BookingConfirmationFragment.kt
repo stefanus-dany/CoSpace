@@ -1,19 +1,38 @@
 package id.stefanusdany.cospace.ui.adminCoS.bookingConfirmation
 
+import java.util.Properties
+import javax.mail.Message
+import javax.mail.MessagingException
+import javax.mail.PasswordAuthentication
+import javax.mail.Session
+import javax.mail.Transport
+import javax.mail.internet.InternetAddress
+import javax.mail.internet.MimeMessage
+import android.content.Context
 import android.os.Bundle
+import android.os.StrictMode
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
+import android.widget.LinearLayout
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import id.stefanusdany.cospace.R
 import id.stefanusdany.cospace.ViewModelFactory
 import id.stefanusdany.cospace.data.entity.BookingEntity
 import id.stefanusdany.cospace.databinding.FragmentBookingConfirmationBinding
+import id.stefanusdany.cospace.helper.Helper
 import id.stefanusdany.cospace.helper.Helper.visibility
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class BookingConfirmationFragment : Fragment(),
     BookingConfirmationAdapter.BookingConfirmationAction {
@@ -69,7 +88,10 @@ class BookingConfirmationFragment : Fragment(),
                         adapter = this@BookingConfirmationFragment.adapter
                         setHasFixedSize(true)
                     }
-                    adapter.setData(it)
+                    val sortedData = it.sortedByDescending {
+                        it.timestamp
+                    }
+                    adapter.setData(sortedData)
                     binding.tvEmpty.visibility(false)
                     binding.progressBar.visibility(false)
                 } else {
@@ -90,9 +112,9 @@ class BookingConfirmationFragment : Fragment(),
             viewModel.sendAcceptedBooking(
                 bundleData.dataLogin.id,
                 data
-            ).observe(viewLifecycleOwner){
-                if (it){
-//                    adapter.notifyItemRemoved(position)
+            ).observe(viewLifecycleOwner) {
+                if (it) {
+                    sendEmailBooking(requireContext(), data, isAccepted = true)
                     getAllBookingConfirmation()
                 }
             }
@@ -110,6 +132,128 @@ class BookingConfirmationFragment : Fragment(),
     }
 
     override fun btnRejectPressed(value: Boolean, data: BookingEntity) {
-        TODO("Not yet implemented")
+        val etReason = EditText(requireContext()).apply {
+            layoutParams = LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT
+            )
+        }
+        val dialog = androidx.appcompat.app.AlertDialog.Builder(requireContext())
+            .setTitle("Insert your reason!")
+            .setView(etReason)
+            .setCancelable(true)
+            .setPositiveButton("Reject", null)
+            .setNegativeButton("Cancel") { dialog, _ ->
+                dialog.dismiss()
+            }
+            .show()
+
+        val btnConfirm = dialog.getButton(androidx.appcompat.app.AlertDialog.BUTTON_POSITIVE)
+        btnConfirm.setOnClickListener {
+            if (etReason.text.toString().trim().isNotEmpty()) {
+                if (value) {
+                    viewModel.deleteAcceptedBooking(
+                        bundleData.dataLogin.id,
+                        data
+                    ).observe(viewLifecycleOwner) {
+                        if (it) {
+                            getAllBookingConfirmation()
+                        }
+                    }
+                    sendEmailBooking(
+                        requireContext(),
+                        data,
+                        isAccepted = false,
+                        reason = etReason.text.toString().trim()
+                    )
+                }
+                dialog.dismiss()
+            } else {
+                Toast.makeText(requireContext(), "Please insert your reason!", Toast.LENGTH_SHORT)
+                    .show()
+            }
+        }
+
+    }
+
+    private fun sendEmailBooking(
+        ctx: Context,
+        dataBooking: BookingEntity,
+        isAccepted: Boolean,
+        reason: String = ""
+    ) {
+        CoroutineScope(Dispatchers.Default).launch {
+            val props = Properties().apply {
+                setProperty("mail.transport.protocol", "smtp")
+                setProperty("mail.host", "smtp.gmail.com")
+                put("mail.smtp.auth", "true")
+                put("mail.smtp.port", "465")
+                put("mail.debug", "true")
+                put("mail.smtp.socketFactory.port", "465")
+                put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory")
+                put("mail.smtp.socketFactory.fallback", "false")
+            }
+            val session = Session.getInstance(props, object : javax.mail.Authenticator() {
+                override fun getPasswordAuthentication(): PasswordAuthentication {
+                    return PasswordAuthentication(Helper.EMAIL_COSPACE, Helper.PASS_COSPACE)
+                }
+            })
+
+            try {
+                val transport = session.transport
+                val message = MimeMessage(session).apply {
+                    sender = InternetAddress(Helper.EMAIL_COSPACE)
+                    addRecipients(
+                        Message.RecipientType.TO,
+                        InternetAddress.parse(dataBooking.email)
+                    )
+                    if (isAccepted) {
+                        subject = "Your booking has been accepted by ${bundleData.dataLogin.name}!"
+                        setText(
+                            ctx.getString(
+                                R.string.format_message_success_booking,
+                                dataBooking.name,
+                                bundleData.dataLogin.name,
+                                dataBooking.id,
+                                dataBooking.name,
+                                dataBooking.email,
+                                dataBooking.phoneNumber,
+                                dataBooking.date,
+                                dataBooking.startHour,
+                                dataBooking.endHour,
+                                dataBooking.capacity.toString()
+                            )
+                        )
+                    } else {
+                        subject = "Your booking has been rejected by ${bundleData.dataLogin.name}!"
+                        setText(
+                            ctx.getString(
+                                R.string.format_message_rejected_booking,
+                                dataBooking.name,
+                                bundleData.dataLogin.name,
+                                dataBooking.id,
+                                dataBooking.name,
+                                dataBooking.email,
+                                dataBooking.phoneNumber,
+                                dataBooking.date,
+                                dataBooking.startHour,
+                                dataBooking.endHour,
+                                dataBooking.capacity.toString(),
+                                reason
+                            )
+                        )
+                    }
+
+                }
+                transport.connect()
+                Transport.send(message)
+                transport.close()
+            } catch (e: MessagingException) {
+                Log.e(Helper.TAG, "sendEmailBooking: ${e.message}")
+            }
+            val policy = StrictMode.ThreadPolicy.Builder().permitAll().build()
+            StrictMode.setThreadPolicy(policy)
+        }
+
     }
 }

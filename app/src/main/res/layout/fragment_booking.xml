@@ -256,7 +256,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/black"
             android:gravity="end"
-            android:text="@string/price_format_default"
+            android:text="@string/total_price"
             app:layout_constraintStart_toEndOf="@id/tvTotalPrice"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/price"

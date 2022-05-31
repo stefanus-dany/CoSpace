@@ -42,66 +42,90 @@
         </Toolbar>
     </com.google.android.material.appbar.AppBarLayout>
 
+    <TextView
+        android:id="@+id/tvLowerPrice"
+        style="@style/TextContent.medium.bold"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="@string/lower_price_category"
+        app:layout_constraintTop_toBottomOf="@id/appbar" />
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/til_price_category"
         style="@style/Spinner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="18dp"
         app:boxCornerRadiusBottomEnd="10dp"
         app:boxCornerRadiusBottomStart="10dp"
         app:boxCornerRadiusTopEnd="10dp"
         app:boxCornerRadiusTopStart="10dp"
-        app:layout_constraintTop_toBottomOf="@id/appbar">
+        app:layout_constraintTop_toBottomOf="@id/tvLowerPrice">
 
         <AutoCompleteTextView
             android:id="@+id/spinner_price_category"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:drawablePadding="5dp"
-            android:hint="@string/lower_price_category"
+            android:hint="@string/insert_lower_price_priority"
             android:inputType="none" />
     </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:id="@+id/tvNearestLocation"
+        style="@style/TextContent.medium.bold"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="18dp"
+        android:text="@string/nearest_location_category"
+        app:layout_constraintTop_toBottomOf="@id/til_price_category" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/til_nearest_location_category"
         style="@style/Spinner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="18dp"
         app:boxCornerRadiusBottomEnd="10dp"
         app:boxCornerRadiusBottomStart="10dp"
         app:boxCornerRadiusTopEnd="10dp"
         app:boxCornerRadiusTopStart="10dp"
-        app:layout_constraintTop_toBottomOf="@id/til_price_category">
+        app:layout_constraintTop_toBottomOf="@id/tvNearestLocation">
 
         <AutoCompleteTextView
             android:id="@+id/spinner_nearest_location_category"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:drawablePadding="5dp"
-            android:hint="@string/nearest_location_category"
+            android:hint="@string/insert_nearest_location_priority"
             android:inputType="none" />
     </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:id="@+id/tvRating"
+        style="@style/TextContent.medium.bold"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="18dp"
+        android:text="@string/rating_category"
+        app:layout_constraintTop_toBottomOf="@id/til_nearest_location_category" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/til_rating_category"
         style="@style/Spinner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="18dp"
         app:boxCornerRadiusBottomEnd="10dp"
         app:boxCornerRadiusBottomStart="10dp"
         app:boxCornerRadiusTopEnd="10dp"
         app:boxCornerRadiusTopStart="10dp"
-        app:layout_constraintTop_toBottomOf="@id/til_nearest_location_category">
+        app:layout_constraintTop_toBottomOf="@id/tvRating">
 
         <AutoCompleteTextView
             android:id="@+id/spinner_rating_category"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:drawablePadding="5dp"
-            android:hint="@string/rating_category"
+            android:hint="@string/insert_rating_priority"
             android:inputType="none" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -110,22 +134,22 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        app:layout_constraintTop_toBottomOf="@id/til_rating_category"
         android:background="@drawable/btn_secondary"
         android:text="@string/label_reset"
         android:textAllCaps="false"
-        android:textColor="@color/black" />
+        android:textColor="@color/black"
+        app:layout_constraintTop_toBottomOf="@id/til_rating_category" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_submit_recommendation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        app:layout_constraintTop_toBottomOf="@id/btnReset"
         android:background="@drawable/btn_primary"
         android:enabled="false"
         android:text="@string/submit"
         android:textAllCaps="false"
-        android:textColor="@color/white" />
+        android:textColor="@color/white"
+        app:layout_constraintTop_toBottomOf="@id/btnReset" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

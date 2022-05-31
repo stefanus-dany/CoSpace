@@ -9,10 +9,15 @@ plugins {
 android {
     compileSdk 32
 
+    packagingOptions {
+        exclude 'META-INF/NOTICE.md'
+        exclude 'META-INF/LICENSE.md'
+    }
+
     defaultConfig {
         applicationId "id.stefanusdany.cospace"
         minSdk 21
-        targetSdk 32
+        targetSdk 29
         versionCode 1
         versionName "1.0"
 
@@ -66,6 +71,10 @@ dependencies {
 
     implementation 'com.github.denzcoskun:ImageSlideshow:0.1.0'
     implementation 'com.google.firebase:firebase-storage-ktx:20.0.1'
+
+    //email
+    implementation 'com.sun.mail:android-mail:1.6.6'
+    implementation 'com.sun.mail:android-activation:1.6.6'
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'

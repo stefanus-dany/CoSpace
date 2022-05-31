@@ -22,25 +22,16 @@
             android:orientation="vertical"
             android:padding="5dp">
 
-            <ImageView
-                android:id="@+id/ivArrowRight"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_arrow_right"
-                app:layout_constraintBottom_toBottomOf="@id/tvDay"
-                app:layout_constraintEnd_toStartOf="@id/tvDay"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/tvDay" />
-
             <TextView
                 android:id="@+id/tvDay"
                 style="@style/TextContent"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
+                android:layout_marginStart="10dp"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:textColor="@color/black"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@id/ivArrowRight"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="Monday" />
 

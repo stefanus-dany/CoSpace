@@ -58,11 +58,6 @@ class HomepageAdminFragment : Fragment() {
                 findNavController().navigate(navigate)
             }
 
-            btnCoSPost.setOnClickListener {
-                val navigate = HomepageAdminFragmentDirections.actionHomepageAdminFragmentToPostFragment(dataBundle.dataLogin)
-                findNavController().navigate(navigate)
-            }
-
             btnLiveChat.setOnClickListener {
                 val navigate = HomepageAdminFragmentDirections.actionHomepageAdminFragmentToAdminChatFragment(dataBundle.dataLogin)
                 findNavController().navigate(navigate)

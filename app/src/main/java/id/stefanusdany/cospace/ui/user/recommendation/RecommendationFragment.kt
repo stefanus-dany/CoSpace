@@ -31,8 +31,6 @@ class RecommendationFragment : Fragment() {
 
     private var _binding: FragmentRecommendationBinding? = null
 
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
     private lateinit var viewModel: RecommendationViewModel
     private lateinit var fusedLocationClient: FusedLocationProviderClient

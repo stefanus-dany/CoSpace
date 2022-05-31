@@ -20,6 +20,8 @@ object Helper {
     const val IS_LOGIN = "is_login"
     const val UUID = "uuid"
     const val NAME = "name"
+    const val EMAIL_COSPACE = "cospace.app@gmail.com"
+    const val PASS_COSPACE = "CoSpace123"
 
     private const val NETWORK_NOT_CONNECTED = -1
     private const val NETWORK_CONNECTED = 1

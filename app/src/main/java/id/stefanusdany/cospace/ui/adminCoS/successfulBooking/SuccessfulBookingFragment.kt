@@ -64,7 +64,10 @@ class SuccessfulBookingFragment : Fragment() {
                         adapter = this@SuccessfulBookingFragment.adapter
                         setHasFixedSize(true)
                     }
-                    adapter.setData(it)
+                    val sortedData = it.sortedByDescending {
+                        it.timestamp
+                    }
+                    adapter.setData(sortedData)
                     binding.tvEmpty.visibility(false)
                     binding.progressBar.visibility(false)
                 } else {

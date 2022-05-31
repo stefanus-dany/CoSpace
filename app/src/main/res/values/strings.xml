@@ -14,6 +14,9 @@
     <string name="rating_category">Rating</string>
     <string name="nearest_location_category">Nearest Location</string>
     <string name="lower_price_category">Lower Price</string>
+    <string name="insert_lower_price_priority">Insert a lower price priority</string>
+    <string name="insert_nearest_location_priority">Insert a nearest location priority</string>
+    <string name="insert_rating_priority">Insert a rating priority</string>
     <string name="submit">Submit</string>
     <string name="what_is_this_app_about">
         CoSpace is an Android-based mobile application that provides recommendations for co-working spaces in Malang City. This application provides a recommendation feature based on the user\'s priority factors. The priority factors consist of priority in terms of price, nearest location, and rating. In addition, users can make online bookings at the co-working space of their choice.
@@ -50,6 +53,8 @@
     <string name="with_user">with %s</string>
     <string name="data_is_empty">Data is empty!</string>
     <string name="label_capacity">Capacity</string>
+    <string name="format_facility">Facility: %s</string>
+    <string name="format_max_capacity">Max Capacity: %s people</string>
     <string name="format_capacity">%s people</string>
     <string name="chat_cos">Chat %s</string>
     <string name="booking_cos">Booking</string>
@@ -96,6 +101,9 @@
     <string name="success_login">Welcome back!</string>
     <string name="label_welcome">Welcome %s</string>
     <string name="label_done">Done</string>
+    <string name="format_message_booking">You have sent a booking to %s. Please wait %s to confirm you booking.\nBooking ID: %s\nName: %s\nEmail: %s\nPhone Number: %s\nDate: %s\nTime: %s - %s\nCapacity: %s people\n%s will confirm your booking within 1x24 hours. If not, you can contact them at %s \nThank you for using CoSpace App!\n\nThis email sent automatically by CoSpace App!</string>
+    <string name="format_message_success_booking">Hello %s.\n\nYour booking has been accepted by %s\nBooking ID: %s\nName: %s\nEmail: %s\nPhone Number: %s\nDate: %s\nTime: %s - %s\nCapacity: %s people\n\nYou can arrive at date and time that you have been chosen\nThank you for using CoSpace App!\n\nThis email sent automatically by CoSpace App!</string>
+    <string name="format_message_rejected_booking">Hello %s.\n\nYour booking has been rejected by %s\nBooking ID: %s\nName: %s\nEmail: %s\nPhone Number: %s\nDate: %s\nTime: %s - %s\nCapacity: %s people\n\nThe reason is:\n%s\n\nSorry for the inconvenience\n\nThis email sent automatically by CoSpace App!</string>
     <string name="title_select_a_facility">Select a facility</string>
     <string name="add">Add</string>
     <string name="add_a_working_hour">Add a Working Hour</string>

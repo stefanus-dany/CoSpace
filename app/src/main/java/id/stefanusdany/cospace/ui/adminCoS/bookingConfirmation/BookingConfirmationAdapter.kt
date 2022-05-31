@@ -86,7 +86,9 @@ class BookingConfirmationAdapter(private val onButtonPressed: BookingConfirmatio
 
                 btnReject.setOnClickListener {
                     if (Helper.isConnected(context)) {
-//                        onButtonPressed.btnRejectPressed(true, data)
+                        this@BookingConfirmationAdapter.data.remove(data)
+                        notifyItemRemoved(adapterPosition)
+                        onButtonPressed.btnRejectPressed(true, data)
                     } else {
                         showSnackBar(binding.root, "Please check your connection internet!")
                     }

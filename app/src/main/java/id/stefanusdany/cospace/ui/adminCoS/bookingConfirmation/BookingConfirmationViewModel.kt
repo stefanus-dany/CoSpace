@@ -11,4 +11,7 @@ class BookingConfirmationViewModel(private val repository: Repository) : ViewMod
 
     fun sendAcceptedBooking(idCoSpace: String, bookingData: BookingEntity) =
         repository.sendAcceptedBooking(idCoSpace, bookingData)
+
+    fun deleteAcceptedBooking(idCoSpace: String, bookingData: BookingEntity) =
+        repository.deleteAcceptedBooking(idCoSpace, bookingData)
 }

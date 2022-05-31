@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,7 +12,6 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.denzcoskun.imageslider.constants.ScaleTypes
 import com.denzcoskun.imageslider.models.SlideModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -22,8 +20,6 @@ import id.stefanusdany.cospace.ViewModelFactory
 import id.stefanusdany.cospace.data.entity.IdChatEntity
 import id.stefanusdany.cospace.databinding.FragmentDetailBinding
 import id.stefanusdany.cospace.helper.Helper
-import id.stefanusdany.cospace.helper.Helper.TAG
-import id.stefanusdany.cospace.helper.Helper.visibility
 
 
 class DetailFragment : Fragment() {
@@ -45,7 +41,6 @@ class DetailFragment : Fragment() {
         setupViewModel()
         setupAdapter()
         setupImageSlider()
-        setupPost()
         setupWorkingHour()
         setupPrice()
         setupCapacity()
@@ -79,24 +74,6 @@ class DetailFragment : Fragment() {
             imageList.add(SlideModel(imagesData[i].url, ScaleTypes.CENTER_INSIDE))
         }
         binding.imageSlider.setImageList(imageList)
-    }
-
-    private fun setupPost() {
-        val postData = bundleData.dataCoWorkingSpace.post
-        if (postData.isNotEmpty()) {
-            with(binding.rvPost) {
-                layoutManager =
-                    LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-                adapter = this@DetailFragment.adapter
-                setHasFixedSize(true)
-            }
-            adapter.setData(postData)
-            binding.tvEmpty.visibility(false)
-            binding.progressBar.visibility(false)
-        } else {
-            binding.tvEmpty.visibility(true)
-            binding.progressBar.visibility(false)
-        }
     }
 
     private fun setupWorkingHour() {
@@ -167,32 +144,40 @@ class DetailFragment : Fragment() {
             }
 
             btnChat.setOnClickListener {
-                viewModel.isExistChatWithCoSpace(getUUID(), bundleData.dataCoWorkingSpace.id).observe(viewLifecycleOwner){ idChatEntity ->
-                    if (idChatEntity.idChat.isNotEmpty()){
-                        val toDetailChat = DetailFragmentDirections.actionDetailFragmentToDetailChatFragment(idChatEntity)
-                        findNavController().navigate(toDetailChat)
-                    } else {
-                        val idChat = this@DetailFragment.idChat
-                        val idChatEntityUser = IdChatEntity(
-                            bundleData.dataCoWorkingSpace.id,
-                            idChat,
-                            bundleData.dataCoWorkingSpace.name,
-                            bundleData.dataCoWorkingSpace.image
-                        )
-                        val idChatEntityCoSpace = IdChatEntity(
-                            getUUID(),
-                            idChat,
-                            getUsername(),
-                            "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/User_font_awesome.svg/2048px-User_font_awesome.svg.png"
-                        )
-                        viewModel.creatingChats(idChatEntityUser, idChatEntityCoSpace).observe(viewLifecycleOwner){ success ->
-                            if (success){
-                                val toDetailChat = DetailFragmentDirections.actionDetailFragmentToDetailChatFragment(idChatEntity)
-                                findNavController().navigate(toDetailChat)
-                            }
+                viewModel.isExistChatWithCoSpace(getUUID(), bundleData.dataCoWorkingSpace.id)
+                    .observe(viewLifecycleOwner) { idChatEntity ->
+                        if (idChatEntity.idChat.isNotEmpty()) {
+                            val toDetailChat =
+                                DetailFragmentDirections.actionDetailFragmentToDetailChatFragment(
+                                    idChatEntity
+                                )
+                            findNavController().navigate(toDetailChat)
+                        } else {
+                            val idChat = this@DetailFragment.idChat
+                            val idChatEntityUser = IdChatEntity(
+                                bundleData.dataCoWorkingSpace.id,
+                                idChat,
+                                bundleData.dataCoWorkingSpace.name,
+                                bundleData.dataCoWorkingSpace.image
+                            )
+                            val idChatEntityCoSpace = IdChatEntity(
+                                getUUID(),
+                                idChat,
+                                getUsername(),
+                                "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/User_font_awesome.svg/2048px-User_font_awesome.svg.png"
+                            )
+                            viewModel.creatingChats(idChatEntityUser, idChatEntityCoSpace)
+                                .observe(viewLifecycleOwner) { success ->
+                                    if (success) {
+                                        val toDetailChat =
+                                            DetailFragmentDirections.actionDetailFragmentToDetailChatFragment(
+                                                idChatEntity
+                                            )
+                                        findNavController().navigate(toDetailChat)
+                                    }
+                                }
                         }
                     }
-                }
 
             }
         }

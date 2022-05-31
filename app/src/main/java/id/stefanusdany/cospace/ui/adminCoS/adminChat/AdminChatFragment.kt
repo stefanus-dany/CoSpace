@@ -35,6 +35,15 @@ class AdminChatFragment : Fragment() {
         setupViewModel()
         setupAdapter()
         getAllChatsUser()
+        setupAction()
+    }
+
+    private fun setupAction() {
+        binding.apply {
+            btnBack.setOnClickListener {
+                findNavController().popBackStack()
+            }
+        }
     }
 
     private fun setupViewModel() {

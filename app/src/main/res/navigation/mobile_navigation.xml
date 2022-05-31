@@ -9,7 +9,7 @@
         android:id="@+id/navigation_home"
         android:name="id.stefanusdany.cospace.ui.user.home.HomeFragment"
         android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" >
+        tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_navigation_home_to_detailFragment"
             app:destination="@id/detailFragment" />
@@ -19,7 +19,7 @@
         android:id="@+id/navigation_recommendation"
         android:name="id.stefanusdany.cospace.ui.user.recommendation.RecommendationFragment"
         android:label="@string/title_recommendation"
-        tools:layout="@layout/fragment_recommendation" >
+        tools:layout="@layout/fragment_recommendation">
         <action
             android:id="@+id/action_navigation_recommendation_to_resultFragment"
             app:destination="@id/resultFragment" />
@@ -29,7 +29,7 @@
         android:id="@+id/adminChatFragment"
         android:name="id.stefanusdany.cospace.ui.adminCoS.adminChat.AdminChatFragment"
         android:label="@string/title_chat"
-        tools:layout="@layout/fragment_admin_chat" >
+        tools:layout="@layout/fragment_admin_chat">
         <action
             android:id="@+id/action_navigation_chat_to_detailChatFragment"
             app:destination="@id/adminDetailChatFragment" />
@@ -42,7 +42,7 @@
         android:id="@+id/navigation_about_cospace"
         android:name="id.stefanusdany.cospace.ui.about.AboutFragment"
         android:label="@string/title_about_cospace"
-        tools:layout="@layout/fragment_about" >
+        tools:layout="@layout/fragment_about">
         <action
             android:id="@+id/action_navigation_about_cospace_to_loginFragment"
             app:destination="@id/loginFragment" />
@@ -51,7 +51,7 @@
         android:id="@+id/detailFragment"
         android:name="id.stefanusdany.cospace.ui.user.detail.DetailFragment"
         android:label="fragment_detail"
-        tools:layout="@layout/fragment_detail" >
+        tools:layout="@layout/fragment_detail">
         <argument
             android:name="dataCoWorkingSpace"
             app:argType="id.stefanusdany.cospace.data.entity.CoWorkingSpaceEntity" />
@@ -89,13 +89,13 @@
             android:id="@+id/action_paymentFragment_to_navigation_home"
             app:destination="@id/navigation_home"
             app:popUpTo="@id/mobile_navigation"
-            app:popUpToInclusive="true"/>
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/resultFragment"
         android:name="id.stefanusdany.cospace.ui.user.recommendation.ResultFragment"
         android:label="fragment_result"
-        tools:layout="@layout/fragment_result" >
+        tools:layout="@layout/fragment_result">
         <action
             android:id="@+id/action_resultFragment_to_detailFragment"
             app:destination="@id/detailFragment" />
@@ -148,28 +148,12 @@
             android:name="dataLogin"
             app:argType="id.stefanusdany.cospace.data.entity.LoginEntity" />
     </fragment>
-    <fragment
-        android:id="@+id/postFragment"
-        android:name="id.stefanusdany.cospace.ui.adminCoS.post.PostFragment"
-        android:label="fragment_post"
-        tools:layout="@layout/fragment_post" >
-        <action
-            android:id="@+id/action_postFragment_to_createPostFragment"
-            app:destination="@id/createPostFragment" />
-        <argument
-            android:name="dataLogin"
-            app:argType="id.stefanusdany.cospace.data.entity.LoginEntity" />
-    </fragment>
-    <fragment
-        android:id="@+id/createPostFragment"
-        android:name="id.stefanusdany.cospace.ui.adminCoS.post.CreatePostFragment"
-        android:label="fragment_create_post"
-        tools:layout="@layout/fragment_create_post" />
+
     <fragment
         android:id="@+id/homepageAdminFragment"
         android:name="id.stefanusdany.cospace.ui.adminCoS.homepage.HomepageAdminFragment"
         android:label="fragment_homepage_admin"
-        tools:layout="@layout/fragment_homepage_admin" >
+        tools:layout="@layout/fragment_homepage_admin">
         <action
             android:id="@+id/action_homepageAdminFragment_to_successfulBookingFragment"
             app:destination="@id/successfulBookingFragment" />
@@ -182,9 +166,6 @@
         <action
             android:id="@+id/action_homepageAdminFragment_to_coSFacilityFragment"
             app:destination="@id/coSFacilityFragment" />
-        <action
-            android:id="@+id/action_homepageAdminFragment_to_postFragment"
-            app:destination="@id/postFragment" />
         <argument
             android:name="dataLogin"
             app:argType="id.stefanusdany.cospace.data.entity.LoginEntity" />
@@ -196,7 +177,7 @@
         android:id="@+id/loginFragment"
         android:name="id.stefanusdany.cospace.ui.adminCoS.login.LoginFragment"
         android:label="fragment_login"
-        tools:layout="@layout/fragment_login" >
+        tools:layout="@layout/fragment_login">
         <action
             android:id="@+id/action_loginFragment_to_homepageAdminFragment"
             app:destination="@id/homepageAdminFragment" />
@@ -205,7 +186,7 @@
         android:id="@+id/navigation_chat"
         android:name="id.stefanusdany.cospace.ui.user.chat.ChatFragment"
         android:label="fragment_chat"
-        tools:layout="@layout/fragment_chat" >
+        tools:layout="@layout/fragment_chat">
         <action
             android:id="@+id/action_chatFragment_to_detailChatFragment"
             app:destination="@id/detailChatFragment" />

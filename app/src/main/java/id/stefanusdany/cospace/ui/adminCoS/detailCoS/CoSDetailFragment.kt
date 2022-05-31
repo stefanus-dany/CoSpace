@@ -45,7 +45,7 @@ class CoSDetailFragment : Fragment(), CoSDetailAdapter.CoSDetailAction,
 
     private fun setupAction() {
         binding.apply {
-            tvAppBar.text = getString(R.string.cos_facility, bundleData.dataLogin.name)
+            tvAppBar.text = getString(R.string.cos_detail, bundleData.dataLogin.name)
             btnBack.setOnClickListener {
                 findNavController().popBackStack()
             }

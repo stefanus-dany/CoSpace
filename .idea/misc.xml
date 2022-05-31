@@ -30,7 +30,7 @@
         <entry key="..\:/Users/User/AndroidStudioProjects/CoSpace/app/src/main/res/layout/fragment_about.xml" value="0.22" />
         <entry key="..\:/Users/User/AndroidStudioProjects/CoSpace/app/src/main/res/layout/fragment_admin_chat.xml" value="0.144017094017094" />
         <entry key="..\:/Users/User/AndroidStudioProjects/CoSpace/app/src/main/res/layout/fragment_admin_detail_chat.xml" value="0.144017094017094" />
-        <entry key="..\:/Users/User/AndroidStudioProjects/CoSpace/app/src/main/res/layout/fragment_booking.xml" value="0.22" />
+        <entry key="..\:/Users/User/AndroidStudioProjects/CoSpace/app/src/main/res/layout/fragment_booking.xml" value="0.1111111111111111" />
         <entry key="..\:/Users/User/AndroidStudioProjects/CoSpace/app/src/main/res/layout/fragment_booking_confirmation.xml" value="0.18504273504273505" />
         <entry key="..\:/Users/User/AndroidStudioProjects/CoSpace/app/src/main/res/layout/fragment_chat.xml" value="0.22552083333333334" />
         <entry key="..\:/Users/User/AndroidStudioProjects/CoSpace/app/src/main/res/layout/fragment_co_s_detail.xml" value="0.22" />
@@ -52,7 +52,7 @@
         <entry key="..\:/Users/User/AndroidStudioProjects/CoSpace/app/src/main/res/layout/item_chat.xml" value="0.18504273504273505" />
         <entry key="..\:/Users/User/AndroidStudioProjects/CoSpace/app/src/main/res/layout/item_cos_detail.xml" value="0.16666666666666666" />
         <entry key="..\:/Users/User/AndroidStudioProjects/CoSpace/app/src/main/res/layout/item_detail_chat.xml" value="0.17222222222222222" />
-        <entry key="..\:/Users/User/AndroidStudioProjects/CoSpace/app/src/main/res/layout/item_facility.xml" value="0.4466666666666667" />
+        <entry key="..\:/Users/User/AndroidStudioProjects/CoSpace/app/src/main/res/layout/item_facility.xml" value="0.22" />
         <entry key="..\:/Users/User/AndroidStudioProjects/CoSpace/app/src/main/res/layout/item_home.xml" value="0.22" />
         <entry key="..\:/Users/User/AndroidStudioProjects/CoSpace/app/src/main/res/layout/item_post.xml" value="0.18504273504273505" />
         <entry key="..\:/Users/User/AndroidStudioProjects/CoSpace/app/src/main/res/layout/item_posted.xml" value="0.18504273504273505" />

@@ -430,6 +430,20 @@ class Repository(private val database: FirebaseDatabase, private val storage: Fi
         return data
     }
 
+    fun deleteAcceptedBooking(idCoSpace: String, bookingData: BookingEntity): LiveData<Boolean> {
+        val data = MutableLiveData<Boolean>()
+        data.value = false
+        CoroutineScope(Dispatchers.IO).launch {
+            val deleteFromBooking =
+                database.getReference("coworking_space").child(idCoSpace).child("booking")
+                    .child(bookingData.id)
+            deleteFromBooking.removeValue().addOnSuccessListener {
+                data.value = true
+            }
+        }
+        return data
+    }
+
     fun getAllSuccessfulBooking(idCoSpace: String): LiveData<List<BookingEntity>> {
         val data = MutableLiveData<List<BookingEntity>>()
         val tmpData = mutableListOf<BookingEntity>()

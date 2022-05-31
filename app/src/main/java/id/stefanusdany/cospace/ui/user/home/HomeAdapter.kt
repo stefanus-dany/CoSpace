@@ -50,9 +50,9 @@ class HomeAdapter(private val onItemClick: ((CoWorkingSpaceEntity) -> Unit)) :
                         data.facility[i].name + ", "
                     }
                 }
-                tvFacility.text = facility
+                tvFacility.text = itemView.resources.getString(R.string.format_facility, facility)
                 tvCapacity.text =
-                    itemView.resources.getString(R.string.format_capacity, data.capacity.toString())
+                    itemView.resources.getString(R.string.format_max_capacity, data.capacity.toString())
             }
         }
 

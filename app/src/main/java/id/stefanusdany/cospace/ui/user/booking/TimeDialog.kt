@@ -11,7 +11,7 @@ import id.stefanusdany.cospace.data.entity.CoWorkingSpaceEntity
 import id.stefanusdany.cospace.databinding.DialogTimeBinding
 import id.stefanusdany.cospace.helper.Helper.showSnackBar
 
-class TimeDialog(private val callback: CallbackTime) : DialogFragment() {
+class TimeDialog(private val callback: CallbackTime, private val selectedDate: String) : DialogFragment() {
 
     private var _binding: DialogTimeBinding? = null
     private val binding get() = _binding!!
@@ -86,13 +86,15 @@ class TimeDialog(private val callback: CallbackTime) : DialogFragment() {
     private fun setupBookedByOther() {
         var bookingData = ""
         for (i in 0 until bundleData.booking.size) {
-            bookingData += if (i == bundleData.booking.size - 1) {
-                bundleData.booking[i].startHour + " - " + bundleData.booking[i].endHour
-            } else {
-                bundleData.booking[i].startHour + " - " + bundleData.booking[i].endHour + "\n"
+            if (bundleData.booking[i].date == selectedDate) {
+                bookingData += if (i == bundleData.booking.size - 1) {
+                    bundleData.booking[i].startHour + " - " + bundleData.booking[i].endHour
+                } else {
+                    bundleData.booking[i].startHour + " - " + bundleData.booking[i].endHour + "\n"
+                }
             }
         }
-        binding.tvBookedTime.text = bookingData
+        binding.tvBookedTime.text = bookingData.ifEmpty { "-" }
     }
 
     private fun setupSpinnerAction() {

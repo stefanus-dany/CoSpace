@@ -12,16 +12,19 @@ import id.stefanusdany.cospace.R
 import id.stefanusdany.cospace.ViewModelFactory
 import id.stefanusdany.cospace.data.entity.CoWorkingSpaceEntity
 import id.stefanusdany.cospace.data.entity.ResultRecommendationEntity
+import id.stefanusdany.cospace.data.entity.TopsisEntity
 import id.stefanusdany.cospace.databinding.FragmentResultBinding
 import id.stefanusdany.cospace.helper.Helper.visibility
 import id.stefanusdany.cospace.ui.user.home.HomeAdapter
-import id.stefanusdany.cospace.ui.user.home.HomeFragmentDirections
+import id.stefanusdany.cospace.ui.user.recommendation.RecommendationFragment.Companion.EXTRA_HASHMAP
+import id.stefanusdany.cospace.ui.user.recommendation.RecommendationFragment.Companion.EXTRA_TOPSIS_DATA
 
 class ResultFragment : Fragment() {
 
     private var _binding: FragmentResultBinding? = null
     private val binding get() = _binding!!
     private lateinit var bundleData: ArrayList<ResultRecommendationEntity>
+    private lateinit var bundleTopsisData: ArrayList<TopsisEntity>
     private lateinit var adapter: HomeAdapter
     private lateinit var viewModel: ResultViewModel
 
@@ -31,7 +34,8 @@ class ResultFragment : Fragment() {
     ): View {
         _binding = FragmentResultBinding.inflate(inflater, container, false)
         bundleData =
-            arguments?.getSerializable(EXTRA_HASHMAP) as ArrayList<ResultRecommendationEntity>
+            arguments?.getParcelableArrayList<ResultRecommendationEntity>(EXTRA_HASHMAP) as ArrayList<ResultRecommendationEntity>
+        bundleTopsisData = arguments?.getParcelableArrayList<TopsisEntity>(EXTRA_TOPSIS_DATA) as ArrayList<TopsisEntity>
         setupView()
         setupViewModel()
         setupAdapter()
@@ -57,9 +61,10 @@ class ResultFragment : Fragment() {
 
     private fun setupAdapter() {
         adapter = HomeAdapter { selectedData ->
-            val toDetailFragment =
-                ResultFragmentDirections.actionResultFragmentToDetailFragment(selectedData)
-            findNavController().navigate(toDetailFragment)
+            val bundle = Bundle()
+            bundle.putParcelableArrayList(EXTRA_TOPSIS_DATA, bundleTopsisData)
+            bundle.putParcelable(EXTRA_SELECTED_DATA, selectedData)
+            findNavController().navigate(R.id.action_resultFragment_to_detailFragment, bundle)
         }
     }
 
@@ -77,9 +82,9 @@ class ResultFragment : Fragment() {
 
     private fun getAllCoWorkingSpace() {
         binding.progressBar.visibility(true)
-        viewModel.getAllCoWorkingSpace()
+        viewModel.getAllDataCoworkingSpace
             .observe(viewLifecycleOwner) { listCoWorkingSpace ->
-                if (listCoWorkingSpace != null) {
+                if (!listCoWorkingSpace.isNullOrEmpty()) {
                     with(binding.rvHome) {
                         layoutManager = LinearLayoutManager(requireContext())
                         adapter = this@ResultFragment.adapter
@@ -102,7 +107,7 @@ class ResultFragment : Fragment() {
     }
 
     companion object {
-        const val EXTRA_HASHMAP = "extra_hashmap"
+        const val EXTRA_SELECTED_DATA = "extra_selected_data"
     }
 
 }

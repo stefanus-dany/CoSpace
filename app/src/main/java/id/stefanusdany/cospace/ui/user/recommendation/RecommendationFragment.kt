@@ -24,7 +24,6 @@ import id.stefanusdany.cospace.R
 import id.stefanusdany.cospace.ViewModelFactory
 import id.stefanusdany.cospace.data.entity.TopsisEntity
 import id.stefanusdany.cospace.databinding.FragmentRecommendationBinding
-import id.stefanusdany.cospace.helper.Helper.TAG
 import id.stefanusdany.cospace.helper.Helper.showSnackBar
 
 class RecommendationFragment : Fragment() {
@@ -39,6 +38,7 @@ class RecommendationFragment : Fragment() {
     private var distanceWeight = 0
     private var priceWeight = 0
     private var ratingWeight = 0
+    private var topsisData = mutableListOf<TopsisEntity>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -67,6 +67,12 @@ class RecommendationFragment : Fragment() {
                 binding.spinnerPriceCategory.text = null
                 binding.spinnerNearestLocationCategory.text = null
                 binding.spinnerRatingCategory.text = null
+                lat = 0.0
+                long = 0.0
+                distanceWeight = 0
+                priceWeight = 0
+                ratingWeight = 0
+                topsisData = mutableListOf<TopsisEntity>()
                 isButtonSubmitEnabled()
             }
 
@@ -84,20 +90,28 @@ class RecommendationFragment : Fragment() {
     private fun getTmpCoWorkingSpace() {
         viewModel.getTmpCoWorkingSpace().observe(viewLifecycleOwner) {
             if (it != null) {
-                val topsisData = mutableListOf<TopsisEntity>()
                 for (i in it.indices) {
+                    val a = TopsisEntity(
+                        id = it[i].id,
+                        name = it[i].name,
+                        distance = haversine(-7.9469407,112.6111296, it[i].lat, it[i].long),
+                        price = it[i].price,
+                        rating = it[i].rating,
+                    )
                     topsisData.add(
                         TopsisEntity(
                             id = it[i].id,
                             name = it[i].name,
-                            distance = haversine(lat, long, it[i].lat, it[i].long),
+                            distance = haversine(-7.9469407,112.6111296, it[i].lat, it[i].long),
                             price = it[i].price,
                             rating = it[i].rating,
                         )
                     )
+                    println("COSPACE DATA : "+a)
+                    Log.e("toop", "lat: $lat + long: $long ", )
+                    Log.e("toop", "co: ${topsisData[i].name} distance: ${topsisData[i].distance}", )
                 }
                 getTOPSISRecommendation(topsisData)
-
 
             } else {
                 showSnackBar(binding.root, "Terjadi kesalahan saat load lat long")
@@ -105,7 +119,7 @@ class RecommendationFragment : Fragment() {
         }
     }
 
-    private fun temepedaata(): List<TopsisEntity>{
+    private fun temepedaata(): List<TopsisEntity> {
         val tmp = mutableListOf<TopsisEntity>()
         tmp.add(TopsisEntity("1", "Seikophi", 2.69, 29000, 4.7))
         tmp.add(TopsisEntity("2", "Ezo Space", 1.27, 53000, 4.6))
@@ -128,9 +142,16 @@ class RecommendationFragment : Fragment() {
             nilaiPreferensiSetiapAlternatif()
             petakanHasil()
         }
+        instance.hasilAkhirRekomendasi.forEach {
+            println("DATANYA + $it")
+        }
         val bundle = Bundle()
-        bundle.putSerializable(EXTRA_HASHMAP, instance.hasilAkhirRekomendasi)
-        findNavController().navigate(R.id.action_navigation_recommendation_to_resultFragment, bundle)
+        bundle.putParcelableArrayList(EXTRA_HASHMAP, instance.hasilAkhirRekomendasi)
+        bundle.putParcelableArrayList(EXTRA_TOPSIS_DATA, topsisData as ArrayList)
+        findNavController().navigate(
+            R.id.action_navigation_recommendation_to_resultFragment,
+            bundle
+        )
     }
 
     private fun checkPermission(permission: String): Boolean {
@@ -152,7 +173,7 @@ class RecommendationFragment : Fragment() {
                 } else {
                     Toast.makeText(
                         requireContext(),
-                        "Location is not found. Try Again",
+                        "Location is not found. Turn on your GPS",
                         Toast.LENGTH_SHORT
                     ).show()
                 }
@@ -225,13 +246,13 @@ class RecommendationFragment : Fragment() {
                 val result = parent?.getItemAtPosition(position).toString()
                 priceWeight = when (result) {
                     resources.getStringArray(R.array.adapter_recommendation)[0] -> {
-                        3
+                        5
                     }
                     resources.getStringArray(R.array.adapter_recommendation)[1] -> {
-                        2
+                        3
                     }
                     else -> {
-                        1
+                        0
                     }
                 }
                 isButtonSubmitEnabled()
@@ -241,13 +262,13 @@ class RecommendationFragment : Fragment() {
                 val result = parent?.getItemAtPosition(position).toString()
                 distanceWeight = when (result) {
                     resources.getStringArray(R.array.adapter_recommendation)[0] -> {
-                        3
+                        5
                     }
                     resources.getStringArray(R.array.adapter_recommendation)[1] -> {
-                        2
+                        3
                     }
                     else -> {
-                        1
+                        0
                     }
                 }
                 isButtonSubmitEnabled()
@@ -257,13 +278,13 @@ class RecommendationFragment : Fragment() {
                 val result = parent?.getItemAtPosition(position).toString()
                 ratingWeight = when (result) {
                     resources.getStringArray(R.array.adapter_recommendation)[0] -> {
-                        3
+                        5
                     }
                     resources.getStringArray(R.array.adapter_recommendation)[1] -> {
-                        2
+                        3
                     }
                     else -> {
-                        1
+                        0
                     }
                 }
                 isButtonSubmitEnabled()
@@ -300,5 +321,6 @@ class RecommendationFragment : Fragment() {
     companion object {
         const val radius = 6372.8 // in kilometers
         const val EXTRA_HASHMAP = "extra_hashmap"
+        const val EXTRA_TOPSIS_DATA = "extra_topsis_data"
     }
 }

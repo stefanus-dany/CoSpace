@@ -1,5 +1,6 @@
 package id.stefanusdany.cospace.ui.user.detail
 
+import kotlin.math.roundToInt
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -7,6 +8,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
@@ -17,9 +19,13 @@ import com.denzcoskun.imageslider.models.SlideModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import id.stefanusdany.cospace.R
 import id.stefanusdany.cospace.ViewModelFactory
+import id.stefanusdany.cospace.data.entity.CoWorkingSpaceEntity
 import id.stefanusdany.cospace.data.entity.IdChatEntity
+import id.stefanusdany.cospace.data.entity.TopsisEntity
 import id.stefanusdany.cospace.databinding.FragmentDetailBinding
 import id.stefanusdany.cospace.helper.Helper
+import id.stefanusdany.cospace.ui.user.recommendation.RecommendationFragment.Companion.EXTRA_TOPSIS_DATA
+import id.stefanusdany.cospace.ui.user.recommendation.ResultFragment.Companion.EXTRA_SELECTED_DATA
 
 
 class DetailFragment : Fragment() {
@@ -27,7 +33,8 @@ class DetailFragment : Fragment() {
     private var _binding: FragmentDetailBinding? = null
     private val binding get() = _binding!!
     private lateinit var viewModel: DetailViewModel
-    private lateinit var bundleData: DetailFragmentArgs
+    private lateinit var bundleData: CoWorkingSpaceEntity
+    private var bundleTopsis = listOf<TopsisEntity>()
     private lateinit var adapter: DetailAdapter
     private var idChat: String = getIDChat()
 
@@ -36,12 +43,16 @@ class DetailFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentDetailBinding.inflate(inflater, container, false)
-        bundleData = DetailFragmentArgs.fromBundle(arguments as Bundle)
+        bundleData =
+            arguments?.getParcelable<CoWorkingSpaceEntity>(EXTRA_SELECTED_DATA) as CoWorkingSpaceEntity
+        bundleTopsis =
+            arguments?.getParcelableArrayList(EXTRA_TOPSIS_DATA) ?: listOf()
         setupView()
         setupViewModel()
         setupAdapter()
         setupImageSlider()
         setupWorkingHour()
+        setupDistance()
         setupPrice()
         setupCapacity()
         setupFacility()
@@ -50,10 +61,24 @@ class DetailFragment : Fragment() {
         return binding.root
     }
 
+    private fun setupDistance() {
+        binding.tvDistance.apply {
+            isVisible = !bundleTopsis.isNullOrEmpty()
+            if (bundleTopsis.isNullOrEmpty()) return
+            for (i in bundleTopsis) {
+                if (i.id == bundleData.id) {
+                    val roundNumber = (i.distance * 100.0).roundToInt() / 100.0
+                    text = roundNumber.toString() + " Km"
+//                    text = i.distance.toString()
+                }
+            }
+        }
+    }
+
     private fun setupView() {
         activity?.findViewById<BottomNavigationView>(R.id.nav_view)?.visibility = View.GONE
-        binding.cosDetail.text = getString(R.string.cos_detail, bundleData.dataCoWorkingSpace.name)
-        binding.btnChat.text = getString(R.string.chat_cos, bundleData.dataCoWorkingSpace.name)
+        binding.cosDetail.text = getString(R.string.cos_detail, bundleData.name)
+        binding.btnChat.text = getString(R.string.chat_cos, bundleData.name)
     }
 
     private fun setupViewModel() {
@@ -68,7 +93,7 @@ class DetailFragment : Fragment() {
     }
 
     private fun setupImageSlider() {
-        val imagesData = bundleData.dataCoWorkingSpace.images
+        val imagesData = bundleData.images
         val imageList = ArrayList<SlideModel>()
         for (i in imagesData.indices) {
             imageList.add(SlideModel(imagesData[i].url, ScaleTypes.CENTER_INSIDE))
@@ -77,7 +102,7 @@ class DetailFragment : Fragment() {
     }
 
     private fun setupWorkingHour() {
-        val workingHourData = bundleData.dataCoWorkingSpace.workingHour
+        val workingHourData = bundleData.workingHour
         var dayData = ""
         var timeData = ""
         for (i in workingHourData.indices) {
@@ -96,17 +121,17 @@ class DetailFragment : Fragment() {
     }
 
     private fun setupPrice() {
-        val price = bundleData.dataCoWorkingSpace.price
+        val price = bundleData.price
         binding.tvPrice.text = getString(R.string.price_format, price.toString())
     }
 
     private fun setupCapacity() {
-        val capacity = bundleData.dataCoWorkingSpace.capacity
+        val capacity = bundleData.capacity
         binding.tvCapacity.text = getString(R.string.format_capacity, capacity.toString())
     }
 
     private fun setupFacility() {
-        val facilityData = bundleData.dataCoWorkingSpace.facility
+        val facilityData = bundleData.facility
         var facility = ""
 
         for (i in facilityData.indices) {
@@ -120,31 +145,31 @@ class DetailFragment : Fragment() {
     }
 
     private fun setupAddress() {
-        val address = bundleData.dataCoWorkingSpace.address
+        val address = bundleData.address
         binding.tvAddress.text = address
     }
 
     private fun setupAction() {
         binding.apply {
-            tvRating.text = bundleData.dataCoWorkingSpace.rating.toString()
+            tvRating.text = bundleData.rating.toString()
             btnBack.setOnClickListener {
                 findNavController().popBackStack()
             }
             btnBooking.setOnClickListener {
                 val toBookingFragment =
-                    DetailFragmentDirections.actionDetailFragmentToBookingFragment(bundleData.dataCoWorkingSpace)
+                    DetailFragmentDirections.actionDetailFragmentToBookingFragment(bundleData)
                 findNavController().navigate(toBookingFragment)
             }
 
             btnMaps.setOnClickListener {
                 val uri: Uri =
-                    Uri.parse(bundleData.dataCoWorkingSpace.googleMaps)
+                    Uri.parse(bundleData.googleMaps)
                 val intent = Intent(Intent.ACTION_VIEW, uri)
                 startActivity(intent)
             }
 
             btnChat.setOnClickListener {
-                viewModel.isExistChatWithCoSpace(getUUID(), bundleData.dataCoWorkingSpace.id)
+                viewModel.isExistChatWithCoSpace(getUUID(), bundleData.id)
                     .observe(viewLifecycleOwner) { idChatEntity ->
                         if (idChatEntity.idChat.isNotEmpty()) {
                             val toDetailChat =
@@ -155,10 +180,10 @@ class DetailFragment : Fragment() {
                         } else {
                             val idChat = this@DetailFragment.idChat
                             val idChatEntityUser = IdChatEntity(
-                                bundleData.dataCoWorkingSpace.id,
+                                bundleData.id,
                                 idChat,
-                                bundleData.dataCoWorkingSpace.name,
-                                bundleData.dataCoWorkingSpace.image
+                                bundleData.name,
+                                bundleData.image
                             )
                             val idChatEntityCoSpace = IdChatEntity(
                                 getUUID(),

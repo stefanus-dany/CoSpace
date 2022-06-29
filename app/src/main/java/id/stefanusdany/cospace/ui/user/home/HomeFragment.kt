@@ -11,8 +11,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import id.stefanusdany.cospace.R
 import id.stefanusdany.cospace.ViewModelFactory
+import id.stefanusdany.cospace.data.entity.CoWorkingSpaceEntity
 import id.stefanusdany.cospace.databinding.FragmentHomeBinding
 import id.stefanusdany.cospace.helper.Helper.visibility
+import id.stefanusdany.cospace.ui.user.recommendation.ResultFragment.Companion.EXTRA_SELECTED_DATA
 
 class HomeFragment : Fragment() {
 
@@ -21,6 +23,7 @@ class HomeFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var adapter: HomeAdapter
     private lateinit var viewModel: HomeViewModel
+    private var listCoWorkingSpaceEntity: List<CoWorkingSpaceEntity> = listOf()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -41,9 +44,9 @@ class HomeFragment : Fragment() {
 
     private fun setupAdapter() {
         adapter = HomeAdapter { selectedData ->
-            val toDetailFragment =
-                HomeFragmentDirections.actionNavigationHomeToDetailFragment(selectedData)
-            findNavController().navigate(toDetailFragment)
+            val bundle = Bundle()
+            bundle.putParcelable(EXTRA_SELECTED_DATA, selectedData)
+            findNavController().navigate(R.id.action_navigation_home_to_detailFragment, bundle)
         }
     }
 
@@ -54,9 +57,10 @@ class HomeFragment : Fragment() {
 
     private fun getAllCoWorkingSpace() {
         binding.progressBar.visibility(true)
-        viewModel.getAllCoWorkingSpace()
+        viewModel.getAllDataCoworkingSpace
             .observe(viewLifecycleOwner) { listCoWorkingSpace ->
-                if (listCoWorkingSpace != null) {
+
+                if (!listCoWorkingSpace.isNullOrEmpty()) {
                     with(binding.rvHome) {
                         layoutManager = LinearLayoutManager(requireContext())
                         adapter = this@HomeFragment.adapter
@@ -70,6 +74,10 @@ class HomeFragment : Fragment() {
                     binding.progressBar.visibility(false)
                 }
             }
+
+    }
+
+    private fun getAllFacility(idCoSpace: String) {
 
     }
 

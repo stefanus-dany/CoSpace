@@ -39,6 +39,8 @@ class BookingFragment : Fragment(), DatePickerDialog.OnDateSetListener, TimeDial
     private var totalTime = ""
     private var totalPrice = 0
 
+    private var selectedDate = ""
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -82,7 +84,7 @@ class BookingFragment : Fragment(), DatePickerDialog.OnDateSetListener, TimeDial
             spinnerTime.setOnClickListener {
                 val bundle = Bundle()
                 bundle.putParcelable(EXTRA_DATA, bundleData.dataCoWorkingSpace)
-                val timeDialog = TimeDialog(this@BookingFragment)
+                val timeDialog = TimeDialog(this@BookingFragment, selectedDate)
                 timeDialog.arguments = bundle
                 timeDialog.show(childFragmentManager, "SHOW_DIALOG")
             }
@@ -164,7 +166,8 @@ class BookingFragment : Fragment(), DatePickerDialog.OnDateSetListener, TimeDial
         saveDay = p3
         saveMonth = p2
         saveYear = p1
-        binding.spinnerDay.setText("$p3-$p2-$p1")
+        selectedDate = "$p3-$p2-$p1"
+        binding.spinnerDay.setText(selectedDate)
     }
 
     override fun onDestroyView() {

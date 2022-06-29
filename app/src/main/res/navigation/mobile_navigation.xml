@@ -52,9 +52,6 @@
         android:name="id.stefanusdany.cospace.ui.user.detail.DetailFragment"
         android:label="fragment_detail"
         tools:layout="@layout/fragment_detail">
-        <argument
-            android:name="dataCoWorkingSpace"
-            app:argType="id.stefanusdany.cospace.data.entity.CoWorkingSpaceEntity" />
         <action
             android:id="@+id/action_detailFragment_to_bookingFragment"
             app:destination="@id/bookingFragment" />

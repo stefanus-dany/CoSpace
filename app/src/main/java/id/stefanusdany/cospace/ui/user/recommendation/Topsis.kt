@@ -3,6 +3,7 @@ package id.stefanusdany.cospace.ui.user.recommendation
 import java.util.Collections
 import kotlin.math.pow
 import kotlin.math.sqrt
+import android.util.Log
 import id.stefanusdany.cospace.data.entity.ResultRecommendationEntity
 import id.stefanusdany.cospace.data.entity.TopsisEntity
 
@@ -56,6 +57,7 @@ class Topsis {
             tmpJarak += dataCoWorking[i].distance.pow(2.0)
         }
         jmlNilaiAlternatifJarak = sqrt(tmpJarak)
+        Log.e("teaa", "jumlahNilaiAlternatifJarak: $jmlNilaiAlternatifJarak", )
 
         //harga
         var tmpHarga = 0.0
@@ -63,6 +65,7 @@ class Topsis {
             tmpHarga += dataCoWorking[i].price.toDouble().pow(2.0)
         }
         jmlNilaiAlternatifHarga = sqrt(tmpHarga)
+        Log.e("teaa", "jumlahNilaiAlternatifHarga: $jmlNilaiAlternatifHarga", )
 
         //rating
         var tmpRating = 0.0
@@ -70,6 +73,7 @@ class Topsis {
             tmpRating += dataCoWorking[i].rating.pow(2.0)
         }
         jmlNilaiAlternatifRating = sqrt(tmpRating)
+        Log.e("teaa", "jumlahNilaiAlternatifRating: $jmlNilaiAlternatifRating", )
     }
 
     fun hasilNormalisasiAlternatif() {
@@ -78,27 +82,36 @@ class Topsis {
             hasilNormalisasiAlternatifHarga.add(dataCoWorking[i].price / jmlNilaiAlternatifHarga)
             hasilNormalisasiAlternatifRating.add(dataCoWorking[i].rating / jmlNilaiAlternatifRating)
         }
+        Log.e("teaa", "hasilNormalisasiAlternatifJarak: $hasilNormalisasiAlternatifJarak", )
+        Log.e("teaa", "hasilNormalisasiAlternatifHarga: $hasilNormalisasiAlternatifHarga", )
+        Log.e("teaa", "hasilNormalisasiAlternatifRating: $hasilNormalisasiAlternatifRating", )
     }
 
     fun normalisasiTerbobot() {
         for (i in hasilNormalisasiAlternatifJarak.indices) {
             hasilNormalisasiTerbobotJarak.add(hasilNormalisasiAlternatifJarak[i] * bobotJarak)
         }
+        Log.e("teaa", "normalisasiTerbobotJarak: $hasilNormalisasiTerbobotJarak", )
         for (i in hasilNormalisasiAlternatifHarga.indices) {
             hasilNormalisasiTerbobotHarga.add(hasilNormalisasiAlternatifHarga[i] * bobotHarga)
         }
+        Log.e("teaa", "normalisasiTerbobotHarga: $hasilNormalisasiTerbobotHarga", )
         for (i in hasilNormalisasiAlternatifRating.indices) {
             hasilNormalisasiTerbobotRating.add(hasilNormalisasiAlternatifRating[i] * bobotRating)
         }
+        Log.e("teaa", "normalisasiTerbobotRating: $hasilNormalisasiTerbobotRating", )
     }
 
     fun hasilIdealPositifdanNegatif() {
-        solusiPositifJarak = Collections.max(hasilNormalisasiTerbobotJarak)
-        solusiNegatifJarak = Collections.min(hasilNormalisasiTerbobotJarak)
-        solusiPositifHarga = Collections.max(hasilNormalisasiTerbobotHarga)
-        solusiNegatifHarga = Collections.min(hasilNormalisasiTerbobotHarga)
-        solusiPositifRating = Collections.max(hasilNormalisasiTerbobotRating)
-        solusiNegatifRating = Collections.min(hasilNormalisasiTerbobotRating)
+        solusiPositifJarak = hasilNormalisasiTerbobotJarak.maxOrNull()?:0.0
+        solusiNegatifJarak = hasilNormalisasiTerbobotJarak.minOrNull()?:0.0
+        solusiPositifHarga = hasilNormalisasiTerbobotHarga.maxOrNull()?:0.0
+        solusiNegatifHarga = hasilNormalisasiTerbobotHarga.minOrNull()?:0.0
+        solusiPositifRating = hasilNormalisasiTerbobotRating.maxOrNull()?:0.0
+        solusiNegatifRating = hasilNormalisasiTerbobotRating.minOrNull()?:0.0
+        Log.e("teaa", "hasilIdealPositifdanNegatifJarak: $solusiPositifJarak + $solusiNegatifJarak", )
+        Log.e("teaa", "hasilIdealPositifdanNegatifHarga: $solusiPositifHarga + $solusiNegatifHarga", )
+        Log.e("teaa", "hasilIdealPositifdanNegatifRating: $solusiPositifRating + $solusiNegatifRating", )
     }
 
     fun hasilPerhitunganJarakIdealPositifdanNegatif() {
@@ -106,11 +119,12 @@ class Topsis {
             //ideal positif
             hasilPerhitunganJarakIdealPositif.add(
                 sqrt(
-                    (hasilNormalisasiTerbobotJarak[i] - solusiPositifJarak).pow(2.0) + (hasilNormalisasiTerbobotHarga[i] - solusiPositifHarga).pow(
+                    ((hasilNormalisasiTerbobotJarak[i] - solusiPositifJarak).pow(2.0)) + ((hasilNormalisasiTerbobotHarga[i] - solusiPositifHarga).pow(
                         2.0
-                    ) + (hasilNormalisasiTerbobotRating[i] - solusiPositifRating).pow(2.0)
+                    )) + ((hasilNormalisasiTerbobotRating[i] - solusiPositifRating).pow(2.0))
                 )
             )
+
             //ideal negatif
             hasilPerhitunganJarakIdealNegatif.add(
                 sqrt(
@@ -120,6 +134,8 @@ class Topsis {
                 )
             )
         }
+        Log.e("teaa", "hasilPerhitunganJarakIdealPositif: $hasilPerhitunganJarakIdealPositif", )
+        Log.e("teaa", "hasilPerhitunganJarakIdealNegatif: $hasilPerhitunganJarakIdealNegatif", )
     }
 
     fun nilaiPreferensiSetiapAlternatif() {
@@ -132,9 +148,22 @@ class Topsis {
         for (i in hasilAkhir.indices) {
             hasilAkhirRekomendasi.add(ResultRecommendationEntity(i.toString(), hasilAkhir[i]))
         }
-        hasilAkhirRekomendasi.sortBy {
-            it.valueRecommendation
+        Log.e("teaa", "petakanHasil: $hasilAkhirRekomendasi", )
+//        Log.e("bobot", "jarak: $bobotJarak, rating: $bobotRating, ", )
+        if (bobotRating == 5 && bobotHarga == 0 && bobotJarak == 0) {
+            hasilAkhirRekomendasi.sortByDescending {
+                it.valueRecommendation
+            }
+        } else {
+            hasilAkhirRekomendasi.sortBy {
+                it.valueRecommendation
+            }
         }
+//        hasilAkhirRekomendasi.sortBy {
+//            it.valueRecommendation
+//        }
+
+        Log.e("teaa", "petakanHasil2: $hasilAkhirRekomendasi", )
     }
 
 }

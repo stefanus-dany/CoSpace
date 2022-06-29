@@ -30,11 +30,11 @@ class Repository(private val database: FirebaseDatabase, private val storage: Fi
     fun getAllCoWorkingSpace(): LiveData<List<CoWorkingSpaceEntity>> {
         val data = MutableLiveData<List<CoWorkingSpaceEntity>>()
         val tmpData = mutableListOf<CoWorkingSpaceEntity>()
-        val booking = mutableListOf<BookingEntity>()
-        val facility = mutableListOf<FacilityEntity>()
+//        val booking = mutableListOf<BookingEntity>()
+//        val facility = mutableListOf<FacilityEntity>()
         val images = mutableListOf<ImagesEntity>()
-        val post = mutableListOf<PostEntity>()
-        val workingHour = mutableListOf<WorkingHourEntity>()
+//        val post = mutableListOf<PostEntity>()
+//        val workingHour = mutableListOf<WorkingHourEntity>()
         CoroutineScope(Dispatchers.IO).launch {
             val getCoWorkingSpace = database.getReference("coworking_space")
 
@@ -47,49 +47,49 @@ class Repository(private val database: FirebaseDatabase, private val storage: Fi
                             dataSnapshotCoWorkingSpace.getValue(TmpEntity::class.java)
                         val cosId = getCoWorkingSpace.child(valueCoWorkingSpace?.id.toString())
 
-                        //TODO GET BOOKING
-                        val getBooking = cosId.child("booking")
-                        getBooking.addValueEventListener(object : ValueEventListener {
-                            override fun onDataChange(snapshot: DataSnapshot) {
-                                booking.clear()
-                                for (dataSnapshotBooking: DataSnapshot in snapshot.children) {
-                                    val valueBooking =
-                                        dataSnapshotBooking.getValue(BookingEntity::class.java)
-                                    if (valueBooking != null) {
-                                        booking.add(valueBooking)
-                                    }
-                                }
-                            }
-
-                            override fun onCancelled(error: DatabaseError) {
-
-                            }
-
-                        })
+//                        //TODO GET BOOKING
+//                        val getBooking = cosId.child("booking")
+//                        getBooking.addValueEventListener(object : ValueEventListener {
+//                            override fun onDataChange(snapshot: DataSnapshot) {
+//                                booking.clear()
+//                                for (dataSnapshotBooking: DataSnapshot in snapshot.children) {
+//                                    val valueBooking =
+//                                        dataSnapshotBooking.getValue(BookingEntity::class.java)
+//                                    if (valueBooking != null) {
+//                                        booking.add(valueBooking)
+//                                    }
+//                                }
+//                            }
 //
-                        //TODO GET FACILITY
-                        val getFacility = cosId.child("facility")
-                        getFacility.addValueEventListener(object : ValueEventListener {
-                            override fun onDataChange(snapshot: DataSnapshot) {
-                                facility.clear()
-                                for (dataSnapshotFacility: DataSnapshot in snapshot.children) {
-                                    val valueFacility =
-                                        dataSnapshotFacility.getValue(FacilityEntity::class.java)
-
-                                    if (valueFacility != null) {
-                                        facility.add(valueFacility)
-                                    }
-
-                                }
-                            }
-
-                            override fun onCancelled(error: DatabaseError) {
-
-                            }
-
-                        })
-
-                        //TODO GET IMAGES
+//                            override fun onCancelled(error: DatabaseError) {
+//
+//                            }
+//
+//                        })
+////
+//                        //TODO GET FACILITY
+//                        val getFacility = cosId.child("facility")
+//                        getFacility.addValueEventListener(object : ValueEventListener {
+//                            override fun onDataChange(snapshot: DataSnapshot) {
+//                                facility.clear()
+//                                for (dataSnapshotFacility: DataSnapshot in snapshot.children) {
+//                                    val valueFacility =
+//                                        dataSnapshotFacility.getValue(FacilityEntity::class.java)
+//
+//                                    if (valueFacility != null) {
+//                                        facility.add(valueFacility)
+//                                    }
+//
+//                                }
+//                            }
+//
+//                            override fun onCancelled(error: DatabaseError) {
+//
+//                            }
+//
+//                        })
+//
+//                        //TODO GET IMAGES
                         val getImages = cosId.child("images")
                         getImages.addValueEventListener(object : ValueEventListener {
                             override fun onDataChange(snapshot: DataSnapshot) {
@@ -110,54 +110,54 @@ class Repository(private val database: FirebaseDatabase, private val storage: Fi
                             }
 
                         })
-
-                        //TODO GET POST
-                        val getPost = cosId.child("post")
-                        getPost.addValueEventListener(object : ValueEventListener {
-                            override fun onDataChange(snapshot: DataSnapshot) {
-                                post.clear()
-                                for (dataSnapshotPost: DataSnapshot in snapshot.children) {
-                                    val valuePost =
-                                        dataSnapshotPost.getValue(PostEntity::class.java)
-
-
-                                    if (valuePost != null) {
-                                        post.add(valuePost)
-                                    }
-
-
-                                }
-                            }
-
-                            override fun onCancelled(error: DatabaseError) {
-
-                            }
-
-                        })
-
-                        //TODO GET WORKING HOUR
-                        val getWorkingHour = cosId.child("workingHour")
-                        getWorkingHour.addValueEventListener(object : ValueEventListener {
-                            override fun onDataChange(snapshot: DataSnapshot) {
-                                workingHour.clear()
-                                for (dataSnapshotWorkingHour: DataSnapshot in snapshot.children) {
-                                    val valueWorkingHour =
-                                        dataSnapshotWorkingHour.getValue(WorkingHourEntity::class.java)
-
-                                    if (valueWorkingHour != null) {
-                                        workingHour.add(valueWorkingHour)
-                                    }
-
-
-                                }
-
-                            }
-
-                            override fun onCancelled(error: DatabaseError) {
-
-                            }
-
-                        })
+//
+//                        //TODO GET POST
+//                        val getPost = cosId.child("post")
+//                        getPost.addValueEventListener(object : ValueEventListener {
+//                            override fun onDataChange(snapshot: DataSnapshot) {
+//                                post.clear()
+//                                for (dataSnapshotPost: DataSnapshot in snapshot.children) {
+//                                    val valuePost =
+//                                        dataSnapshotPost.getValue(PostEntity::class.java)
+//
+//
+//                                    if (valuePost != null) {
+//                                        post.add(valuePost)
+//                                    }
+//
+//
+//                                }
+//                            }
+//
+//                            override fun onCancelled(error: DatabaseError) {
+//
+//                            }
+//
+//                        })
+//
+//                        //TODO GET WORKING HOUR
+//                        val getWorkingHour = cosId.child("workingHour")
+//                        getWorkingHour.addValueEventListener(object : ValueEventListener {
+//                            override fun onDataChange(snapshot: DataSnapshot) {
+//                                workingHour.clear()
+//                                for (dataSnapshotWorkingHour: DataSnapshot in snapshot.children) {
+//                                    val valueWorkingHour =
+//                                        dataSnapshotWorkingHour.getValue(WorkingHourEntity::class.java)
+//
+//                                    if (valueWorkingHour != null) {
+//                                        workingHour.add(valueWorkingHour)
+//                                    }
+//
+//
+//                                }
+//
+//                            }
+//
+//                            override fun onCancelled(error: DatabaseError) {
+//
+//                            }
+//
+//                        })
 
                         if (valueCoWorkingSpace != null) {
                             tmpData.add(
@@ -172,11 +172,11 @@ class Repository(private val database: FirebaseDatabase, private val storage: Fi
                                     price = valueCoWorkingSpace.price,
                                     image = valueCoWorkingSpace.image,
                                     rating = valueCoWorkingSpace.rating,
-                                    post = post,
-                                    workingHour = workingHour,
+//                                    post = post,
+//                                    workingHour = workingHour,
                                     images = images,
-                                    booking = booking,
-                                    facility = facility
+//                                    booking = booking,
+//                                    facility = facility
                                 )
                             )
                         }

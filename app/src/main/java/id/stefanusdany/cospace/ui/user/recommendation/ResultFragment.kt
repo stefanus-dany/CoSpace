@@ -81,24 +81,25 @@ class ResultFragment : Fragment() {
     }
 
     private fun getAllCoWorkingSpace() {
-        binding.progressBar.visibility(true)
-        viewModel.getAllDataCoworkingSpace
-            .observe(viewLifecycleOwner) { listCoWorkingSpace ->
-                if (!listCoWorkingSpace.isNullOrEmpty()) {
-                    with(binding.rvHome) {
-                        layoutManager = LinearLayoutManager(requireContext())
-                        adapter = this@ResultFragment.adapter
-                        setHasFixedSize(true)
+        binding.apply {
+            progressBar.visibility(true)
+            viewModel.getAllDataCoworkingSpace
+                .observe(viewLifecycleOwner) { listCoWorkingSpace ->
+                    if (!listCoWorkingSpace.isNullOrEmpty()) {
+                        with(rvHome) {
+                            layoutManager = LinearLayoutManager(requireContext())
+                            adapter = this@ResultFragment.adapter
+                            setHasFixedSize(true)
+                        }
+                        adapter.setData(sortRecommendation(listCoWorkingSpace))
+                        tvEmpty.visibility(false)
+                        progressBar.visibility(false)
+                    } else {
+                        tvEmpty.visibility(true)
+                        progressBar.visibility(false)
                     }
-                    adapter.setData(sortRecommendation(listCoWorkingSpace))
-                    binding.tvEmpty.visibility(false)
-                    binding.progressBar.visibility(false)
-                } else {
-                    binding.tvEmpty.visibility(true)
-                    binding.progressBar.visibility(false)
                 }
-            }
-
+        }
     }
 
     override fun onDestroyView() {

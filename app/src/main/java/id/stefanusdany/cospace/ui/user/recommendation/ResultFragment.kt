@@ -100,7 +100,6 @@ class ResultFragment : Fragment() {
                     }
                 }
         }
-
     }
 
     override fun onDestroyView() {
